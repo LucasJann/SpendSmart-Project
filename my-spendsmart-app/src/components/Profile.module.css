@@ -1,0 +1,40 @@
+.div {
+  width: 90%;
+  height: 90%;
+  margin: auto;
+  max-width: 20rem;
+  max-height: 20rem;
+  border-radius: 6px;
+  background-color: #e9e7d2;
+}
+
+.button {
+  color: #fff;
+  width: 20%;
+  cursor: pointer;
+  border: none;
+  margin: 1rem 0 0 17rem;
+  padding: 0.2rem;
+  font-size: 0.9em;
+  border-radius: 0.5rem;
+  background-color: #ab9c15;
+}
+
+.profileImg {
+  width: 70%;
+  margin: 4rem 0 0 3rem;
+  border-radius: 10rem;
+}
+
+.profileName {
+  margin: 0 0 0 0;
+  text-align: center;
+  padding: 1rem;
+}
+
+.balanceInfo {
+  font-size: 1em;
+  margin-top: 8rem;
+  padding-left: 0.3em;
+  color: #666;
+}
