@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
-import classes from "./Expense.module.css";
+import { expenseActions } from "../store/expense-slice";
+import { inputValueActions } from "../store/inputValue-slice";
 
 import Card from "../UI/Card";
 import Calendar from "./Calendar";
+
+import classes from "./Expense.module.css";
 
 import health from "../Icons/checklist.png";
 import college from "../Icons/college.png";
@@ -29,40 +33,54 @@ const Expense = () => {
   const [inputExpense, setInputExpense] = useState("");
 
   const navigation = useNavigate();
+  const dispatch = useDispatch();
 
   const handleCategoryClick = (category) => {
     if (selectedCategory === category) {
-      setSelectedCategory(null); // Desmarca a categoria se ela já estiver selecionada
+      setSelectedCategory(null);
     } else {
-      setSelectedCategory(category); // Marca a categoria selecionada
+      dispatch(expenseActions.addCategory(category));
+      setSelectedCategory(category);
     }
   };
 
-  const inputExpenseHandler = (event) => {
+  const onInputExpenseHandler = (event) => {
     let value = event.target.value.replace(/\D/g, "");
     setInputExpense(formatMoney(value));
+    dispatch(expenseActions.addValue(value));
   };
 
-  const expenseHandler = () => {
+  const onInputHandler = () => {
+    dispatch(inputValueActions.addValue(inputExpense));
+    console.log(inputExpense, selectedCategory);
+  };
+
+  const onExpenseHandler = () => {
     setIsIncomeClicked(true);
   };
 
-  const incomeHandler = () => {
+  const onIncomeHandler = () => {
     setIsIncomeClicked(false);
   };
 
   const onGetBackHandler = () => {
-    navigation('/landingPage')
-  }
+    navigation("/landingPage");
+  };
+
+  const onHistoryHandler = () => {
+    navigation("/history");
+  };
 
   return (
     <>
       {isIncomeClicked && (
         <div className={classes.financesDiv}>
-          <button className={classes.buttonDiv} onClick={onGetBackHandler}>Voltar</button>
+          <button className={classes.buttonDiv} onClick={onGetBackHandler}>
+            Voltar
+          </button>
           <div className={classes.alternativeDiv}>
             <button className={classes.expenseBtn}>Custo</button>
-            <button className={classes.incomeBtn} onClick={incomeHandler}>
+            <button className={classes.incomeBtn} onClick={onIncomeHandler}>
               Renda
             </button>
           </div>
@@ -76,7 +94,7 @@ const Expense = () => {
                 type="text"
                 id="text"
                 value={inputExpense}
-                onChange={inputExpenseHandler}
+                onChange={onInputExpenseHandler}
                 className={`${classes.inputExpense}`}
               />
             </h2>
@@ -178,8 +196,13 @@ const Expense = () => {
               </ul>
             </Card>
             <div>
-              <button className={classes.lastButtons}>Inserir Despesa</button>
-              <button className={classes.lastButtons}>
+              <button className={classes.lastButtons} onClick={onInputHandler}>
+                Inserir Despesa
+              </button>
+              <button
+                className={classes.lastButtons}
+                onClick={onHistoryHandler}
+              >
                 Visualizar Despesa
               </button>
             </div>
@@ -194,7 +217,7 @@ const Expense = () => {
           <div className={classes.alternativeDiv}>
             <button
               className={classes.expenseReverseColorBtn}
-              onClick={expenseHandler}
+              onClick={onExpenseHandler}
             >
               Custo
             </button>
@@ -210,7 +233,7 @@ const Expense = () => {
                 type="text"
                 id="text"
                 value={inputExpense}
-                onChange={inputExpenseHandler}
+                onChange={onInputExpenseHandler}
                 className={`${classes.inputExpense}`}
               />
             </h2>
@@ -283,7 +306,10 @@ const Expense = () => {
             </Card>
             <div>
               <button className={classes.lastButtons}>Inserir Despesa</button>
-              <button className={classes.lastButtons}>
+              <button
+                className={classes.lastButtons}
+                onClick={onHistoryHandler}
+              >
                 Visualizar Despesa
               </button>
             </div>

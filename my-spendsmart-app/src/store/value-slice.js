@@ -5,7 +5,6 @@ const valueSlice = createSlice({
   initialState: { value: 0 },
   reducers: {
     number(state, action) {
-      console.log(action.payload);
       state.value = action.payload;
     },
   },

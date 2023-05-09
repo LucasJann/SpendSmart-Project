@@ -1,0 +1,15 @@
+.historyDiv {
+  margin: auto;
+  max-width: 20rem;
+}
+
+.buttonDiv {
+  color: #fff;
+  width: 20%;
+  cursor: pointer;
+  border: none;
+  margin: 1rem 0 0 16.5rem;
+  padding: 0.2rem;
+  border-radius: 0.5rem;
+  background-color: #ab9c15;
+}

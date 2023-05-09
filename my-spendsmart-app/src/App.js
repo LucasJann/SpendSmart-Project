@@ -3,7 +3,8 @@ import Profile from "./components/Profile";
 
 import Welcome from "./components/Welcome";
 import Expense from "./components/Expense";
-import LandingPage from "./components/LadingPage";
+import History from "./components/History";
+import LandingPage from "./components/LandingPage";
 
 const router = createBrowserRouter([
   {
@@ -13,6 +14,7 @@ const router = createBrowserRouter([
       { path: "/profile", element: <Profile /> },
       { path: "/landingPage", element: <LandingPage /> },
       { path: "/myfinances", element: <Expense /> },
+      { path: "/history", element: <History /> },
     ],
   },
 ]);

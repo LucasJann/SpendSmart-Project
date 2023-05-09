@@ -1,0 +1,12 @@
+.item {
+    display:flex;
+    justify-content: space-between;
+  }
+  
+  .value {
+    font-weight: bold;
+  }
+  
+  .data {
+    font-weight: bold;
+  }

@@ -7,7 +7,6 @@ import classes from "./Profile.module.css";
 const Profile = () => {
   const storedValue = localStorage.getItem("initialBalance");
   const valueState = useSelector((state) => state.value.value) || storedValue;
-  console.log(storedValue)
   const storage = valueState === 0 ? storedValue : valueState
   
   const navigation = useNavigate();
