@@ -1,60 +1,76 @@
+import React, { useState, useEffect } from "react";
+
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-
-import Card from "../UI/Card";
-
-import classes from "./History.module.css";
-
-import Calendar from "./Calendar";
+import { format, addMinutes } from "date-fns";
 
 import Item from "./Item";
 
+import { expenseActions } from "../store/expense-slice";
+import classes from "./History.module.css";
+
 const History = () => {
   const navigation = useNavigate();
+  const dispatch = useDispatch();
 
-  const value = useSelector((state) => state.inputValue.items);
-  const data = useSelector((state) => state.inputData.items);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [localStorageItems, setLocalStorageItems] = useState([]);
+
+  useEffect(() => {
+    const storedItems = JSON.parse(localStorage.getItem("expenses")) || [];
+    setLocalStorageItems(storedItems);
+  }, []);
 
   const onClickHandler = () => {
     navigation("/myfinances");
   };
 
+  const handleDateChange = (event) => {
+    const selectedDate = new Date(event.target.value);
+    const adjustedDate = addMinutes(
+      selectedDate,
+      selectedDate.getTimezoneOffset()
+    );
+    setSelectedDate(adjustedDate);
 
-  const items = [
-    {
-      id: null,
-      value: value,
-      data: data,
-    },
-  ]
+    const dateString = format(adjustedDate, "yyyy-MM-dd");
+    dispatch(expenseActions.addData(dateString));
+  };
 
-  console.log(items)
   return (
     <div className={classes.historyDiv}>
       <button className={classes.buttonDiv} onClick={onClickHandler}>
         Voltar
       </button>
       <h2>
-        Data Inicial: <Calendar />
+        Data Inicial:
+        <input
+          type="date"
+          id="date"
+          value={format(selectedDate, "yyyy-MM-dd")}
+          onChange={handleDateChange}
+          className={`${classes.inputDate}`}
+        />
       </h2>
       <h2>
-        Data Final: <Calendar />
+        Data Final:
+        <input
+          type="date"
+          id="date"
+          value={format(selectedDate, "yyyy-MM-dd")}
+          onChange={handleDateChange}
+          className={`${classes.inputDate}`}
+        />
       </h2>
 
       <h3>Lançamentos Recentes:</h3>
-      <Card>
-        {items.map((item, index) => (
-          <Item key={index} value={item.value} data={item.data} />
-        ))}
-      </Card>
+      {localStorageItems.length > 0 ? (
+        localStorageItems.map((item, index) => <Item key={index} item={item} />)
+      ) : (
+        <p>Nenhum item disponível.</p>
+      )}
     </div>
   );
 };
 
 export default History;
-
-
-
-
-
-

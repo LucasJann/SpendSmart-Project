@@ -1,5 +1,4 @@
 .historyDiv {
-  margin: auto;
   max-width: 20rem;
 }
 
@@ -12,4 +11,10 @@
   padding: 0.2rem;
   border-radius: 0.5rem;
   background-color: #ab9c15;
+}
+
+.inputDate {
+  width: 100%;
+  margin: auto;
+  font-size: 1.1em;
 }
