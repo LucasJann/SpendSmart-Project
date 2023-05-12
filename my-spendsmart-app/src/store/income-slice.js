@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const expenseSlice = createSlice({
-  name: "expense",
+const incomeSlice = createSlice({
+  name: "income",
   initialState: {
     category: "",
     date: "",
@@ -20,6 +20,6 @@ const expenseSlice = createSlice({
   },
 });
 
-export const expenseActions = expenseSlice.actions;
+export const incomeActions = incomeSlice.actions;
 
-export default expenseSlice;
+export default incomeSlice;

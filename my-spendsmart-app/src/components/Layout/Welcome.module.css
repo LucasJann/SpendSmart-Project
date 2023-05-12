@@ -10,8 +10,8 @@
 }
 
 .title {
-  font-size: 2.5em;
   color: #333;
+  font-size: 2.5em;
 }
 
 .logo {
@@ -20,12 +20,12 @@
 }
 
 .welcome {
-  font-size: 1.3em;
   color: #666;
+  font-size: 1.3em;
   text-align: center;
 }
 
-.balance {
+.info {
   color: #666;
   margin: auto;
   font-size: 1em;
@@ -34,12 +34,12 @@
 }
 
 input {
+  width: 93%;
   border: 2px solid #ccc;
   margin: 0 0 0 0.30rem;
-  border-radius: 5px;
   padding: 0.2em;
   font-size: 1.2em;
-  width: 93%;
+  border-radius: 5px;
 }
 
 .welcomeButton {

@@ -1,17 +1,21 @@
 import { useNavigate } from "react-router-dom";
 
 import classes from "./LandingPage.module.css";
-import landingPage from "../Imgs/money.png";
+import landingPage from "../../Imgs/money.png";
 
 const LandingPage = () => {
   const navigation = useNavigate();
 
-  const profileWasClicked = () => {
-    navigation("/profile");
+  const profilePageWasClicked = () => {
+    navigation("/profilePage");
   };
 
-  const goalWasClicked = () => {
-    navigation("/myfinances");
+  const expensePageWasClicked = () => {
+    navigation("/expensePage");
+  };
+
+  const goalPageWasClicked = () => {
+    navigation("/goalPage");
   };
 
   return (
@@ -23,20 +27,19 @@ const LandingPage = () => {
       />
       <ul className={classes.unorderedList}>
         <li>
-          <button className={classes.listButton} onClick={profileWasClicked}>
+          <button className={classes.listButton} onClick={profilePageWasClicked}>
             Perfil
           </button>
         </li>
         <li>
-          <button className={classes.listButton}>Objetivo</button>
-        </li>
-        <li>
-          <button className={classes.listButton} onClick={goalWasClicked}>
+          <button className={classes.listButton} onClick={expensePageWasClicked}>
             Minhas Finanças
           </button>
         </li>
         <li>
-          <button className={classes.listButton}> Relatório</button>
+          <button className={classes.listButton} onClick={goalPageWasClicked}>
+            Objetivo
+          </button>
         </li>
       </ul>
     </div>

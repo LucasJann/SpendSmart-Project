@@ -1,8 +1,8 @@
-.historyDiv {
+.incomeHistoryDiv {
   max-width: 20rem;
 }
 
-.buttonDiv {
+.getBackButton {
   color: #fff;
   width: 20%;
   cursor: pointer;
@@ -17,4 +17,10 @@
   width: 100%;
   margin: auto;
   font-size: 1.1em;
+}
+
+.message {
+  color: #888;
+  font-style: bold;
+  margin-top: 20px;
 }

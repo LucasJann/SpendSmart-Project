@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-
-import { useDispatch } from 'react-redux';
-import { useNavigate } from "react-router-dom";
-import { valueAction } from "../store/value-slice";
-
 import classes from "./Welcome.module.css";
-import image from "../Imgs/logo.png";
+
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { valueActions } from "../../store/value-slice";
+
+import image from "../../Imgs/logo.png";
 
 const formatMoney = (value) => {
   const formatter = new Intl.NumberFormat("pt-BR", {
@@ -18,20 +18,20 @@ const formatMoney = (value) => {
 };
 
 const Welcome = () => {
-  const [inputValue, setInputValue] = useState("");
+  const [initialBalance, setInitialBalance] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const onChangeHandler = (event) => {
     let value = event.target.value.replace(/\D/g, "");
-    setInputValue(formatMoney(value));
+    setInitialBalance(formatMoney(value));
   };
 
   const onClickHandler = () => {
-    dispatch(valueAction.number(inputValue))
-    localStorage.setItem('initialBalance', inputValue);
-    navigate("/profile");
+    dispatch(valueActions.addBalance(initialBalance));
+    localStorage.setItem("initialBalance", initialBalance);
+    navigate("/landingPage");
   };
 
   return (
@@ -39,10 +39,10 @@ const Welcome = () => {
       <h1 className={classes.title}>SpendSmart</h1>
       <img src={image} className={classes.logo} alt="A logo" />
       <h2 className={classes.welcome}>Bem-vindo</h2>
-      <h3 className={classes.balance}>Informe o seu saldo inicial</h3>
+      <h3 className={classes.info}>Informe o seu saldo inicial</h3>
       <input
         type="text"
-        value={inputValue}
+        value={initialBalance}
         onChange={onChangeHandler}
         className={classes.input}
       />

@@ -1,9 +1,9 @@
-.financesDiv {
+.expenseDiv {
   margin: auto;
   max-width: 20rem;
 }
 
-.buttonDiv {
+.getBackButton {
   color: #fff;
   width: 20%;
   cursor: pointer;
@@ -13,13 +13,6 @@
   border-radius: 0.5rem;
   background-color: #ab9c15;
 }
-
-.inputDate {
-  width: 100%;
-  margin: auto;
-  font-size: 1.1em;
-}
-
 
 .alternativeDiv {
   margin: 1.2rem 0 0 1rem;
@@ -34,17 +27,6 @@
   font-size: 0.9em;
   border-radius: 35% 0 0 3%;
   background-color: #ab9c15;
-}
-
-.expenseReverseColorBtn {
-  color: #a8a8a8;
-  width: 25%;
-  cursor: pointer;
-  border: none;
-  padding: 0.3rem;
-  font-size: 0.9em;
-  border-radius: 35% 0 0 3%;
-  background-color: #756b0e;
 }
 
 .expenseBtn:hover {
@@ -62,24 +44,15 @@
   background-color: #756b0e;
 }
 
-.incomeReverseColorBtn {
-  color: #fff;
-  width: 25%;
-  cursor: pointer;
-  border: none;
-  padding: 0.3rem;
-  font-size: 0.9em;
-  border-radius: 0 3% 35% 0;
-  background-color: #ab9c15;
-}
-
-.incomeReverseColorBtn:hover {
-  background-color: #ab9c15;
-}
-
-.data {
+.date {
   display: flex;
   flex-wrap: wrap;
+}
+
+.inputDate {
+  width: 100%;
+  margin: auto;
+  font-size: 1.1em;
 }
 
 .inputExpense {
@@ -97,15 +70,15 @@
   justify-content: space-between;
 }
 
-.selected {
-  background-color: #ccc7c7;
-  color: #fff;
-}
-
 .list {
   width: calc(30% - 0.5rem);
   padding: auto;
   text-align: center;
+}
+
+.selected {
+  color: #fff;
+  background-color: #ccc7c7;
 }
 
 .icon {
