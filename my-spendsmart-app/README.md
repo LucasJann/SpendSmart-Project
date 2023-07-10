@@ -1,6 +1,6 @@
 Olá. Bem-vindo ao SpendSmart versão alpha.
 
-Nomes dos desenvolvedores: Lucas da Silva Januário, Daniel da Silva Veiga
+Nomes dos desenvolvedores: Lucas da Silva Januário.
 
 Para que o código funcione corretamente você deve seguir instalando as seguintes bibliotecas.
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import classes from "./Profile.module.css";
 
+import classes from "./Profile.module.css";
 import pic from "../../Imgs/pic.png";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -23,20 +23,12 @@ const Profile = () => {
   const dispatch = useDispatch();
 
   const [isDisabled, setIsDisabled] = useState(true);
-  const [editedBalance, setEditedBalance] = useState("");
   const [isEditClicked, setIsEditClicked] = useState(false);
 
-  const storedValue = localStorage.getItem("initialBalance");
-  const valueState = useSelector((state) => state.value.value);
-  const storage = valueState === 0 ? storedValue : valueState;
+  const valueState = useSelector((state) => state.value.money);
+  console.log(valueState)
 
-
-  useEffect(() => {
-    const formattedBalance = formatMoney(storage); // Formata o valor inicial antes de atribuí-lo ao estado
-    setEditedBalance(formattedBalance);
-  }, [storage]);
-
-  const onClickHandler = () => {
+  const onGetBackHandler = () => {
     navigation("/landingPage");
   };
 
@@ -53,22 +45,20 @@ const Profile = () => {
   const onValueChange = (event) => {
     const value = event.target.value.replace(/\D/g, ""); // Remove qualquer caractere que não seja um dígito
     const formattedBalance = formatMoney(value.replace(/\D/g, ""));
-    setEditedBalance(formattedBalance);
     dispatch(valueActions.addBalance(formattedBalance)); // Atualiza o Redux com o valor numérico
-    localStorage.setItem("initialBalance", formattedBalance); // Atualiza o localStorage com o valor numérico
   };
 
   return (
     <div className={classes.div}>
       <div className={classes.buttonDiv}>
-        <button onClick={onClickHandler} className={classes.getBackButton}>
+        <button onClick={onGetBackHandler} className={classes.getBackButton}>
           Voltar
         </button>
       </div>
       <img src={pic} className={classes.profileImg} alt="A profile" />
-      <h2 className={classes.profileName}>Lucas Jan</h2>
+      <h2 className={classes.profileName}>Lucas Jan </h2>
       <h3 className={classes.balanceInfo}> Seu saldo bruto</h3>
-      <input value={storage} disabled={isDisabled} onChange={onValueChange} />
+      <input value={valueState} disabled={isDisabled} onChange={onValueChange} />
       {!isEditClicked && (
         <button onClick={onEditButton} className={classes.editButton}>
           Editar Saldo

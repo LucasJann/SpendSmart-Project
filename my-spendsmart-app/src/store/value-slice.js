@@ -2,10 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const valueSlice = createSlice({
   name: "value",
-  initialState: { value: 0 },
+  initialState: { money: 0 },
   reducers: {
     addBalance(state, action) {
-      state.value = action.payload;
+      state.money = action.payload;
     },
 
   },

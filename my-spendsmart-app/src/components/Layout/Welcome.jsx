@@ -24,13 +24,13 @@ const Welcome = () => {
   const navigate = useNavigate();
 
   const onChangeHandler = (event) => {
-    let value = event.target.value.replace(/\D/g, "");
+    let value = event.target.value.replace(/\D/g, ""); //estamos removendo todos os caracteres não numéricos da string contida na propriedade
     setInitialBalance(formatMoney(value));
   };
 
   const onClickHandler = () => {
     dispatch(valueActions.addBalance(initialBalance));
-    localStorage.setItem("initialBalance", initialBalance);
+    console.log(initialBalance)
     navigate("/landingPage");
   };
 

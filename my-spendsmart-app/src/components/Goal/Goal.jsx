@@ -21,7 +21,7 @@ const formatMoney = (value) => {
 const Goal = () => {
   const goal = useSelector((state) => state.goal.text);
   const goalValue = useSelector((state) => state.goal.goal);
-  const balance = useSelector((state) => state.value.value);
+  const balance = useSelector((state) => state.value.money);
 
   const [localStorageGoals, setLocalStorageGoals] = useState([]);
   const [isGoalFilled, setIsGoalFilled] = useState(false);

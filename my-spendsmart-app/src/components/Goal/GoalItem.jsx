@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 const GoalItem = ({ item }) => {
   const { goalValue, goal } = item;
 
-  const value = useSelector((state) => state.value.value);
+  const value = useSelector((state) => state.value.money);
   const storage = localStorage.getItem("initialBalance");
   const initialBalance = value === 0 ? storage : value;
 
