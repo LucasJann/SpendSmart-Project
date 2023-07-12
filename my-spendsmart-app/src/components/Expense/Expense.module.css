@@ -44,26 +44,26 @@
   background-color: #756b0e;
 }
 
+.paragraph {
+  color: #888;
+  width: 98%
+}
+
 .date {
-  display: flex;
-  flex-wrap: wrap;
+  margin: 1rem 0 0.2rem 
 }
 
 .inputDate {
-  width: 100%;
   margin: auto;
   font-size: 1.1em;
-  
 }
 
 .inputExpense {
-  width: 96%;
   margin: auto;
   font-size: 0.9em;
 }
 
-.unorderedList {
-  margin: 0;
+.categories {
   padding: 0;
   display: flex;
   flex-wrap: wrap;
@@ -90,7 +90,6 @@
 .paragraph {
   margin: auto;
   margin: 0 0 1rem 0;
-
 }
 
 .lastButtons {

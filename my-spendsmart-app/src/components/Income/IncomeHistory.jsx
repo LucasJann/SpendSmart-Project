@@ -26,7 +26,7 @@ const IncomeHistory = () => {
   };
 
   return (
-    <div className={classes.incomeHistoryDiv}>
+    <div className={classes.historyDiv}>
       <button className={classes.getBackButton} onClick={onGetBackHandler}>
         Voltar
       </button>

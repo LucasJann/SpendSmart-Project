@@ -19,7 +19,7 @@
   text-align: center;
 }
 
-.expenseButton {
+.expenseBtn {
   color: #a8a8a8;
   width: 25%;
   cursor: pointer;
@@ -30,7 +30,7 @@
   background-color: #756b0e;
 }
 
-.incomeButton {
+.incomeBtn {
   color: #fff;
   width: 25%;
   cursor: pointer;
@@ -45,19 +45,22 @@
   background-color: #ab9c15;
 }
 
-.incomeDate {
-  display: flex;
-  flex-wrap: wrap;
+
+.paragraph {
+  color: #888;
+  width: 98%;
+}
+
+.date {
+  margin: 1rem 0 0.2rem;
 }
 
 .inputDate {
-  width: 100%;
   margin: auto;
   font-size: 1.1em;
 }
 
 .inputIncome {
-  width: 96%;
   margin: auto;
   font-size: 0.9em;
 }

@@ -1,5 +1,5 @@
 .item {
-  width: 100%;
+  width: 94%;
   display: grid;
   padding: 1rem;
   grid-gap: 1rem;
@@ -22,5 +22,3 @@
   padding: 0;
   list-style: none;
 }
-
-

@@ -30,6 +30,7 @@ const Expense = () => {
   const navigation = useNavigate();
 
   const [date, setDate] = useState();
+  const [message, setMessage] = useState();
   const [isDateFilled, setIsDateFilled] = useState(false);
 
   const [inputExpense, setInputExpense] = useState("");
@@ -53,6 +54,7 @@ const Expense = () => {
     const dateString = format(adjustedDate, "yyyy-MM-dd");
 
     setDate(dateString);
+    setMessage(false)
     setIsDateFilled(true);
   };
 
@@ -78,7 +80,7 @@ const Expense = () => {
 
     dispatch(expenseActions.addInput(newExpenseItem));
 
-    setInputExpense("");
+    setMessage(true)
     setIsDateFilled(false);
     setIsExpenseFilled(false)
   };
@@ -107,7 +109,6 @@ const Expense = () => {
             Renda
           </button>
         </div>
-        <div>
           <h2 className={classes.date}>
             Data:
             <input
@@ -118,7 +119,9 @@ const Expense = () => {
               className={`${classes.inputDate}`}
             />
           </h2>
-        </div>
+          {message && (
+            <p className={classes.paragraph}>Click no campo data para iniciar um registro</p>
+          )}
         {isDateFilled && (
           <Fragment>
             <div>
@@ -127,7 +130,6 @@ const Expense = () => {
                 <input
                   type="text"
                   id="text"
-                  value={inputExpense}
                   onChange={expenseChange}
                   className={`${classes.inputExpense}`}
                 />
@@ -136,7 +138,7 @@ const Expense = () => {
             <div>
               <h2>Categoria:</h2>
               <Card>
-                <ul className={classes.unorderedList}>
+                <ul className={classes.categories}>
                   <li
                     className={`${classes.list} ${
                       selectedCategory === "casa" ? classes.selected : ""

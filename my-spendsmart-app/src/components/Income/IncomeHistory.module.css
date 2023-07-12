@@ -1,6 +1,6 @@
-.incomeHistoryDiv {
+.historyDiv {
+  margin: auto;
   max-width: 20rem;
-  margin: auto
 }
 
 .getBackButton {
@@ -24,4 +24,8 @@
   color: #888;
   font-style: bold;
   margin-top: 20px;
+}
+
+.input3{
+margin: auto;
 }
