@@ -1,4 +1,4 @@
-.itemDiv {
+.item {
   width: 100%;
   display: grid;
   padding: 1rem;
@@ -10,13 +10,13 @@
   grid-template-columns: 1fr 1fr;
 }
 
-.itemDiv p {
+.item p {
   color: red;
   margin: 0;
   font-weight: bold;
 }
 
-.itemDiv ul {
+.item ul {
   color: #ce0b0b;
   margin: 0;
   padding: 0;

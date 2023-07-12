@@ -1,7 +1,8 @@
-import { useNavigate } from "react-router-dom";
-
 import classes from "./LandingPage.module.css";
 import landingPage from "../../Imgs/money.png";
+
+import { useNavigate } from "react-router-dom";
+
 
 const LandingPage = () => {
   const navigation = useNavigate();

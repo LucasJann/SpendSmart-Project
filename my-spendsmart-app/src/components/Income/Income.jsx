@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import classes from "./Income.module.css";
 
 import Card from "../Layout/Card";
@@ -26,21 +26,18 @@ const formatMoney = (value) => {
 };
 
 const Income = () => {
+  const dispatch = useDispatch();
+  const navigation = useNavigate();
+  
   const [date, setDate] = useState("");
   const [inputIncome, setInputIncome] = useState("");
+  const [isIncomeFilled, setIsIncomeFilled] = useState(false);
+  
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isDateFilled, setIsDateFilled] = useState(false);
-  const [isIncomeFilled, setIsIncomeFilled] = useState(false);
+  
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [localStorageIncomeItems, setLocalStorageIncomeItems] = useState([]);
 
-  const navigation = useNavigate();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const storedItems = JSON.parse(localStorage.getItem("incomes")) || [];
-    setLocalStorageIncomeItems(storedItems);
-  }, []);
 
   const handleDateChange = (event) => {
     const selectedDate = new Date(event.target.value);
@@ -53,8 +50,9 @@ const Income = () => {
       selectedDate,
       selectedDate.getTimezoneOffset()
     );
+
     const dateString = format(adjustedDate, "yyyy-MM-dd");
-    dispatch(incomeActions.addDate(dateString));
+
 
     setDate(dateString);
     setSelectedDate(adjustedDate);
@@ -63,31 +61,28 @@ const Income = () => {
 
   const onInputIncomeHandler = (event) => {
     let value = event.target.value.replace(/\D/g, "");
-    dispatch(incomeActions.addValue(value));
+
     setIsIncomeFilled(true);
     setInputIncome(formatMoney(value));
-  };
-
-  const onInputHandler = () => {
-    const incomeItem = {
-      value: inputIncome,
-      date: date,
-    };
-
-    const updatedItems = [...localStorageIncomeItems, incomeItem];
-    localStorage.setItem("incomes", JSON.stringify(updatedItems));
-
-    setLocalStorageIncomeItems(updatedItems);
-    setInputIncome("");
   };
 
   const categoryClickHandler = (category) => {
     if (selectedCategory === category) {
       setSelectedCategory(null);
     } else {
-      dispatch(incomeActions.addCategory(category));
       setSelectedCategory(category);
     }
+  };
+
+  const onInputHandler = () => {
+    const newIncomeItem = {
+      value: inputIncome,
+      date: date,
+    };
+
+    dispatch(incomeActions.addInput(newIncomeItem))
+
+    setInputIncome("");
   };
 
   const onGetBackHandler = () => {

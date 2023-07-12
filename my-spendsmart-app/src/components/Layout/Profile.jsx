@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
-import classes from "./Profile.module.css";
 import pic from "../../Imgs/pic.png";
+import classes from "./Profile.module.css";
 
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import { valueActions } from "../../store/value-slice";
 
@@ -19,17 +19,18 @@ const formatMoney = (value) => {
 };
 
 const Profile = () => {
-  const navigation = useNavigate();
   const dispatch = useDispatch();
+  const navigation = useNavigate();
 
   const [isDisabled, setIsDisabled] = useState(true);
   const [isEditClicked, setIsEditClicked] = useState(false);
 
   const valueState = useSelector((state) => state.value.money);
-  console.log(valueState)
-
-  const onGetBackHandler = () => {
-    navigation("/landingPage");
+  
+  const onValueChange = (event) => {
+    const value = event.target.value.replace(/\D/g, ""); // Remove qualquer caractere que não seja um dígito
+    const formattedBalance = formatMoney(value.replace(/\D/g, ""));
+    dispatch(valueActions.addBalance(formattedBalance)); // Atualiza o Redux com o valor numérico
   };
 
   const onEditButton = () => {
@@ -42,11 +43,10 @@ const Profile = () => {
     setIsEditClicked(false);
   };
 
-  const onValueChange = (event) => {
-    const value = event.target.value.replace(/\D/g, ""); // Remove qualquer caractere que não seja um dígito
-    const formattedBalance = formatMoney(value.replace(/\D/g, ""));
-    dispatch(valueActions.addBalance(formattedBalance)); // Atualiza o Redux com o valor numérico
+  const onGetBackHandler = () => {
+    navigation("/landingPage");
   };
+
 
   return (
     <div className={classes.div}>

@@ -1,34 +1,26 @@
-import React, { useState, useEffect } from "react";
 import classes from "./IncomeHistory.module.css";
-
 import IncomeItem from "./IncomeItem";
 
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { format, addMinutes } from "date-fns";
+import { addMinutes } from "date-fns";
 
-import { incomeActions } from "../../store/income-slice";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const IncomeHistory = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [localStorageIncomeItems, setLocalStorageIncomeItems] = useState([]);
-
+  
+  const release = useSelector((state) => state.income.items)
+  
   const navigation = useNavigate();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const storedItems = JSON.parse(localStorage.getItem("incomes")) || [];
-    setLocalStorageIncomeItems(storedItems);
-  }, []);
 
   const handleDateChange = (event) => {
     const selectedDate = new Date(event.target.value);
     const adjustedDate = addMinutes(selectedDate, selectedDate.getTimezoneOffset());
-    const dateString = format(adjustedDate, "yyyy-MM-dd");
-    dispatch(incomeActions.addDate(dateString));
     setSelectedDate(adjustedDate);  
   };
 
+  
   const onGetBackHandler = () => {
     navigation("/incomePage");
   };
@@ -60,8 +52,8 @@ const IncomeHistory = () => {
       </h2>
 
       <h3>Lançamentos Recentes:</h3>
-      {localStorageIncomeItems.length > 0 ? (
-        localStorageIncomeItems.map((item, index) => (
+      {release.length > 0 ? (
+        release.map((item, index) => (
           <IncomeItem key={index} item={item} />
         ))
       ) : (

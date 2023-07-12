@@ -3,29 +3,21 @@ import classes from "./ExpenseHistory.module.css";
 
 import ExpenseItem from "./ExpenseItem";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { format, addMinutes } from "date-fns";
 
 import { expenseActions } from "../../store/expense-slice";
 
 const ExpenseHistory = () => {
+  const dispatch = useDispatch();
+  const navigation = useNavigate();
+
   const [selectedStartDate, setSelectedFirstDate] = useState(new Date());
   const [selectedEndDate, setSelectedEndDate] = useState(new Date());
-  const [localStorageExpenseItems, setLocalStorageExpenseItems] = useState([]);
 
-  const navigation = useNavigate();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const storedItems = JSON.parse(localStorage.getItem("expenses")) || [];
-    setLocalStorageExpenseItems(storedItems);
-  }, []);
-
-  const onGetBackHandler = () => {
-    navigation("/expensePage");
-  };
-
+  const releases = useSelector((state) => state.expense.items)
+  
   const handleStartDateChange = (event) => {
     const selectedStartDate = new Date(event.target.value);
 
@@ -38,9 +30,6 @@ const ExpenseHistory = () => {
       selectedStartDate.getTimezoneOffset()
     );
     setSelectedFirstDate(adjustedDate);
-
-    const dateString = format(adjustedDate, "yyyy-MM-dd");
-    dispatch(expenseActions.addDate(dateString));
   };
 
   const handleEndDateChange = (event) => {
@@ -54,10 +43,12 @@ const ExpenseHistory = () => {
       selectedEndDate,
       selectedEndDate.getTimezoneOffset()
     );
-    setSelectedEndDate(adjustedDate);
 
-    const dateString = format(adjustedDate, "yyyy-MM-dd");
-    dispatch(expenseActions.addDate(dateString));
+    setSelectedEndDate(adjustedDate);
+  };
+
+  const onGetBackHandler = () => {
+    navigation("/expensePage");
   };
 
   return (
@@ -86,8 +77,8 @@ const ExpenseHistory = () => {
         />
       </h2>
       <h3>Lançamentos Recentes:</h3>
-      {localStorageExpenseItems.length > 0 ? (
-        localStorageExpenseItems.map((item, index) => (
+      {releases.length > 0 ? (
+        releases.map((item, index) => (
           <ExpenseItem key={index} item={item} />
         ))
       ) : (

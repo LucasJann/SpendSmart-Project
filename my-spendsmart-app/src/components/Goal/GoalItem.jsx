@@ -13,6 +13,7 @@ const GoalItem = ({ item }) => {
   const goalValueInt = parseInt(
     goalValue.replace("R$", "").replace(/\s/g, "").replace(/\./g, "")
   );
+  
   const initialBalanceInt = parseInt(
     initialBalance.replace("R$", "").replace(/\s/g, "").replace(/\./g, "")
   );

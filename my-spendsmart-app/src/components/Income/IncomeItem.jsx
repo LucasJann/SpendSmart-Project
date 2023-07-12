@@ -7,10 +7,14 @@ const IncomeItem = ({ item }) => {
 
   return (
     <div className={classes.item}>
-      <p>Valores:</p>
-      <ul>{value}</ul>
-      <p>Datas:</p>
-      <ul>{date}</ul>
+      <p>Valor:</p>
+      <ul>
+        <li>{value}</li>
+      </ul>
+      <p>Data:</p>
+      <ul>
+        <li>{date}</li>
+      </ul>
     </div>
   );
 };

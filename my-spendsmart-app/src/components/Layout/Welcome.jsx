@@ -18,10 +18,10 @@ const formatMoney = (value) => {
 };
 
 const Welcome = () => {
-  const [initialBalance, setInitialBalance] = useState("");
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [initialBalance, setInitialBalance] = useState("");
 
   const onChangeHandler = (event) => {
     let value = event.target.value.replace(/\D/g, ""); //estamos removendo todos os caracteres não numéricos da string contida na propriedade
@@ -30,7 +30,6 @@ const Welcome = () => {
 
   const onClickHandler = () => {
     dispatch(valueActions.addBalance(initialBalance));
-    console.log(initialBalance)
     navigate("/landingPage");
   };
 
