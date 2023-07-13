@@ -1,4 +1,4 @@
-.div {
+.section {
   width: 103%;
   display: grid;
   padding: 0rem 1rem 0rem 1rem;
@@ -9,38 +9,37 @@
   grid-template-columns: 1fr 1fr 1fr;
 }
 
-.values {
-  width: 100%;
-  margin: auto;
-  color: red;
-  display: grid;
-  justify-items: end;
-  font-weight: bold;;
-}
-
-.values p {
-  margin: 0.1rem 0 0.7rem 0;
-}
-
-.text {
-  width: 100%;
-  margin: auto;
-  color: red;
-  display: grid;
-  justify-items: start;
-  font-weight: bold;
-}
-
-.text p {
-  margin: 0.1rem 0rem 0.7rem 0rem;
-  white-space: nowrap; /* Impede que o texto seja quebrado em várias linhas */
-  overflow: hidden; /* Impede que o texto seja cortado */
-  text-overflow: ellipsis; /* Adiciona reticências (...) quando o texto é cortado */
-}
-
 .img {
   width: 46%;
   padding: 0.7rem;
   border-radius: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.text {
+  width: 100%;
+  color: rgb(207, 77, 77);
+  margin: auto;
+  display: grid;
+  font-weight: bold;
+  justify-items: start;
+}
+
+.text p {
+  margin: 0.1rem 0rem 0.7rem 0rem;
+  overflow: hidden;
+}
+
+.values {
+  width: 100%;
+  color: red;
+  margin: auto;
+  display: grid;
+  font-weight: bold;
+  justify-items: end;
+}
+
+.values p {
+  margin: 0.1rem 0 0.7rem 0;
+  overflow: hidden;
 }

@@ -16,11 +16,7 @@ const ExpenseItem = ({ item }) => {
     case "casa":
       image = (
         <>
-          <img
-            src={homeIcon}
-            alt="Icone de uma Casa"
-            className={classes.img}
-          />
+          <img src={homeIcon} alt="Icone de uma Casa" className={classes.img} />
         </>
       );
       break;
@@ -60,11 +56,7 @@ const ExpenseItem = ({ item }) => {
     case "educação":
       image = (
         <>
-          <img
-            src={college}
-            alt="Icone de um Capelo"
-            className={classes.img}
-          />
+          <img src={college} alt="Icone de um Capelo" className={classes.img} />
         </>
       );
       break;
@@ -82,8 +74,8 @@ const ExpenseItem = ({ item }) => {
   }
 
   return (
-    <div className={classes.div}>
-      <div className={classes.category}>
+    <section className={classes.section}>
+      <div>
         <p>{image}</p>
       </div>
       <div className={classes.text}>
@@ -94,7 +86,7 @@ const ExpenseItem = ({ item }) => {
         <p>{date}</p>
         <p>{value}</p>
       </div>
-    </div>
+    </section>
   );
 };
 

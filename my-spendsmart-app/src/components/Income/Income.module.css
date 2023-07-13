@@ -1,9 +1,9 @@
-.incomeDiv {
+.section {
   margin: auto;
   max-width: 20rem;
 }
 
-.getBackButton {
+.getBack {
   color: #fff;
   width: 20%;
   cursor: pointer;
@@ -14,7 +14,7 @@
   background-color: #ab9c15;
 }
 
-.alternativeDiv {
+.alternativeBtnsDiv {
   margin: 1.2rem 0 0 1rem;
   text-align: center;
 }
@@ -41,18 +41,8 @@
   background-color: #ab9c15;
 }
 
-.incomeButton:hover {
-  background-color: #ab9c15;
-}
-
-
-.paragraph {
-  color: #888;
-  width: 98%;
-}
-
 .date {
-  margin: 1rem 0 0.2rem;
+  margin: 1rem 0 0.2rem 
 }
 
 .inputDate {
@@ -60,13 +50,25 @@
   font-size: 1.1em;
 }
 
+.paragraph {
+  color: #888;
+  width: 98%;
+  margin: auto;
+}
+
 .inputIncome {
   margin: auto;
   font-size: 0.9em;
 }
 
-.unorderedList {
-  margin: 0;
+.warning {
+  color: #ce2121;
+  margin: 0 0 0 0.2rem;
+  font-weight: bold;
+}
+
+.categories {
+  margin: auto;
   padding: 0;
   display: flex;
   flex-wrap: wrap;
@@ -74,15 +76,15 @@
   justify-content: space-between;
 }
 
-.selected {
-  background-color: #ccc7c7;
-  color: #fff;
-}
-
 .list {
-  width: calc(30% - 0.5rem);
+  width: calc(35% - 0.5rem);
   padding: auto;
   text-align: center;
+}
+
+.selected {
+  color: #fff;
+  background-color: #ccc7c7;
 }
 
 .icon {
@@ -90,12 +92,12 @@
   margin: 1rem 0 0 0;
 }
 
-.paragraph {
+.text {
   margin: auto;
-  margin: 0 0 1rem 0;
+  margin: 0 0 0.5rem 0.3rem;
 }
 
-.lastButtons {
+.btn {
   color: #fff;
   width: 70%;
   cursor: pointer;

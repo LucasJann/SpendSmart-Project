@@ -1,9 +1,9 @@
-.historyDiv {
+.section {
   margin: auto;
   max-width: 20rem;
 }
 
-.getBackButton {
+.getBack {
   color: #fff;
   width: 20%;
   cursor: pointer;
@@ -24,8 +24,4 @@
   color: #888;
   font-style: bold;
   margin-top: 20px;
-}
-
-.input3{
-margin: auto;
 }

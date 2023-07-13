@@ -30,15 +30,16 @@ const Expense = () => {
   const navigation = useNavigate();
 
   const [date, setDate] = useState();
-  const [message, setMessage] = useState();
+  const [message, setMessage] = useState(true);
+  const [warning, setWarning] = useState();
   const [isDateFilled, setIsDateFilled] = useState(false);
 
   const [expense, setExpense] = useState("");
   const [isExpenseFilled, setIsExpenseFilled] = useState(false);
 
-  const [category, setCategory] = useState()
+  const [category, setCategory] = useState();
+  const [isCategoryFilled, setIsCategoryFilled] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
-
 
   const dateChange = (event) => {
     const selectedDate = new Date(event.target.value);
@@ -52,44 +53,53 @@ const Expense = () => {
       selectedDate.getTimezoneOffset()
     );
 
-    const dateString = format(adjustedDate, "yyyy-MM-dd");
+    const dateString = format(adjustedDate, "dd/MM/yyyy");
 
     setDate(dateString);
-    setMessage(false)
+    setMessage(false);
     setIsDateFilled(true);
   };
 
   const expenseChange = (event) => {
-    let value = event.target.value.replace(/\D/g, "");
-    setExpense(formatMoney(value));
-    setIsExpenseFilled(true);
+    const value = event.target.value;
+    const numericValue = value.replace(/\D/g, ""); // Remove todos os caracteres não numéricos
+
+    if (numericValue.length > 14) {
+      setWarning(true);
+      setIsExpenseFilled(false);
+      setExpense(formatMoney(numericValue));
+    } else {
+      setWarning(false);
+      setIsExpenseFilled(true);
+      setExpense(formatMoney(numericValue));
+    }
   };
 
   const categoryClickHandler = (category) => {
-    console.log(category)
+    console.log(category);
     if (selectedCategory === category) {
       setSelectedCategory(null);
+      setIsCategoryFilled(false);
     } else {
       setSelectedCategory(category);
+      setIsCategoryFilled(true);
     }
-    console.log(category)
-    setCategory(category)
+    setCategory(category);
   };
-
 
   const onInputHandler = () => {
     const newExpenseItem = {
       value: expense,
       date: date,
-      category: category
+      category: category,
     };
 
     dispatch(expenseActions.addInput(newExpenseItem));
 
-    setExpense('')
-    setMessage(true)
+    setExpense("");
+    setMessage(true);
     setIsDateFilled(false);
-    setIsExpenseFilled(false)
+    setIsExpenseFilled(false);
   };
 
   const onGetBackHandler = () => {
@@ -106,34 +116,36 @@ const Expense = () => {
 
   return (
     <>
-      <div className={classes.expenseDiv}>
-        <button className={classes.getBackButton} onClick={onGetBackHandler}>
+      <section className={classes.section}>
+        <button className={classes.getBack} onClick={onGetBackHandler}>
           Voltar
         </button>
-        <div className={classes.alternativeDiv}>
+        <div className={classes.alternativesBtnDiv}>
           <button className={classes.expenseBtn}>Custo</button>
           <button className={classes.incomeBtn} onClick={onIncomeHandler}>
             Renda
           </button>
         </div>
-          <h2 className={classes.date}>
-            Data:
-            <input
-              type="date"
-              id="date"
-              onChange={dateChange}
-              onClick={dateChange}
-              className={`${classes.inputDate}`}
-            />
-          </h2>
-          {message && (
-            <p className={classes.paragraph}>Click no campo data para iniciar um registro</p>
-          )}
+        <h2 className={classes.date}>
+          Data:
+          <input
+            type="date"
+            id="date"
+            onChange={dateChange}
+            onClick={dateChange}
+            className={classes.inputDate}
+          />
+        </h2>
+        {message && (
+          <p className={classes.paragraph}>
+            Click no calendário para iniciar um registro
+          </p>
+        )}
         {isDateFilled && (
           <Fragment>
             <div>
-              <h2>
-                Custo:
+              <h2 className={classes.expense}>
+                Despesa:
                 <input
                   type="text"
                   id="text"
@@ -143,6 +155,11 @@ const Expense = () => {
                 />
               </h2>
             </div>
+            {warning && (
+              <p className={classes.warning}>
+                Número digitado não pode ser igual ou superior que 1 trilhão
+              </p>
+            )}
             <div>
               <h2>Categoria:</h2>
               <Card>
@@ -159,7 +176,7 @@ const Expense = () => {
                         alt="Icone de uma casa"
                         className={classes.icon}
                       />
-                      <p className={classes.paragraph}>Casa</p>
+                      <p className={classes.text}>Casa</p>
                     </div>
                   </li>
                   <li
@@ -174,7 +191,7 @@ const Expense = () => {
                         alt="Icone de um Foguete"
                         className={classes.icon}
                       />
-                      <p className={classes.paragraph}>Lazer</p>
+                      <p className={classes.text}>Lazer</p>
                     </div>
                   </li>
                   <li
@@ -189,7 +206,7 @@ const Expense = () => {
                         alt="Icone de uma planilha"
                         className={classes.icon}
                       />
-                      <p className={classes.paragraph}>Saúde</p>
+                      <p className={classes.text}>Saúde</p>
                     </div>
                   </li>
                   <li
@@ -204,7 +221,7 @@ const Expense = () => {
                         alt="Icone de formatura"
                         className={classes.icon}
                       />
-                      <p className={classes.paragraph}>Educação</p>
+                      <p className={classes.text}>Educação</p>
                     </div>
                   </li>
                   <li
@@ -219,7 +236,7 @@ const Expense = () => {
                         alt="Icone de um relógio"
                         className={classes.icon}
                       />
-                      <p className={classes.paragraph}>Alimentação</p>
+                      <p className={classes.text}>Alimentação</p>
                     </div>
                   </li>
                   <li
@@ -234,7 +251,7 @@ const Expense = () => {
                         alt="Icone de um relógio"
                         className={classes.icon}
                       />
-                      <p className={classes.paragraph}>Transporte</p>
+                      <p className={classes.text}>Transporte</p>
                     </div>
                   </li>
                 </ul>
@@ -242,17 +259,17 @@ const Expense = () => {
             </div>
           </Fragment>
         )}
-        {isExpenseFilled && (
-          <button className={classes.lastButtons} onClick={onInputHandler}>
+        {isExpenseFilled && isCategoryFilled && (
+          <button className={classes.btn} onClick={onInputHandler}>
             Inserir Despesa
           </button>
         )}
         <div>
-          <button className={classes.lastButtons} onClick={onHistoryHandler}>
+          <button className={classes.btn} onClick={onHistoryHandler}>
             Visualizar Despesa
           </button>
         </div>
-      </div>
+      </section>
     </>
   );
 };

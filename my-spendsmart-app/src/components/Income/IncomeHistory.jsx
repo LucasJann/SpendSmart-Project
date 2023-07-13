@@ -26,8 +26,8 @@ const IncomeHistory = () => {
   };
 
   return (
-    <div className={classes.historyDiv}>
-      <button className={classes.getBackButton} onClick={onGetBackHandler}>
+    <section className={classes.section}>
+      <button className={classes.getBack} onClick={onGetBackHandler}>
         Voltar
       </button>
       <h2>
@@ -37,7 +37,7 @@ const IncomeHistory = () => {
           id="date"
           value={selectedDate.toISOString().split("T")[0]}
           onChange={handleDateChange}
-          className={`${classes.inputDate}`}
+          className={classes.inputDate}
         />
       </h2>
       <h2>
@@ -47,7 +47,7 @@ const IncomeHistory = () => {
           id="date"
           value={selectedDate.toISOString().split("T")[0]}
           onChange={handleDateChange}
-          className={`${classes.inputDate}`}
+          className={classes.inputDate}
         />
       </h2>
 
@@ -59,7 +59,7 @@ const IncomeHistory = () => {
       ) : (
         <p className={classes.message}>Nenhum item disponível.</p>
       )}
-    </div>
+    </section>
   );
 };
 

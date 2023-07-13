@@ -1,9 +1,9 @@
-.expenseDiv {
+.section {
   margin: auto;
   max-width: 20rem;
 }
 
-.getBackButton {
+.getBack {
   color: #fff;
   width: 20%;
   cursor: pointer;
@@ -14,7 +14,7 @@
   background-color: #ab9c15;
 }
 
-.alternativeDiv {
+.alternativesBtnDiv {
   margin: 1.2rem 0 0 1rem;
   text-align: center;
 }
@@ -29,10 +29,6 @@
   background-color: #ab9c15;
 }
 
-.expenseBtn:hover {
-  background-color: #ab9c15;
-}
-
 .incomeBtn {
   color: #a8a8a8;
   width: 25%;
@@ -44,11 +40,6 @@
   background-color: #756b0e;
 }
 
-.paragraph {
-  color: #888;
-  width: 98%
-}
-
 .date {
   margin: 1rem 0 0.2rem 
 }
@@ -58,9 +49,21 @@
   font-size: 1.1em;
 }
 
+.paragraph {
+  color: #888;
+  width: 98%;
+  margin: auto;
+}
+
 .inputExpense {
   margin: auto;
   font-size: 0.9em;
+}
+
+.warning {
+  color: #ce2121;
+  margin: 0 0 0 0.2rem;
+  font-weight: bold;
 }
 
 .categories {
@@ -88,12 +91,12 @@
   margin: 1rem 0 0 0;
 }
 
-.paragraph {
+.text {
   margin: auto;
-  margin: 0 0 1rem 0;
+  margin: 0 0 0.5rem 0.3rem;
 }
 
-.lastButtons {
+.btn {
   color: #fff;
   width: 70%;
   cursor: pointer;

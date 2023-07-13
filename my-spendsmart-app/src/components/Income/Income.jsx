@@ -31,12 +31,15 @@ const Income = () => {
 
   const [date, setDate] = useState("");
   const [message, setMessage] = useState(false);
-  const [inputIncome, setInputIncome] = useState("");
-  const [isIncomeFilled, setIsIncomeFilled] = useState(false);
-
   const [isDateFilled, setIsDateFilled] = useState(false);
 
+  const [income, setInputIncome] = useState("");
+  const [warning, setWarning] = useState(false);
+  const [isIncomeFilled, setIsIncomeFilled] = useState(false);
+
+  const [category, setCategory] = useState();
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [isCategoryFilled, setIsCategoryFilled] = useState(false);
 
   const dateChange = (event) => {
     const selectedDate = new Date(event.target.value);
@@ -53,29 +56,42 @@ const Income = () => {
     const dateString = format(adjustedDate, "yyyy-MM-dd");
 
     setDate(dateString);
-    setMessage(false)
+    setMessage(false);
     setIsDateFilled(true);
   };
 
   const incomeChange = (event) => {
-    let value = event.target.value.replace(/\D/g, "");
+    const value = event.target.value;
+    const numericValue = value.replace(/\D/g, ""); // Remove todos os caracteres não numéricos
 
-    setIsIncomeFilled(true);
-    setInputIncome(formatMoney(value));
+    if (numericValue.length > 14) {
+      setWarning(true);
+      setIsIncomeFilled(false);
+      setInputIncome(formatMoney(numericValue));
+    } else {
+      setWarning(false);
+      setIsIncomeFilled(true);
+      setInputIncome(formatMoney(numericValue));
+    }
   };
 
   const categoryClickHandler = (category) => {
+    console.log(category);
     if (selectedCategory === category) {
       setSelectedCategory(null);
+      setIsCategoryFilled(false);
     } else {
       setSelectedCategory(category);
+      setIsCategoryFilled(true);
     }
+    setCategory(category);
   };
 
   const onInputHandler = () => {
     const newIncomeItem = {
-      value: inputIncome,
+      value: income,
       date: date,
+      category: category,
     };
 
     dispatch(incomeActions.addInput(newIncomeItem));
@@ -99,11 +115,11 @@ const Income = () => {
 
   return (
     <>
-      <div className={classes.incomeDiv}>
-        <button className={classes.getBackButton} onClick={onGetBackHandler}>
+      <div className={classes.section}>
+        <button className={classes.getBack} onClick={onGetBackHandler}>
           Voltar
         </button>
-        <div className={classes.alternativeDiv}>
+        <div className={classes.alternativeBtnsDiv}>
           <button className={classes.expenseBtn} onClick={onExpenseHandler}>
             Custo
           </button>
@@ -127,21 +143,26 @@ const Income = () => {
         {isDateFilled && (
           <Fragment>
             <div>
-              <h2>
+              <h2 className={classes.income}>
                 Renda:
                 <input
                   type="text"
                   id="text"
-                  value={inputIncome}
+                  value={income}
                   onChange={incomeChange}
                   className={classes.inputIncome}
                 />
               </h2>
             </div>
+            {warning && (
+              <p className={classes.warning}>
+                Número digitado não pode ser igual ou superior que 1 trilhão
+              </p>
+            )}
             <div>
               <h2>Categoria:</h2>
               <Card>
-                <ul className={classes.unorderedList}>
+                <ul className={classes.categories}>
                   <li
                     className={`${classes.list} ${
                       selectedCategory === "casa" ? classes.selected : ""
@@ -154,7 +175,7 @@ const Income = () => {
                         alt="Icone de uma casa"
                         className={classes.icon}
                       />
-                      <p className={classes.paragraph}>Casa</p>
+                      <p className={classes.text}>Casa</p>
                     </div>
                   </li>
                   <li
@@ -169,7 +190,7 @@ const Income = () => {
                         alt="Icone de um Foguete"
                         className={classes.icon}
                       />
-                      <p className={classes.paragraph}>Lazer</p>
+                      <p className={classes.text}>Lazer</p>
                     </div>
                   </li>
                   <li
@@ -184,7 +205,7 @@ const Income = () => {
                         alt="Icone de uma planilha"
                         className={classes.icon}
                       />
-                      <p className={classes.paragraph}>Saúde</p>
+                      <p className={classes.text}>Saúde</p>
                     </div>
                   </li>
                   <li
@@ -199,7 +220,7 @@ const Income = () => {
                         alt="Icone de formatura"
                         className={classes.icon}
                       />
-                      <p className={classes.paragraph}>Educação</p>
+                      <p className={classes.text}>Educação</p>
                     </div>
                   </li>
                   <li
@@ -214,7 +235,7 @@ const Income = () => {
                         alt="Icone de um relógio"
                         className={classes.icon}
                       />
-                      <p className={classes.paragraph}>Alimentação</p>
+                      <p className={classes.text}>Alimentação</p>
                     </div>
                   </li>
                   <li
@@ -229,7 +250,7 @@ const Income = () => {
                         alt="Icone de um relógio"
                         className={classes.icon}
                       />
-                      <p className={classes.paragraph}>Transporte</p>
+                      <p className={classes.text}>Transporte</p>
                     </div>
                   </li>
                 </ul>
@@ -237,13 +258,13 @@ const Income = () => {
             </div>
           </Fragment>
         )}
-        {isIncomeFilled && (
-          <button className={classes.lastButtons} onClick={onInputHandler}>
+        {isCategoryFilled && isIncomeFilled && (
+          <button className={classes.btn} onClick={onInputHandler}>
             Inserir Renda
           </button>
         )}
         <div>
-          <button className={classes.lastButtons} onClick={onHistoryHandler}>
+          <button className={classes.btn} onClick={onHistoryHandler}>
             Visualizar Despesa
           </button>
         </div>

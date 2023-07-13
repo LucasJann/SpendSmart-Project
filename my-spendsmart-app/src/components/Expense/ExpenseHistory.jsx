@@ -1,23 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import classes from "./ExpenseHistory.module.css";
 
 import ExpenseItem from "./ExpenseItem";
 
-import { useDispatch, useSelector } from "react-redux";
+import { addMinutes } from "date-fns";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { format, addMinutes } from "date-fns";
-
-import { expenseActions } from "../../store/expense-slice";
 
 const ExpenseHistory = () => {
-  const dispatch = useDispatch();
   const navigation = useNavigate();
 
   const [selectedStartDate, setSelectedFirstDate] = useState(new Date());
   const [selectedEndDate, setSelectedEndDate] = useState(new Date());
 
-  const releases = useSelector((state) => state.expense.items)
-  
+  const releases = useSelector((state) => state.expense.items);
+
   const handleStartDateChange = (event) => {
     const selectedStartDate = new Date(event.target.value);
 
@@ -52,8 +49,8 @@ const ExpenseHistory = () => {
   };
 
   return (
-    <div className={classes.historyDiv}>
-      <button className={classes.getBackButton} onClick={onGetBackHandler}>
+    <section className={classes.section}>
+      <button className={classes.getBack} onClick={onGetBackHandler}>
         Voltar
       </button>
       <h2>
@@ -63,7 +60,7 @@ const ExpenseHistory = () => {
           id="date"
           value={selectedStartDate.toISOString().split("T")[0]}
           onChange={handleStartDateChange}
-          className={`${classes.inputDate}`}
+          className={classes.inputDate}
         />
       </h2>
       <h2>
@@ -73,18 +70,16 @@ const ExpenseHistory = () => {
           id="date"
           value={selectedEndDate.toISOString().split("T")[0]}
           onChange={handleEndDateChange}
-          className={`${classes.inputDate}`}
+          className={classes.inputDate}
         />
       </h2>
       <h3>Lançamentos Recentes:</h3>
       {releases.length > 0 ? (
-        releases.map((item, index) => (
-          <ExpenseItem key={index} item={item} />
-        ))
+        releases.map((item, index) => <ExpenseItem key={index} item={item} />)
       ) : (
         <p className={classes.message}>Nenhum item disponível.</p>
       )}
-    </div>
+    </section>
   );
 };
 
