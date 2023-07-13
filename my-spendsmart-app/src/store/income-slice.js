@@ -14,6 +14,7 @@ const incomeSlice = createSlice({
         id,
         value: newItem.value,
         date: newItem.date,
+        category: newItem.category
       });
       console.log(state.items.slice());
     },

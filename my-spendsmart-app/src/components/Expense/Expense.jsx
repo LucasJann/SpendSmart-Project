@@ -33,9 +33,10 @@ const Expense = () => {
   const [message, setMessage] = useState();
   const [isDateFilled, setIsDateFilled] = useState(false);
 
-  const [inputExpense, setInputExpense] = useState("");
+  const [expense, setExpense] = useState("");
   const [isExpenseFilled, setIsExpenseFilled] = useState(false);
 
+  const [category, setCategory] = useState()
   const [selectedCategory, setSelectedCategory] = useState(null);
 
 
@@ -60,26 +61,32 @@ const Expense = () => {
 
   const expenseChange = (event) => {
     let value = event.target.value.replace(/\D/g, "");
-    setInputExpense(formatMoney(value));
+    setExpense(formatMoney(value));
     setIsExpenseFilled(true);
   };
 
   const categoryClickHandler = (category) => {
+    console.log(category)
     if (selectedCategory === category) {
       setSelectedCategory(null);
     } else {
       setSelectedCategory(category);
     }
+    console.log(category)
+    setCategory(category)
   };
+
 
   const onInputHandler = () => {
     const newExpenseItem = {
-      value: inputExpense,
+      value: expense,
       date: date,
+      category: category
     };
 
     dispatch(expenseActions.addInput(newExpenseItem));
 
+    setExpense('')
     setMessage(true)
     setIsDateFilled(false);
     setIsExpenseFilled(false)
@@ -130,8 +137,9 @@ const Expense = () => {
                 <input
                   type="text"
                   id="text"
+                  value={expense}
                   onChange={expenseChange}
-                  className={`${classes.inputExpense}`}
+                  className={classes.inputExpense}
                 />
               </h2>
             </div>

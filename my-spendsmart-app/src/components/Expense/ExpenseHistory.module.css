@@ -8,14 +8,14 @@
   width: 20%;
   cursor: pointer;
   border: none;
-  margin: 1rem 0 0 16.5rem;
+  margin: 1rem 0 0 18.5rem;
   padding: 0.2rem;
   border-radius: 0.5rem;
   background-color: #ab9c15;
 }
 
 .inputDate {
-  width: 100%;
+  width: 109%;
   margin: auto;
   font-size: 1.1em;
 }

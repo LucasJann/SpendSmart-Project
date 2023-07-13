@@ -1,24 +1,46 @@
-.item {
-  width: 94%;
+.div {
+  width: 103%;
   display: grid;
-  padding: 1rem;
-  grid-gap: 1rem;
+  padding: 0rem 1rem 0rem 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   margin-bottom: 1rem;
   background-color: #f2f2f2;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
-.item p {
+.values {
+  width: 100%;
+  margin: auto;
   color: red;
-  margin: 0;
+  display: grid;
+  justify-items: end;
+  font-weight: bold;;
+}
+
+.values p {
+  margin: 0.1rem 0 0.7rem 0;
+}
+
+.text {
+  width: 100%;
+  margin: auto;
+  color: red;
+  display: grid;
+  justify-items: start;
   font-weight: bold;
 }
 
-.item ul {
-  color: #ce0b0b;
-  margin: 0;
-  padding: 0;
-  list-style: none;
+.text p {
+  margin: 0.1rem 0rem 0.7rem 0rem;
+  white-space: nowrap; /* Impede que o texto seja quebrado em várias linhas */
+  overflow: hidden; /* Impede que o texto seja cortado */
+  text-overflow: ellipsis; /* Adiciona reticências (...) quando o texto é cortado */
+}
+
+.img {
+  width: 46%;
+  padding: 0.7rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
