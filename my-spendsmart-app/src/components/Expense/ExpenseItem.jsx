@@ -1,4 +1,5 @@
 import React from "react";
+import classes from "./ExpenseItem.module.css";
 
 import health from "../../Icons/checklist.png";
 import college from "../../Icons/college.png";
@@ -6,7 +7,6 @@ import leisure from "../../Icons/rocket.png";
 import homeIcon from "../../Icons/home.png";
 import nutrition from "../../Icons/clock.png";
 import transportation from "../../Icons/location.png";
-import classes from "./ExpenseItem.module.css";
 
 const ExpenseItem = ({ item }) => {
   const { value, date, category } = item;
@@ -70,6 +70,9 @@ const ExpenseItem = ({ item }) => {
           />
         </>
       );
+      break;
+    default:
+      image = <p>Não foi possível encontrar esta categoria</p>;
       break;
   }
 

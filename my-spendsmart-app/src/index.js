@@ -1,11 +1,11 @@
 import App from "./App";
 import React from "react";
-import store from "./store/index";
 import ReactDOM from "react-dom/client";
+import "./index.css";
+
+import store from "./store/index";
 
 import { Provider } from "react-redux";
-
-import "./index.css";
 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

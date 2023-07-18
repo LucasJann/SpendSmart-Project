@@ -1,4 +1,5 @@
 import React from "react";
+import classes from "./IncomeItem.module.css";
 
 import health from "../../Icons/checklist.png";
 import college from "../../Icons/college.png";
@@ -6,23 +7,16 @@ import leisure from "../../Icons/rocket.png";
 import homeIcon from "../../Icons/home.png";
 import nutrition from "../../Icons/clock.png";
 import transportation from "../../Icons/location.png";
-import classes from "./IncomeItem.module.css";
 
 const ExpenseItem = ({ item }) => {
   const { value, date, category } = item;
   let image = "";
 
-  console.log(category)
-
   switch (category) {
     case "casa":
       image = (
         <>
-          <img
-            src={homeIcon}
-            alt="Icone de uma Casa"
-            className={classes.img}
-          />
+          <img src={homeIcon} alt="Icone de uma Casa" className={classes.img} />
         </>
       );
       break;
@@ -62,11 +56,7 @@ const ExpenseItem = ({ item }) => {
     case "educação":
       image = (
         <>
-          <img
-            src={college}
-            alt="Icone de um Capelo"
-            className={classes.img}
-          />
+          <img src={college} alt="Icone de um Capelo" className={classes.img} />
         </>
       );
       break;
@@ -80,6 +70,9 @@ const ExpenseItem = ({ item }) => {
           />
         </>
       );
+      break;
+    default:
+      image = <p>Não foi possível encontrar esta categoria</p>;
       break;
   }
 

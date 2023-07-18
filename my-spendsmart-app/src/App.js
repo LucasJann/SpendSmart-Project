@@ -1,6 +1,9 @@
 import React, { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Provider } from "react-redux";
 
-import Goal from "./components/Goal/Goal"
+import store from './store/index'
+
+import Goal from "./components/Goal/Goal";
 import Income from "./components/Income/Income";
 import Welcome from "./components/Layout/Welcome";
 import Profile from "./components/Layout/Profile";
@@ -20,13 +23,17 @@ const router = createBrowserRouter([
       { path: "/expenseHistoryPage", element: <ExpenseHistory /> },
       { path: "/incomePage", element: <Income /> },
       { path: "/incomeHistoryPage", element: <IncomeHistory /> },
-      { path: "/goalPage", element: <Goal/> },
+      { path: "/goalPage", element: <Goal /> },
     ],
   },
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <Provider store={store}>
+      <RouterProvider router={router} />;
+    </Provider>
+  );
 }
 
 export default App;

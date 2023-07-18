@@ -42,7 +42,7 @@
 }
 
 .date {
-  margin: 1rem 0 0.2rem 
+  margin: 1rem 0 0.2rem;
 }
 
 .inputDate {
@@ -65,6 +65,10 @@
   color: #ce2121;
   margin: 0 0 0 0.2rem;
   font-weight: bold;
+}
+
+.category {
+  margin: 1rem 0 0.2rem;
 }
 
 .categories {
@@ -108,3 +112,4 @@
   border-radius: 0.5rem;
   background-color: #ab9c15;
 }
+

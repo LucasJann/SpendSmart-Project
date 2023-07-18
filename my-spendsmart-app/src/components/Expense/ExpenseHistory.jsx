@@ -7,15 +7,16 @@ import { addMinutes } from "date-fns";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+
 const ExpenseHistory = () => {
   const navigation = useNavigate();
 
-  const [selectedStartDate, setSelectedFirstDate] = useState(new Date());
+  const [selectedStartDate, setSelectedStartDate] = useState(new Date());
   const [selectedEndDate, setSelectedEndDate] = useState(new Date());
 
   const releases = useSelector((state) => state.expense.items);
 
-  const handleStartDateChange = (event) => {
+  const startDate = (event) => {
     const selectedStartDate = new Date(event.target.value);
 
     if (isNaN(selectedStartDate)) {
@@ -26,10 +27,10 @@ const ExpenseHistory = () => {
       selectedStartDate,
       selectedStartDate.getTimezoneOffset()
     );
-    setSelectedFirstDate(adjustedDate);
+    setSelectedStartDate(adjustedDate);
   };
 
-  const handleEndDateChange = (event) => {
+  const endDate = (event) => {
     const selectedEndDate = new Date(event.target.value);
 
     if (isNaN(selectedEndDate)) {
@@ -59,7 +60,7 @@ const ExpenseHistory = () => {
           type="date"
           id="date"
           value={selectedStartDate.toISOString().split("T")[0]}
-          onChange={handleStartDateChange}
+          onChange={startDate}
           className={classes.inputDate}
         />
       </h2>
@@ -69,7 +70,7 @@ const ExpenseHistory = () => {
           type="date"
           id="date"
           value={selectedEndDate.toISOString().split("T")[0]}
-          onChange={handleEndDateChange}
+          onChange={endDate}
           className={classes.inputDate}
         />
       </h2>

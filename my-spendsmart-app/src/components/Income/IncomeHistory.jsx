@@ -4,23 +4,66 @@ import IncomeItem from "./IncomeItem";
 import { addMinutes } from "date-fns";
 
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+import { incomeActions } from "../../store/income-slice";
+
 const IncomeHistory = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  
-  const release = useSelector((state) => state.income.items)
-  
+  const dispatch = useDispatch();
   const navigation = useNavigate();
 
-  const handleDateChange = (event) => {
-    const selectedDate = new Date(event.target.value);
-    const adjustedDate = addMinutes(selectedDate, selectedDate.getTimezoneOffset());
-    setSelectedDate(adjustedDate);  
+  const [selectedStartDate, setSelectedStartDate] = useState(new Date());
+  const [selectedEndDate, setSelectedEndDate] = useState(new Date());
+
+  const releases = useSelector((state) => state.income.items);
+  const filteredReleases = useSelector((state) => state.income.filteredItems);
+  const isFiltering = useSelector((state) => state.income.isFiltering);
+
+  const startDateChange = (event) => {
+    const selectedStartDate = new Date(event.target.value);
+
+    if (isNaN(selectedStartDate)) {
+      return;
+    }
+
+    const adjustedDate = addMinutes(
+      selectedStartDate,
+      selectedStartDate.getTimezoneOffset()
+    );
+    setSelectedStartDate(adjustedDate);
   };
 
+  const endDateChange = (event) => {
+    const selectedEndDate = new Date(event.target.value);
+
+    if (isNaN(selectedEndDate)) {
+      return;
+    }
+
+    const adjustedDate = addMinutes(
+      selectedEndDate,
+      selectedEndDate.getTimezoneOffset()
+    );
+
+    setSelectedEndDate(adjustedDate);
+  };
+
+  const searchHandler = () => {
+    const formattedStartDate = selectedStartDate.toISOString().split("T")[0];
+    const formattedEndDate = selectedEndDate.toISOString().split("T")[0];
   
+    console.log("formattedStartDate:", formattedStartDate);
+    console.log("formattedEndDate:", formattedEndDate);
+  
+    const newDate = {
+      startDate: formattedStartDate,
+      endDate: formattedEndDate,
+    };
+  
+    dispatch(incomeActions.dataFilter(newDate));
+  };
+
   const onGetBackHandler = () => {
     navigation("/incomePage");
   };
@@ -35,8 +78,8 @@ const IncomeHistory = () => {
         <input
           type="date"
           id="date"
-          value={selectedDate.toISOString().split("T")[0]}
-          onChange={handleDateChange}
+          value={selectedStartDate.toISOString().split("T")[0]}
+          onChange={startDateChange}
           className={classes.inputDate}
         />
       </h2>
@@ -44,21 +87,19 @@ const IncomeHistory = () => {
         Data Final:
         <input
           type="date"
-          id="date"
-          value={selectedDate.toISOString().split("T")[0]}
-          onChange={handleDateChange}
+          id="date2"
+          value={selectedEndDate.toISOString().split("T")[0]}
+          onChange={endDateChange}
           className={classes.inputDate}
         />
       </h2>
-
+      <button onClick={searchHandler}>Procurar</button>
       <h3>Lançamentos Recentes:</h3>
-      {release.length > 0 ? (
-        release.map((item, index) => (
-          <IncomeItem key={index} item={item} />
-        ))
-      ) : (
-        <p className={classes.message}>Nenhum item disponível.</p>
-      )}
+      {isFiltering && filteredReleases.length > 0
+        ? filteredReleases.map((item, index) => (
+            <IncomeItem key={index} item={item} />
+          ))
+        : releases.map((item, index) => <IncomeItem key={index} item={item} />)}
     </section>
   );
 };

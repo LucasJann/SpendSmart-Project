@@ -120,8 +120,8 @@ const Expense = () => {
         <button className={classes.getBack} onClick={onGetBackHandler}>
           Voltar
         </button>
-        <div className={classes.alternativesBtnDiv}>
-          <button className={classes.expenseBtn}>Custo</button>
+        <div className={classes.alternativeBtnsDiv}>
+          <button className={classes.expenseBtn}>Despesa</button>
           <button className={classes.incomeBtn} onClick={onIncomeHandler}>
             Renda
           </button>
@@ -161,7 +161,7 @@ const Expense = () => {
               </p>
             )}
             <div>
-              <h2>Categoria:</h2>
+              <h2 className={classes.category}>Categoria:</h2>
               <Card>
                 <ul className={classes.categories}>
                   <li

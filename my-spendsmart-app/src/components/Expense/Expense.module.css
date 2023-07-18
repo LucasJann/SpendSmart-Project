@@ -14,7 +14,7 @@
   background-color: #ab9c15;
 }
 
-.alternativesBtnDiv {
+.alternativeBtnsDiv {
   margin: 1.2rem 0 0 1rem;
   text-align: center;
 }
@@ -64,6 +64,10 @@
   color: #ce2121;
   margin: 0 0 0 0.2rem;
   font-weight: bold;
+}
+
+.category {
+  margin: 1rem 0 0.2rem 
 }
 
 .categories {

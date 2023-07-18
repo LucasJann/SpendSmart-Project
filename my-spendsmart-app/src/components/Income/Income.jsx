@@ -30,10 +30,10 @@ const Income = () => {
   const navigation = useNavigate();
 
   const [date, setDate] = useState("");
-  const [message, setMessage] = useState(false);
+  const [message, setMessage] = useState(true);
   const [isDateFilled, setIsDateFilled] = useState(false);
 
-  const [income, setInputIncome] = useState("");
+  const [income, setIncome] = useState("");
   const [warning, setWarning] = useState(false);
   const [isIncomeFilled, setIsIncomeFilled] = useState(false);
 
@@ -53,7 +53,7 @@ const Income = () => {
       selectedDate.getTimezoneOffset()
     );
 
-    const dateString = format(adjustedDate, "yyyy-MM-dd");
+    const dateString = format(adjustedDate, "dd-MM-yyyy");
 
     setDate(dateString);
     setMessage(false);
@@ -62,21 +62,25 @@ const Income = () => {
 
   const incomeChange = (event) => {
     const value = event.target.value;
-    const numericValue = value.replace(/\D/g, ""); // Remove todos os caracteres não numéricos
-
+    const numericValue = value.replace(/\D/g, "");
+/* 
+    / - A barra inicial indica o início da expressão regular.
+    \D é um atalho para qualquer caractere que não seja um dígito numérico. Em outras palavras, ele corresponde a qualquer caractere que não seja de 0 a 9.
+    / - A barra final indica o fim da expressão regular.
+    g - A flag g após a barra final indica uma correspondência global. Ela permite que a expressão regular procure por todas as ocorrências em uma string, em vez de parar na primeira correspondência encontrada.
+*/
     if (numericValue.length > 14) {
       setWarning(true);
       setIsIncomeFilled(false);
-      setInputIncome(formatMoney(numericValue));
+      setIncome(formatMoney(numericValue));
     } else {
       setWarning(false);
       setIsIncomeFilled(true);
-      setInputIncome(formatMoney(numericValue));
+      setIncome(formatMoney(numericValue));
     }
   };
 
-  const categoryClickHandler = (category) => {
-    console.log(category);
+  const onCategoryHandler = (category) => {
     if (selectedCategory === category) {
       setSelectedCategory(null);
       setIsCategoryFilled(false);
@@ -121,7 +125,7 @@ const Income = () => {
         </button>
         <div className={classes.alternativeBtnsDiv}>
           <button className={classes.expenseBtn} onClick={onExpenseHandler}>
-            Custo
+            Despesa
           </button>
           <button className={classes.incomeBtn}>Renda</button>
         </div>
@@ -137,7 +141,7 @@ const Income = () => {
         </h2>
         {message && (
           <p className={classes.paragraph}>
-            Click no campo data para iniciar um registro
+            Click no calendário para iniciar um registro
           </p>
         )}
         {isDateFilled && (
@@ -160,14 +164,15 @@ const Income = () => {
               </p>
             )}
             <div>
-              <h2>Categoria:</h2>
+              <h2 className={classes.category}>Categoria:</h2>
+
               <Card>
                 <ul className={classes.categories}>
                   <li
                     className={`${classes.list} ${
                       selectedCategory === "casa" ? classes.selected : ""
                     }`}
-                    onClick={() => categoryClickHandler("casa")}
+                    onClick={() => onCategoryHandler("casa")}
                   >
                     <div>
                       <img
@@ -182,7 +187,7 @@ const Income = () => {
                     className={`${classes.list} ${
                       selectedCategory === "lazer" ? classes.selected : ""
                     }`}
-                    onClick={() => categoryClickHandler("lazer")}
+                    onClick={() => onCategoryHandler("lazer")}
                   >
                     <div>
                       <img
@@ -197,7 +202,7 @@ const Income = () => {
                     className={`${classes.list} ${
                       selectedCategory === "saúde" ? classes.selected : ""
                     }`}
-                    onClick={() => categoryClickHandler("saúde")}
+                    onClick={() => onCategoryHandler("saúde")}
                   >
                     <div>
                       <img
@@ -212,7 +217,7 @@ const Income = () => {
                     className={`${classes.list} ${
                       selectedCategory === "educação" ? classes.selected : ""
                     }`}
-                    onClick={() => categoryClickHandler("educação")}
+                    onClick={() => onCategoryHandler("educação")}
                   >
                     <div>
                       <img
@@ -227,7 +232,7 @@ const Income = () => {
                     className={`${classes.list} ${
                       selectedCategory === "comida" ? classes.selected : ""
                     }`}
-                    onClick={() => categoryClickHandler("comida")}
+                    onClick={() => onCategoryHandler("comida")}
                   >
                     <div>
                       <img
@@ -242,7 +247,7 @@ const Income = () => {
                     className={`${classes.list} ${
                       selectedCategory === "transporte" ? classes.selected : ""
                     }`}
-                    onClick={() => categoryClickHandler("transporte")}
+                    onClick={() => onCategoryHandler("transporte")}
                   >
                     <div>
                       <img
