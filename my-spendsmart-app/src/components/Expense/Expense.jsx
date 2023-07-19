@@ -53,7 +53,7 @@ const Expense = () => {
       selectedDate.getTimezoneOffset()
     );
 
-    const dateString = format(adjustedDate, "dd/MM/yyyy");
+    const dateString = format(adjustedDate, "yyyy-MM-dd");
 
     setDate(dateString);
     setMessage(false);

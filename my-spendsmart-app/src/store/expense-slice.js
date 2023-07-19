@@ -9,14 +9,13 @@ const expenseSlice = createSlice({
   reducers: {
     addInput(state, action) {
       const newItem = action.payload;
-      const id = uuidv4(); // Gerar um id único
+      const id = uuidv4(); 
       state.items.unshift({
         id,
         value: newItem.value,
         date: newItem.date,
         category: newItem.category
       });
-      console.log(state.items.slice());
     },
   },
 });

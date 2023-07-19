@@ -4,21 +4,19 @@ import IncomeItem from "./IncomeItem";
 import { addMinutes } from "date-fns";
 
 import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { incomeActions } from "../../store/income-slice";
-
 const IncomeHistory = () => {
-  const dispatch = useDispatch();
   const navigation = useNavigate();
 
   const [selectedStartDate, setSelectedStartDate] = useState(new Date());
   const [selectedEndDate, setSelectedEndDate] = useState(new Date());
 
+  const [isItemsFiltered, setIsItemsFiltered] = useState(false);
+  const [items, setItems] = useState([]);
+
   const releases = useSelector((state) => state.income.items);
-  const filteredReleases = useSelector((state) => state.income.filteredItems);
-  const isFiltering = useSelector((state) => state.income.isFiltering);
 
   const startDateChange = (event) => {
     const selectedStartDate = new Date(event.target.value);
@@ -52,16 +50,22 @@ const IncomeHistory = () => {
   const searchHandler = () => {
     const formattedStartDate = selectedStartDate.toISOString().split("T")[0];
     const formattedEndDate = selectedEndDate.toISOString().split("T")[0];
-  
-    console.log("formattedStartDate:", formattedStartDate);
-    console.log("formattedEndDate:", formattedEndDate);
-  
-    const newDate = {
-      startDate: formattedStartDate,
-      endDate: formattedEndDate,
-    };
-  
-    dispatch(incomeActions.dataFilter(newDate));
+
+    const filteredItems = releases.filter((items) => {
+      const date = items.date;
+
+      if (date >= formattedStartDate && date <= formattedEndDate) {
+        return true;
+      }
+      return false;
+    });
+
+    if (filteredItems.length > 0) {
+      setItems(filteredItems);
+      setIsItemsFiltered(true);
+    } else {
+      setIsItemsFiltered(false);
+    }
   };
 
   const onGetBackHandler = () => {
@@ -95,10 +99,8 @@ const IncomeHistory = () => {
       </h2>
       <button onClick={searchHandler}>Procurar</button>
       <h3>Lançamentos Recentes:</h3>
-      {isFiltering && filteredReleases.length > 0
-        ? filteredReleases.map((item, index) => (
-            <IncomeItem key={index} item={item} />
-          ))
+      {isItemsFiltered
+        ? items.map((item, index) => <IncomeItem key={index} item={item} />)
         : releases.map((item, index) => <IncomeItem key={index} item={item} />)}
     </section>
   );

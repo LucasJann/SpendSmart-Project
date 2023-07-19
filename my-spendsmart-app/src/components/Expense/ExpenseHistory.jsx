@@ -1,12 +1,11 @@
-import React, { useState } from "react";
 import classes from "./ExpenseHistory.module.css";
-
 import ExpenseItem from "./ExpenseItem";
 
 import { addMinutes } from "date-fns";
+
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
 
 const ExpenseHistory = () => {
   const navigation = useNavigate();
@@ -14,9 +13,12 @@ const ExpenseHistory = () => {
   const [selectedStartDate, setSelectedStartDate] = useState(new Date());
   const [selectedEndDate, setSelectedEndDate] = useState(new Date());
 
+  const [isItemsFiltered, setIsItemsFiltered] = useState(false);
+  const [items, setItems] = useState([]);
+
   const releases = useSelector((state) => state.expense.items);
 
-  const startDate = (event) => {
+  const startDateChange = (event) => {
     const selectedStartDate = new Date(event.target.value);
 
     if (isNaN(selectedStartDate)) {
@@ -30,7 +32,7 @@ const ExpenseHistory = () => {
     setSelectedStartDate(adjustedDate);
   };
 
-  const endDate = (event) => {
+  const endDateChange = (event) => {
     const selectedEndDate = new Date(event.target.value);
 
     if (isNaN(selectedEndDate)) {
@@ -43,6 +45,30 @@ const ExpenseHistory = () => {
     );
 
     setSelectedEndDate(adjustedDate);
+  };
+
+  const searchHandler = () => {
+    const formattedStartDate = selectedStartDate.toISOString().split("T")[0];
+    const formattedEndDate = selectedEndDate.toISOString().split("T")[0];
+
+    const filteredItems = releases.filter((items) => {
+      const date = items.date;
+
+      if (date >= formattedStartDate && date <= formattedEndDate) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+
+    console.log(filteredItems)
+
+    if (filteredItems.length > 0) {
+      setItems(filteredItems);
+      setIsItemsFiltered(true);
+    } else {
+      setIsItemsFiltered(false);
+    }
   };
 
   const onGetBackHandler = () => {
@@ -60,7 +86,7 @@ const ExpenseHistory = () => {
           type="date"
           id="date"
           value={selectedStartDate.toISOString().split("T")[0]}
-          onChange={startDate}
+          onChange={startDateChange}
           className={classes.inputDate}
         />
       </h2>
@@ -68,18 +94,19 @@ const ExpenseHistory = () => {
         Data Final:
         <input
           type="date"
-          id="date"
+          id="date2"
           value={selectedEndDate.toISOString().split("T")[0]}
-          onChange={endDate}
+          onChange={endDateChange}
           className={classes.inputDate}
         />
       </h2>
+      <button onClick={searchHandler}>Procurar</button>
       <h3>Lançamentos Recentes:</h3>
-      {releases.length > 0 ? (
-        releases.map((item, index) => <ExpenseItem key={index} item={item} />)
-      ) : (
-        <p className={classes.message}>Nenhum item disponível.</p>
-      )}
+      {isItemsFiltered
+        ? items.map((item, index) => <ExpenseItem key={index} item={item} />)
+        : releases.map((item, index) => (
+            <ExpenseItem key={index} item={item} />
+          ))}
     </section>
   );
 };
