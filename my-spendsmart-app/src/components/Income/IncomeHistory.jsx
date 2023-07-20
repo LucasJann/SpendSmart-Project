@@ -13,8 +13,11 @@ const IncomeHistory = () => {
   const [selectedStartDate, setSelectedStartDate] = useState(new Date());
   const [selectedEndDate, setSelectedEndDate] = useState(new Date());
 
-  const [isItemsFiltered, setIsItemsFiltered] = useState(false);
   const [items, setItems] = useState([]);
+  const [isSearch, setIsSearch] = useState(false);
+  const [message, setMessage] = useState(false)
+  const [isItemsFiltered, setIsItemsFiltered] = useState(false);
+
 
   const releases = useSelector((state) => state.income.items);
 
@@ -60,12 +63,14 @@ const IncomeHistory = () => {
       return false;
     });
 
-    if (filteredItems.length > 0) {
+    if (filteredItems.length >= 0) {
+      filteredItems.length === 0 ? setMessage(true) : setMessage(false)
       setItems(filteredItems);
       setIsItemsFiltered(true);
     } else {
       setIsItemsFiltered(false);
     }
+    setIsSearch(true)
   };
 
   const onGetBackHandler = () => {
@@ -97,8 +102,14 @@ const IncomeHistory = () => {
           className={classes.inputDate}
         />
       </h2>
-      <button onClick={searchHandler}>Procurar</button>
-      <h3>Lançamentos Recentes:</h3>
+      <button onClick={searchHandler} className={classes.searchBtn}>Procurar</button>
+      {isSearch && <h3 className={classes.releases}> Histórico</h3>}
+      {!isSearch && <h3 className={classes.historic}>Todos Lançamentos</h3>}
+      {message && (
+        <p className={classes.paragraph}>
+          Não há registros inseridos na data específicada
+        </p>
+      )}
       {isItemsFiltered
         ? items.map((item, index) => <IncomeItem key={index} item={item} />)
         : releases.map((item, index) => <IncomeItem key={index} item={item} />)}

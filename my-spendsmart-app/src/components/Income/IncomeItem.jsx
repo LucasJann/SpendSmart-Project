@@ -76,19 +76,24 @@ const ExpenseItem = ({ item }) => {
       break;
   }
 
+  const formattedDate = date.split("-").reverse().join("-");
+
   return (
-    <section className={classes.section}>
-      <div className={classes.image}>
-        <p>{image}</p>
-      </div>
-      <div className={classes.text}>
-        <p>Data:</p>
-        <p>Valor:</p>
-      </div>
-      <div className={classes.values}>
-        <p>{date}</p>
-        <p>{value}</p>
-      </div>
+    <section className={classes.container}>
+      <button className={classes.delete}>X</button>
+      <section className={classes.section}>
+        <div className={classes.image}>
+          <p>{image}</p>
+        </div>
+        <div className={classes.text}>
+          <p>Data:</p>
+          <p>Valor:</p>
+        </div>
+        <div className={classes.values}>
+          <p>{formattedDate}</p>
+          <p>{value}</p>
+        </div>
+      </section>
     </section>
   );
 };

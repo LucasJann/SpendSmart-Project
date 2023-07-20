@@ -100,6 +100,7 @@ const Income = () => {
 
     dispatch(incomeActions.addInput(newIncomeItem));
 
+    setIncome("")
     setMessage(true);
     setIsDateFilled(false);
     setIsIncomeFilled(false);

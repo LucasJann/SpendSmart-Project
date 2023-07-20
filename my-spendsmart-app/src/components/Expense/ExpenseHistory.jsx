@@ -10,11 +10,14 @@ import { useNavigate } from "react-router-dom";
 const ExpenseHistory = () => {
   const navigation = useNavigate();
 
-  const [selectedStartDate, setSelectedStartDate] = useState(new Date());
   const [selectedEndDate, setSelectedEndDate] = useState(new Date());
+  const [selectedStartDate, setSelectedStartDate] = useState(new Date());
 
-  const [isItemsFiltered, setIsItemsFiltered] = useState(false);
   const [items, setItems] = useState([]);
+  const [isItemsFiltered, setIsItemsFiltered] = useState(false);
+
+  const [isSearch, setIsSearch] = useState(false);
+  const [message, setMessage] = useState(false);
 
   const releases = useSelector((state) => state.expense.items);
 
@@ -54,6 +57,10 @@ const ExpenseHistory = () => {
     const filteredItems = releases.filter((items) => {
       const date = items.date;
 
+      console.log(date);
+      console.log(formattedStartDate);
+      console.log(formattedEndDate);
+
       if (date >= formattedStartDate && date <= formattedEndDate) {
         return true;
       } else {
@@ -61,14 +68,16 @@ const ExpenseHistory = () => {
       }
     });
 
-    console.log(filteredItems)
+    console.log(filteredItems);
 
-    if (filteredItems.length > 0) {
+    if (filteredItems.length >= 0) {
+      filteredItems.length === 0 ? setMessage(true) : setMessage(false);
       setItems(filteredItems);
       setIsItemsFiltered(true);
     } else {
       setIsItemsFiltered(false);
     }
+    setIsSearch(true);
   };
 
   const onGetBackHandler = () => {
@@ -100,8 +109,16 @@ const ExpenseHistory = () => {
           className={classes.inputDate}
         />
       </h2>
-      <button onClick={searchHandler}>Procurar</button>
-      <h3>Lançamentos Recentes:</h3>
+      <button className={classes.searchBtn} onClick={searchHandler}>
+        Procurar
+      </button>
+      {isSearch && <h3 className={classes.releases}> Histórico</h3>}
+      {message && (
+        <p className={classes.paragraph}>
+          Não há registros inseridos na data específicada
+        </p>
+      )}
+      {!isSearch && <h3 className={classes.historic}>Todos Lançamentos</h3>}
       {isItemsFiltered
         ? items.map((item, index) => <ExpenseItem key={index} item={item} />)
         : releases.map((item, index) => (

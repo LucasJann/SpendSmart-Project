@@ -1,6 +1,8 @@
 import React from "react";
 import classes from "./ExpenseItem.module.css";
 
+import { format } from "date-fns";
+
 import health from "../../Icons/checklist.png";
 import college from "../../Icons/college.png";
 import leisure from "../../Icons/rocket.png";
@@ -76,6 +78,8 @@ const ExpenseItem = ({ item }) => {
       break;
   }
 
+  const formattedDate = date.split("-").reverse().join("-");
+
   return (
     <section className={classes.section}>
       <div>
@@ -86,7 +90,7 @@ const ExpenseItem = ({ item }) => {
         <p>Valor:</p>
       </div>
       <div className={classes.values}>
-        <p>{date}</p>
+        <p>{formattedDate}</p>
         <p>{value}</p>
       </div>
     </section>
