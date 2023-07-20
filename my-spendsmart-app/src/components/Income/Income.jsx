@@ -98,7 +98,7 @@ const Income = () => {
       category: category,
     };
 
-    dispatch(incomeActions.addInput(newIncomeItem));
+    dispatch(incomeActions.addItem(newIncomeItem));
 
     setIncome("")
     setMessage(true);

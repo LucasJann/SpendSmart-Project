@@ -1,12 +1,12 @@
 .container {
   display: flex;
   align-items: normal;
-  
+  margin-bottom: 1rem;
 }
 
 .section {
   display: grid;
-  padding: 0rem 1rem 0rem 1rem;
+  padding: 0rem 0.4rem 0rem 0.2rem;
   box-shadow: 0 2px 1px rgba(0, 0, 0, 0.1);
   border-radius: 0 8px 8px 0;
   background-color: #f2f2f2;
@@ -28,13 +28,13 @@
 
 .img {
   width: 46%;
-  padding: 0.7rem;
+  padding: 1rem;
   border-radius: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .text {
-  width: 100%;
+  width: 90%;
   margin: auto;
   color: rgb(33, 201, 33);
   display: grid;
@@ -43,11 +43,11 @@
 }
 
 .text p {
-  margin: 0.1rem 0rem 0.7rem 0rem;
+  margin: 0.1rem 0rem 0.4rem 0rem;
 }
 
 .values {
-  width: 100%;
+  width: 95%;
   margin: auto;
   color: rgb(33, 201, 33);
   display: grid;
@@ -56,6 +56,6 @@
 }
 
 .values p {
-  margin: 0.1rem 0 0.7rem 0;
+  margin: 0.1rem 0 0.3rem 0;
   overflow: hidden;
 }

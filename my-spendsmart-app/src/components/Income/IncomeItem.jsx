@@ -1,4 +1,8 @@
 import React from "react";
+
+import {useDispatch} from 'react-redux'
+import incomeActions from '../../store/income-slice'
+
 import classes from "./IncomeItem.module.css";
 
 import health from "../../Icons/checklist.png";
@@ -9,8 +13,14 @@ import nutrition from "../../Icons/clock.png";
 import transportation from "../../Icons/location.png";
 
 const ExpenseItem = ({ item }) => {
-  const { value, date, category } = item;
+  const dispatch = useDispatch()
+
+  const { id, value, date, category } = item;
   let image = "";
+
+  const deleteHandler = () => {
+    dispatch(incomeActions.actions.removeItem(id))
+  }
 
   switch (category) {
     case "casa":
@@ -80,7 +90,7 @@ const ExpenseItem = ({ item }) => {
 
   return (
     <section className={classes.container}>
-      <button className={classes.delete}>X</button>
+      <button className={classes.delete} onClick={deleteHandler}>X</button>
       <section className={classes.section}>
         <div className={classes.image}>
           <p>{image}</p>

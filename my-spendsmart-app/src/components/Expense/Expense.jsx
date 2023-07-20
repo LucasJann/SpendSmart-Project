@@ -94,7 +94,7 @@ const Expense = () => {
       category: category,
     };
 
-    dispatch(expenseActions.addInput(newExpenseItem));
+    dispatch(expenseActions.addItem(newExpenseItem));
 
     setExpense("");
     setMessage(true);

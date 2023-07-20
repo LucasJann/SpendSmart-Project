@@ -1,7 +1,9 @@
 import React from "react";
-import classes from "./ExpenseItem.module.css";
 
-import { format } from "date-fns";
+import {useDispatch} from 'react-redux'
+import expenseAction from '../../store/expense-slice'
+
+import classes from "./ExpenseItem.module.css";
 
 import health from "../../Icons/checklist.png";
 import college from "../../Icons/college.png";
@@ -11,8 +13,14 @@ import nutrition from "../../Icons/clock.png";
 import transportation from "../../Icons/location.png";
 
 const ExpenseItem = ({ item }) => {
-  const { value, date, category } = item;
+  const dispatch = useDispatch()
+
+  const { id, value, date, category } = item;
   let image = "";
+
+  const deleteHandler = () => {
+    dispatch(expenseAction.actions.removeItem(id))
+  }
 
   switch (category) {
     case "casa":
@@ -81,18 +89,21 @@ const ExpenseItem = ({ item }) => {
   const formattedDate = date.split("-").reverse().join("-");
 
   return (
-    <section className={classes.section}>
-      <div>
-        <p>{image}</p>
-      </div>
-      <div className={classes.text}>
-        <p>Data:</p>
-        <p>Valor:</p>
-      </div>
-      <div className={classes.values}>
-        <p>{formattedDate}</p>
-        <p>{value}</p>
-      </div>
+    <section className={classes.container}>
+      <button className={classes.delete} onClick={deleteHandler}>X</button>
+      <section className={classes.section}>
+        <div className={classes.image}>
+          <p>{image}</p>
+        </div>
+        <div className={classes.text}>
+          <p>Data:</p>
+          <p>Valor:</p>
+        </div>
+        <div className={classes.values}>
+          <p>{formattedDate}</p>
+          <p>{value}</p>
+        </div>
+      </section>
     </section>
   );
 };

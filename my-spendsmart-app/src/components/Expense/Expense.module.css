@@ -8,7 +8,7 @@
   width: 20%;
   cursor: pointer;
   border: none;
-  margin: 1rem 0 0 16rem;
+  margin: 1rem 0 0 15rem;
   padding: 0.2rem;
   border-radius: 0.5rem;
   background-color: #ab9c15;
@@ -45,7 +45,7 @@
 }
 
 .inputDate {
-  width: 100%;
+  width: 94%;
   font-size: 1.1em;
   margin: auto;
 }
@@ -66,14 +66,14 @@
 }
 
 .warning {
+  margin: 0 0 0 0;
   color: #ce2121;
-  margin: 0 0 0 0.2rem;
   font-weight: bold;
   text-align: center;
 }
 
 .category {
-  margin: 1rem 0 0.2rem;
+  margin: 1rem 0 0rem 0rem;
 }
 
 .categories {
@@ -86,7 +86,7 @@
 }
 
 .list {
-  width: calc(35% - 0.5rem);
+  width: calc(30% - 0.5rem);
   padding: auto;
   text-align: center;
 }
@@ -111,7 +111,7 @@
   width: 70%;
   cursor: pointer;
   border: none;
-  margin: 1rem 0 0 3.5rem;
+  margin: 0.5rem 0 0 3rem;
   padding: 0.3rem;
   font-size: 0.9em;
   border-radius: 0.5rem;

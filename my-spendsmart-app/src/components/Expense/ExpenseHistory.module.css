@@ -8,14 +8,14 @@
   width: 20%;
   cursor: pointer;
   border: none;
-  margin: 1rem 0 0 18.5rem;
+  margin: 1rem 0 0 15rem;
   padding: 0.2rem;
   border-radius: 0.5rem;
   background-color: #ab9c15;
 }
 
 .inputDate {
-  width: 109%;
+  width: 95%;
   margin: auto;
   font-size: 1.1em;
 }
@@ -27,22 +27,23 @@
 }
 
 .searchBtn {
-  color: #fff;
   width: 60%;
-  cursor: pointer;
+  color: #fff;
   border: none;
-  margin: 0 0 1.5rem 5.5rem;
+  cursor: pointer;
+  margin: 0 0 1.5rem 4rem;
   padding: 0.2rem;
   border-radius: 0.5rem;
   background-color: #ab9c15;
 }
 
 .releases {
-  margin: 0rem 0 0.8rem 9.3rem;
+  margin: 0rem 0 0.8rem 8rem;
 }
 
 .historic {
-  margin: 0rem 0 0.8rem 6.3rem;
+  margin: 0rem 0 0.8rem 5rem;
+  
 }
 
 .paragraph {
