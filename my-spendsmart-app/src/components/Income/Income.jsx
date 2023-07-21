@@ -3,12 +3,9 @@ import classes from "./Income.module.css";
 
 import Card from "../Layout/Card";
 
-import homeIcon from "../../Icons/home.png";
-import leisure from "../../Icons/rocket.png";
-import health from "../../Icons/checklist.png";
-import college from "../../Icons/college.png";
-import nutrition from "../../Icons/clock.png";
-import transportation from "../../Icons/location.png";
+import money from "../../Icons/moneyBag.png";
+import finance from "../../Icons/finance.png";
+import identifier from "../../Icons/id.png";
 
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -30,6 +27,7 @@ const Income = () => {
   const navigation = useNavigate();
 
   const [date, setDate] = useState("");
+  const [input, setInput] = useState(false);
   const [message, setMessage] = useState(true);
   const [isDateFilled, setIsDateFilled] = useState(false);
 
@@ -63,12 +61,13 @@ const Income = () => {
   const incomeChange = (event) => {
     const value = event.target.value;
     const numericValue = value.replace(/\D/g, "");
-/* 
+    /* 
     / - A barra inicial indica o início da expressão regular.
     \D é um atalho para qualquer caractere que não seja um dígito numérico. Em outras palavras, ele corresponde a qualquer caractere que não seja de 0 a 9.
     / - A barra final indica o fim da expressão regular.
     g - A flag g após a barra final indica uma correspondência global. Ela permite que a expressão regular procure por todas as ocorrências em uma string, em vez de parar na primeira correspondência encontrada.
 */
+
     if (numericValue.length > 14) {
       setWarning(true);
       setIsIncomeFilled(false);
@@ -100,7 +99,12 @@ const Income = () => {
 
     dispatch(incomeActions.addItem(newIncomeItem));
 
-    setIncome("")
+    setInput(true);
+    setTimeout(function () {
+      setInput(false);
+    }, 3000);
+
+    setIncome("");
     setMessage(true);
     setIsDateFilled(false);
     setIsIncomeFilled(false);
@@ -120,6 +124,9 @@ const Income = () => {
 
   return (
     <>
+      {input && (
+        <div className={classes.success}>Renda inserida com sucesso</div>
+      )}
       <div className={classes.section}>
         <button className={classes.getBack} onClick={onGetBackHandler}>
           Voltar
@@ -171,92 +178,47 @@ const Income = () => {
                 <ul className={classes.categories}>
                   <li
                     className={`${classes.list} ${
-                      selectedCategory === "casa" ? classes.selected : ""
+                      selectedCategory === "money" ? classes.selected : ""
                     }`}
-                    onClick={() => onCategoryHandler("casa")}
+                    onClick={() => onCategoryHandler("money")}
                   >
                     <div>
                       <img
-                        src={homeIcon}
-                        alt="Icone de uma casa"
+                        src={money}
+                        alt="Icone de um saco de dinheiro"
                         className={classes.icon}
                       />
-                      <p className={classes.text}>Casa</p>
+                      <p className={classes.text}>Renda Extra</p>
                     </div>
                   </li>
                   <li
                     className={`${classes.list} ${
-                      selectedCategory === "lazer" ? classes.selected : ""
+                      selectedCategory === "id" ? classes.selected : ""
                     }`}
-                    onClick={() => onCategoryHandler("lazer")}
+                    onClick={() => onCategoryHandler("id")}
                   >
                     <div>
                       <img
-                        src={leisure}
-                        alt="Icone de um Foguete"
+                        src={identifier}
+                        alt="Icone de um cracha"
                         className={classes.icon}
                       />
-                      <p className={classes.text}>Lazer</p>
+                      <p className={classes.text}>Salário</p>
                     </div>
                   </li>
                   <li
                     className={`${classes.list} ${
-                      selectedCategory === "saúde" ? classes.selected : ""
+                      selectedCategory === "finance" ? classes.selected : ""
                     }`}
-                    onClick={() => onCategoryHandler("saúde")}
+                    onClick={() => onCategoryHandler("finance")}
                   >
                     <div>
                       <img
-                        src={health}
-                        alt="Icone de uma planilha"
+                        src={finance}
+                        alt="Icone de um laptop com uma projeção positiva de um gráfico de linha"
                         className={classes.icon}
                       />
-                      <p className={classes.text}>Saúde</p>
-                    </div>
-                  </li>
-                  <li
-                    className={`${classes.list} ${
-                      selectedCategory === "educação" ? classes.selected : ""
-                    }`}
-                    onClick={() => onCategoryHandler("educação")}
-                  >
-                    <div>
-                      <img
-                        src={college}
-                        alt="Icone de formatura"
-                        className={classes.icon}
-                      />
-                      <p className={classes.text}>Educação</p>
-                    </div>
-                  </li>
-                  <li
-                    className={`${classes.list} ${
-                      selectedCategory === "comida" ? classes.selected : ""
-                    }`}
-                    onClick={() => onCategoryHandler("comida")}
-                  >
-                    <div>
-                      <img
-                        src={nutrition}
-                        alt="Icone de um relógio"
-                        className={classes.icon}
-                      />
-                      <p className={classes.text}>Alimentação</p>
-                    </div>
-                  </li>
-                  <li
-                    className={`${classes.list} ${
-                      selectedCategory === "transporte" ? classes.selected : ""
-                    }`}
-                    onClick={() => onCategoryHandler("transporte")}
-                  >
-                    <div>
-                      <img
-                        src={transportation}
-                        alt="Icone de um relógio"
-                        className={classes.icon}
-                      />
-                      <p className={classes.text}>Transporte</p>
+                      <p className={classes.text}>Aplicações</p>
                     </div>
                   </li>
                 </ul>

@@ -38,7 +38,7 @@
 }
 
 .releases {
-  margin: 0rem 0 0.8rem 8rem;
+  margin: 0rem 0 0.8rem 1rem;
 }
 
 .historic {
@@ -46,8 +46,14 @@
   
 }
 
-.paragraph {
+.message {
   color: #888;
   width: 110%;
-  margin: 0rem 0 0.8rem 1.6rem;
+  margin: 0rem 0 0.8rem 0.5rem;
+}
+
+.releaseMessage {
+  color: #888;
+  width: 110%;
+  margin: 0rem 0 0.8rem 3.5rem;
 }

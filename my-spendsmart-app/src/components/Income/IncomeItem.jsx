@@ -1,86 +1,61 @@
 import React from "react";
 
-import {useDispatch} from 'react-redux'
-import incomeActions from '../../store/income-slice'
+import { useDispatch } from "react-redux";
+import incomeActions from "../../store/income-slice";
 
 import classes from "./IncomeItem.module.css";
 
-import health from "../../Icons/checklist.png";
-import college from "../../Icons/college.png";
-import leisure from "../../Icons/rocket.png";
-import homeIcon from "../../Icons/home.png";
-import nutrition from "../../Icons/clock.png";
-import transportation from "../../Icons/location.png";
+import money from "../../Icons/moneyBag.png";
+import finance from "../../Icons/finance.png";
+import identifier from "../../Icons/id.png";
 
 const ExpenseItem = ({ item }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const { id, value, date, category } = item;
   let image = "";
 
   const deleteHandler = () => {
-    dispatch(incomeActions.actions.removeItem(id))
-  }
+    const userConfirmed = window.confirm(
+      "Clique em OK para confirmar a exclusão"
+    );
+
+    if (userConfirmed) {
+      dispatch(incomeActions.actions.removeItem(id));
+    }
+  };
 
   switch (category) {
-    case "casa":
-      image = (
-        <>
-          <img src={homeIcon} alt="Icone de uma Casa" className={classes.img} />
-        </>
-      );
-      break;
-    case "lazer":
+    case "finance":
       image = (
         <>
           <img
-            src={leisure}
-            alt="Icone de um Foguete"
+            src={finance}
+            alt="Icone de um laptop com uma projeção positiva de um gráfico de linha"
             className={classes.img}
           />
         </>
       );
       break;
-    case "saúde":
+    case "money":
       image = (
         <>
           <img
-            src={health}
-            alt="Icone de planilhas médicas"
+            src={money}
+            alt="Icone de um saco de dinheiro"
             className={classes.img}
           />
         </>
       );
       break;
-    case "comida":
+    case "id":
       image = (
         <>
-          <img
-            src={nutrition}
-            alt="Icone de um Relógio marcando 12:15"
-            className={classes.img}
-          />
+          <img src={identifier} alt="Icone de um cracha" className={classes.img} />
         </>
       );
       break;
-    case "educação":
-      image = (
-        <>
-          <img src={college} alt="Icone de um Capelo" className={classes.img} />
-        </>
-      );
-      break;
-    case "transporte":
-      image = (
-        <>
-          <img
-            src={transportation}
-            alt="Icone de um marcador de GPS"
-            className={classes.img}
-          />
-        </>
-      );
-      break;
+
     default:
       image = <p>Não foi possível encontrar esta categoria</p>;
       break;
@@ -90,7 +65,9 @@ const ExpenseItem = ({ item }) => {
 
   return (
     <section className={classes.container}>
-      <button className={classes.delete} onClick={deleteHandler}>X</button>
+      <button className={classes.delete} onClick={deleteHandler}>
+        X
+      </button>
       <section className={classes.section}>
         <div className={classes.image}>
           <p>{image}</p>

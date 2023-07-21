@@ -3,7 +3,7 @@ import IncomeItem from "./IncomeItem";
 
 import { addMinutes } from "date-fns";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -15,11 +15,26 @@ const IncomeHistory = () => {
 
   const [items, setItems] = useState([]);
   const [isSearch, setIsSearch] = useState(false);
-  const [message, setMessage] = useState(false)
+  const [message, setMessage] = useState(false);
   const [isItemsFiltered, setIsItemsFiltered] = useState(false);
 
-
   const releases = useSelector((state) => state.income.items);
+
+  useEffect(() => {
+    const formattedStartDate = selectedStartDate.toISOString().split("T")[0];
+    const formattedEndDate = selectedEndDate.toISOString().split("T")[0];
+
+    const filteredItems = releases.filter((items) => {
+      const date = items.date;
+
+      if (date >= formattedStartDate && date <= formattedEndDate) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    setItems(filteredItems);
+  }, [releases]);
 
   const startDateChange = (event) => {
     const selectedStartDate = new Date(event.target.value);
@@ -64,13 +79,13 @@ const IncomeHistory = () => {
     });
 
     if (filteredItems.length >= 0) {
-      filteredItems.length === 0 ? setMessage(true) : setMessage(false)
+      filteredItems.length === 0 ? setMessage(true) : setMessage(false);
       setItems(filteredItems);
       setIsItemsFiltered(true);
     } else {
       setIsItemsFiltered(false);
     }
-    setIsSearch(true)
+    setIsSearch(true);
   };
 
   const onGetBackHandler = () => {
@@ -102,17 +117,24 @@ const IncomeHistory = () => {
           className={classes.inputDate}
         />
       </h2>
-      <button onClick={searchHandler} className={classes.searchBtn}>Procurar</button>
-      {isSearch && <h3 className={classes.releases}> Histórico</h3>}
+      <button onClick={searchHandler} className={classes.searchBtn}>
+        Procurar
+      </button>
+      {isSearch && (
+        <h3 className={classes.releases}> Histórico de Lançamentos por Data</h3>
+      )}
       {!isSearch && <h3 className={classes.historic}>Todos Lançamentos</h3>}
       {message && (
-        <p className={classes.paragraph}>
+        <p className={classes.message}>
           Não há registros inseridos na data específicada
         </p>
       )}
       {isItemsFiltered
         ? items.map((item, index) => <IncomeItem key={index} item={item} />)
         : releases.map((item, index) => <IncomeItem key={index} item={item} />)}
+      {releases.length === 0 && !message && (
+        <p className={classes.releaseMessage}>Não há lançamentos registrados</p>
+      )}
     </section>
   );
 };

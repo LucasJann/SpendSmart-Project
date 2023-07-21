@@ -3,23 +3,41 @@ import ExpenseItem from "./ExpenseItem";
 
 import { addMinutes } from "date-fns";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const ExpenseHistory = () => {
+
+
   const navigation = useNavigate();
 
   const [selectedEndDate, setSelectedEndDate] = useState(new Date());
   const [selectedStartDate, setSelectedStartDate] = useState(new Date());
 
-  const [items, setItems] = useState([]);
+  const [itemsFiltered, setItems] = useState([]);
   const [isItemsFiltered, setIsItemsFiltered] = useState(false);
 
-  const [isSearch, setIsSearch] = useState(false);
   const [message, setMessage] = useState(false);
+  const [isSearch, setIsSearch] = useState(false);
 
   const releases = useSelector((state) => state.expense.items);
+
+  useEffect(() => {
+    const formattedStartDate = selectedStartDate.toISOString().split("T")[0];
+    const formattedEndDate = selectedEndDate.toISOString().split("T")[0];
+
+    const filteredItems = releases.filter((items) => {
+      const date = items.date;
+
+      if (date >= formattedStartDate && date <= formattedEndDate) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    setItems(filteredItems)
+  }, [releases]);
 
   const startDateChange = (event) => {
     const selectedStartDate = new Date(event.target.value);
@@ -57,18 +75,12 @@ const ExpenseHistory = () => {
     const filteredItems = releases.filter((items) => {
       const date = items.date;
 
-      console.log(date);
-      console.log(formattedStartDate);
-      console.log(formattedEndDate);
-
       if (date >= formattedStartDate && date <= formattedEndDate) {
         return true;
       } else {
         return false;
       }
     });
-
-    console.log(filteredItems);
 
     if (filteredItems.length >= 0) {
       filteredItems.length === 0 ? setMessage(true) : setMessage(false);
@@ -112,18 +124,23 @@ const ExpenseHistory = () => {
       <button className={classes.searchBtn} onClick={searchHandler}>
         Procurar
       </button>
-      {isSearch && <h3 className={classes.releases}> Histórico</h3>}
+      {isSearch && (
+        <h3 className={classes.releases}> Histórico de Lançamentos por Data</h3>
+      )}
       {message && (
-        <p className={classes.paragraph}>
+        <p className={classes.message}>
           Não há registros inseridos na data específicada
         </p>
       )}
       {!isSearch && <h3 className={classes.historic}>Todos Lançamentos</h3>}
       {isItemsFiltered
-        ? items.map((item, index) => <ExpenseItem key={index} item={item} />)
+        ? itemsFiltered.map((item, index) => <ExpenseItem key={index} item={item} />)
         : releases.map((item, index) => (
             <ExpenseItem key={index} item={item} />
           ))}
+      {releases.length === 0 && !message && (
+        <p className={classes.releaseMessage}>Não há lançamentos registrados</p>
+      )}
     </section>
   );
 };

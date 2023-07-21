@@ -1,3 +1,38 @@
+.success {
+  top: 0;
+  left: 0;
+  width: 100.5%;
+  color: #155724;
+  height: 1.5rem; /* Ajuste a altura conforme necessário */
+  position: absolute;
+  animation: slideInOut 4s forwards; /* 6s para uma animação de 6 segundos (3s para aparecer + 3s para desaparecer) */
+  text-align: center;
+  visibility: hidden; /* Inicialmente oculta */
+  padding-top: 0.5%;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  border-color: #c3e6cb;
+  background-color: #d4edda;
+}
+
+/* Definindo a animação "slideInOut" */
+@keyframes slideInOut {
+  0%,
+  100% {
+    opacity: 0; /* Opacidade 0 no início e final da animação */
+    transform: translateY(-100%);
+    visibility: visible; /* Torna a div visível no início e final da animação */
+  }
+  50% {
+    opacity: 1; /* Opacidade 1 no meio da animação (aparecendo) */
+    transform: translateY(0);
+  }
+}
+
+/* Atraso de 3 segundos antes de começar o processo inverso */
+.success.delayed {
+  animation-delay: 2s;
+}
+
 .section {
   margin: auto;
   max-width: 20rem;
@@ -8,7 +43,7 @@
   width: 20%;
   cursor: pointer;
   border: none;
-  margin: 1rem 0 0 15rem;
+  margin: 1.3rem 0 0 15rem;
   padding: 0.2rem;
   border-radius: 0.5rem;
   background-color: #ab9c15;
@@ -40,6 +75,11 @@
   border-radius: 0 3% 35% 0;
   background-color: #ab9c15;
 }
+
+.incomeBtn:hover {
+  background-color: #ab9c15;
+}
+
 
 .date {
   margin: 1rem 0 0.2rem;
@@ -87,24 +127,27 @@
 }
 
 .list {
-  width: calc(30% - 0.5rem);
-  padding: auto;
+  width: calc(30% - -0.5rem);
   text-align: center;
 }
 
 .selected {
+  display: flex; /* Adiciona flexbox */
+  align-items: center; /* Alinha verticalmente o conteúdo */
   color: #fff;
+  text-align: center;
   background-color: #ccc7c7;
 }
 
 .icon {
-  width: 40%;
-  margin: 1rem 0 0 0;
+  width: 50%;
+  margin: 1rem auto -0.2rem auto; /* Centraliza verticalmente e centraliza horizontalmente com "auto" */
 }
 
 .text {
   margin: auto;
-  margin: 0 0 0.5rem 0.3rem;
+  text-align: center;
+  margin-bottom: 1rem;
 }
 
 .btn {

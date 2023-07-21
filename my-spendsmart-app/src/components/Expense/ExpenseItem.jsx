@@ -1,7 +1,7 @@
 import React from "react";
 
-import {useDispatch} from 'react-redux'
-import expenseAction from '../../store/expense-slice'
+import { useDispatch } from "react-redux";
+import expenseAction from "../../store/expense-slice";
 
 import classes from "./ExpenseItem.module.css";
 
@@ -13,14 +13,20 @@ import nutrition from "../../Icons/clock.png";
 import transportation from "../../Icons/location.png";
 
 const ExpenseItem = ({ item }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const { id, value, date, category } = item;
   let image = "";
 
   const deleteHandler = () => {
-    dispatch(expenseAction.actions.removeItem(id))
-  }
+    const userConfirmed = window.confirm(
+      "Clique em OK para confirmar a exclusão"
+    );
+
+    if (userConfirmed) {
+      dispatch(expenseAction.actions.removeItem(id));
+    }
+  };
 
   switch (category) {
     case "casa":
@@ -90,7 +96,9 @@ const ExpenseItem = ({ item }) => {
 
   return (
     <section className={classes.container}>
-      <button className={classes.delete} onClick={deleteHandler}>X</button>
+      <button className={classes.delete} onClick={deleteHandler}>
+        X
+      </button>
       <section className={classes.section}>
         <div className={classes.image}>
           <p>{image}</p>

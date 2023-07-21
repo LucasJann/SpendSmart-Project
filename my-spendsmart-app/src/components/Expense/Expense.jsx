@@ -30,8 +30,9 @@ const Expense = () => {
   const navigation = useNavigate();
 
   const [date, setDate] = useState();
+  const [input, setInput] = useState(false);
   const [message, setMessage] = useState(true);
-  const [warning, setWarning] = useState();
+  const [warning, setWarning] = useState(false);
   const [isDateFilled, setIsDateFilled] = useState(false);
 
   const [expense, setExpense] = useState("");
@@ -76,7 +77,6 @@ const Expense = () => {
   };
 
   const categoryClickHandler = (category) => {
-    console.log(category);
     if (selectedCategory === category) {
       setSelectedCategory(null);
       setIsCategoryFilled(false);
@@ -95,6 +95,11 @@ const Expense = () => {
     };
 
     dispatch(expenseActions.addItem(newExpenseItem));
+
+    setInput(true);
+    setTimeout(function() {
+      setInput(false);
+    }, 3000);
 
     setExpense("");
     setMessage(true);
@@ -116,6 +121,7 @@ const Expense = () => {
 
   return (
     <>
+      {input && <div className={classes.success}>Despesa inserida com sucesso</div>}
       <section className={classes.section}>
         <button className={classes.getBack} onClick={onGetBackHandler}>
           Voltar
