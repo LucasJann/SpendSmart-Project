@@ -26,6 +26,7 @@ const Goal = () => {
   const [localStorageGoals, setLocalStorageGoals] = useState([]);
   const [isGoalFilled, setIsGoalFilled] = useState(false);
   const [isTextFilled, setIsTextFilled] = useState(false);
+  const [message, setMessage] = useState(false);
 
   const storedValue = localStorage.getItem("initialBalance");
   const storage = balance === 0 ? storedValue : balance;
@@ -43,9 +44,13 @@ const Goal = () => {
     const formattedBalance = formatMoney(value);
     dispatch(goalActions.addGoal(formattedBalance));
 
-    if (event.target.value.length > 0) {
+    let validateValue = event.target.value.length;
+
+    if (validateValue > 0 && validateValue <= 21) {
+      setMessage(false);
       setIsGoalFilled(true);
     } else {
+      setMessage(true);
       setIsGoalFilled(false);
     }
   };
@@ -66,7 +71,7 @@ const Goal = () => {
     };
 
     const updatedItems = [...localStorageGoals, expenseItem];
-    
+
     localStorage.setItem("goals", JSON.stringify(updatedItems));
     setLocalStorageGoals(updatedItems);
 
@@ -94,14 +99,19 @@ const Goal = () => {
         disabled={true}
         className={classes.input}
       />
-      <h3 className={classes.h3}>Insira o valor do seu Objetivo</h3>
+      <h3 className={classes.h3}>Insira o valor do seu objetivo</h3>
       <input
         type="text"
         id="input2"
         value={goalValue}
-        className={classes.input}
+        className={classes.goal}
         onChange={goalInputChange}
       />
+      {message && (
+        <p className={classes.warning}>
+          Número digitado não pode ser igual ou superior que 1 trilhão
+        </p>
+      )}
       <h3 className={classes.h3}>Objetivo</h3>
       <input
         type="text"
@@ -111,9 +121,6 @@ const Goal = () => {
         onChange={textInputChange}
       />
 
-      <p className={classes.paragraph}>
-        Insira o seu objetivo com uma palavra, exemplo: viajar
-      </p>
       {isGoalFilled && isTextFilled && (
         <button className={classes.inputButton} onClick={inputGoalHandler}>
           Inserir
