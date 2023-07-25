@@ -2,17 +2,17 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const goalSlice = createSlice({
   name: "goal",
-  initialState: { goal: 0, text: "" },
+  initialState: {
+    item: [],
+  },
   reducers: {
-    addGoal(state, action) {
-      state.goal = action.payload;
-    },
-    addText(state, action) {
-      state.text = action.payload;
+    addItem(state, action) {
+      state.item.unshift(action.payload) 
+      console.log(state.item.slice())
     },
   },
 });
 
-export const goalActions = goalSlice.actions
+export const goalActions = goalSlice.actions;
 
 export default goalSlice;

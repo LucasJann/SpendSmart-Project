@@ -4,31 +4,31 @@ import classes from "./GoalItem.module.css";
 import { useSelector } from "react-redux";
 
 const GoalItem = ({ item }) => {
-  const { goalValue, goal } = item;
+  const { goalText, goal } = item;
+
+  const congrats = true;
 
   const value = useSelector((state) => state.value.money);
-  const storage = localStorage.getItem("initialBalance");
-  const initialBalance = value === 0 ? storage : value;
 
-  const goalValueInt = parseInt(
-    goalValue.replace("R$", "").replace(/\s/g, "").replace(/\./g, "")
-  );
+  // const goalValueInt = parseInt(
+  //   goalValue.replace("R$", "").replace(/\s/g, "").replace(/\./g, "")
+  // );
 
-  const initialBalanceInt = parseInt(
-    initialBalance.replace("R$", "").replace(/\s/g, "").replace(/\./g, "")
-  );
+  // const initialBalanceInt = parseInt(
+  //   initialBalance.replace("R$", "").replace(/\s/g, "").replace(/\./g, "")
+  // );
 
-  const calc = (initialBalanceInt / goalValueInt) * 100;
-  let percentage;
+  // const calc = (initialBalanceInt / goalValueInt) * 100;
+  // let percentage;
 
-  if (initialBalanceInt >= goalValueInt) {
-    percentage = "100%";
-  } else {
-    percentage = calc.toFixed(0) + "%";
-  }
+  // if (initialBalanceInt >= goalValueInt) {
+  //   percentage = "100%";
+  // } else {
+  //   percentage = calc.toFixed(0) + "%";
+  // }
 
-  const congratsCalc = calc >= 100;
-  const congrats = congratsCalc;
+  // const congratsCalc = calc >= 100;
+  // const congrats = congratsCalc;
 
   return (
     <Fragment>
@@ -36,12 +36,12 @@ const GoalItem = ({ item }) => {
         <div className={classes.item}>
           <div className={classes.itemContainer}>
             <h3>Objetivo:</h3>
-            <p className={classes.itemValue}>{goal}</p>
+            <p className={classes.itemValue}>{goalText}</p>
             <h3>Valor:</h3>
-            <p className={classes.itemValue}>{goalValue}</p>
+            <p className={classes.itemValue}>{goal}</p>
           </div>
           <p className={classes.itemParagraph}>
-            Faltam {percentage} para você alcançar sua meta!
+            Faltam para você alcançar sua meta!
           </p>
         </div>
       )}
@@ -49,12 +49,12 @@ const GoalItem = ({ item }) => {
         <div className={classes.goalAchievedItem}>
           <div className={classes.goalAchievedContainer}>
             <h3>Objetivo:</h3>
-            <p className={classes.goalAchievedValue}>{goal}</p>
+            <p className={classes.goalAchievedValue}>{goalText}</p>
             <h3>Valor:</h3>
-            <p className={classes.goalAchievedValue}>{goalValue}</p>
+            <p className={classes.goalAchievedValue}>{goal}</p>
           </div>
           <p className={classes.goalAchievedParagraph}>
-            {`Parabéns, você concluiu sua meta de: ${goalValue}, seu saldo atual é de: ${initialBalance}`}
+            {`Parabéns, você concluiu sua meta de: ${goal}, seu saldo atual é de: ${value}`}
           </p>
         </div>
       )}

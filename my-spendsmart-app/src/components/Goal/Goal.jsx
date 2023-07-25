@@ -1,7 +1,7 @@
 import classes from "./Goal.module.css";
 
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import GoalItem from "./GoalItem";
@@ -19,30 +19,23 @@ const formatMoney = (value) => {
 };
 
 const Goal = () => {
-  const goal = useSelector((state) => state.goal.text);
-  const goalValue = useSelector((state) => state.goal.goal);
   const balance = useSelector((state) => state.value.money);
+  const goalItem = useSelector((state) => state.goal.item);
 
-  const [localStorageGoals, setLocalStorageGoals] = useState([]);
+  const [goal, setGoal] = useState("");
+  const [goalText, setGoalText] = useState("");
+  const [message, setMessage] = useState(false);
   const [isGoalFilled, setIsGoalFilled] = useState(false);
   const [isTextFilled, setIsTextFilled] = useState(false);
-  const [message, setMessage] = useState(false);
-
-  const storedValue = localStorage.getItem("initialBalance");
-  const storage = balance === 0 ? storedValue : balance;
 
   const dispatch = useDispatch();
   const navigation = useNavigate();
 
-  useEffect(() => {
-    const storedItems = JSON.parse(localStorage.getItem("goals")) || [];
-    setLocalStorageGoals(storedItems);
-  }, []);
-
-  const goalInputChange = (event) => {
+  const goalValueChange = (event) => {
     let value = event.target.value.replace(/\D/g, "");
     const formattedBalance = formatMoney(value);
-    dispatch(goalActions.addGoal(formattedBalance));
+
+    setGoal(formattedBalance);
 
     let validateValue = event.target.value.length;
 
@@ -56,8 +49,9 @@ const Goal = () => {
   };
 
   const textInputChange = (event) => {
-    dispatch(goalActions.addText(event.target.value));
-    if (event.target.value.length > 0) {
+    const validateText = event.target.value;
+    if (validateText.length >= 0) {
+      setGoalText(validateText);
       setIsTextFilled(true);
     } else {
       setIsTextFilled(false);
@@ -65,18 +59,14 @@ const Goal = () => {
   };
 
   const inputGoalHandler = () => {
-    const expenseItem = {
-      goalValue: goalValue,
+    const item = {
+      goalText: goalText,
       goal: goal,
     };
 
-    const updatedItems = [...localStorageGoals, expenseItem];
+    console.log(item);
 
-    localStorage.setItem("goals", JSON.stringify(updatedItems));
-    setLocalStorageGoals(updatedItems);
-
-    dispatch(goalActions.addGoal(""));
-    dispatch(goalActions.addText(""));
+    dispatch(goalActions.addItem(item));
 
     setIsGoalFilled(false);
     setIsTextFilled(false);
@@ -95,38 +85,38 @@ const Goal = () => {
       <input
         type="text"
         id="input1"
-        value={storage}
+        value={balance}
         disabled={true}
         className={classes.input}
+      />
+      <h3 className={classes.h3}>Objetivo</h3>
+      <input
+        type="text"
+        id="input3"
+        value={goalText}
+        className={classes.input}
+        onChange={textInputChange}
       />
       <h3 className={classes.h3}>Insira o valor do seu objetivo</h3>
       <input
         type="text"
         id="input2"
-        value={goalValue}
+        value={goal}
         className={classes.goal}
-        onChange={goalInputChange}
+        onChange={goalValueChange}
       />
       {message && (
         <p className={classes.warning}>
           Número digitado não pode ser igual ou superior que 1 trilhão
         </p>
       )}
-      <h3 className={classes.h3}>Objetivo</h3>
-      <input
-        type="text"
-        id="input3"
-        value={goal}
-        className={classes.input}
-        onChange={textInputChange}
-      />
 
       {isGoalFilled && isTextFilled && (
         <button className={classes.inputButton} onClick={inputGoalHandler}>
           Inserir
         </button>
       )}
-      {localStorageGoals.map((item, index) => (
+      {goalItem.map((item, index) => (
         <GoalItem key={index} item={item} />
       ))}
     </div>
