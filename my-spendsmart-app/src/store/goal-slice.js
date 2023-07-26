@@ -3,12 +3,25 @@ import { createSlice } from "@reduxjs/toolkit";
 const goalSlice = createSlice({
   name: "goal",
   initialState: {
-    item: [],
+    items: [],
   },
   reducers: {
     addItem(state, action) {
-      state.item.unshift(action.payload) 
-      console.log(state.item.slice())
+      state.items.unshift(action.payload) 
+      console.log(state.items.slice())
+    },
+    removeItem(state, action) {
+      const newState = [];
+
+      state.items.filter((item) => {
+        if (item.id === action.payload) {
+          return;
+        } else {
+          return newState.push(item);
+        }
+      });
+
+      state.items = newState;
     },
   },
 });

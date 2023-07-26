@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import GoalItem from "./GoalItem";
 
 import { goalActions } from "../../store/goal-slice";
+import { v4 as uuidv4 } from "uuid";
+
 
 const formatMoney = (value) => {
   const formatter = new Intl.NumberFormat("pt-BR", {
@@ -19,8 +21,8 @@ const formatMoney = (value) => {
 };
 
 const Goal = () => {
-  const balance = useSelector((state) => state.value.money);
-  const goalItem = useSelector((state) => state.goal.item);
+  const balance = useSelector((state) => state.value.balance);
+  const goalItem = useSelector((state) => state.goal.items);
 
   const [goal, setGoal] = useState("");
   const [goalText, setGoalText] = useState("");
@@ -59,7 +61,11 @@ const Goal = () => {
   };
 
   const inputGoalHandler = () => {
+
+    const id = uuidv4()
+
     const item = {
+      id,
       goalText: goalText,
       goal: goal,
     };
@@ -81,7 +87,7 @@ const Goal = () => {
       <button className={classes.getBackButton} onClick={getBackButtonHandler}>
         Voltar
       </button>
-      <h3 className={classes.h3}>Seu Saldo:</h3>
+      <h3 className={classes.h3}>Seu Saldo Atual:</h3>
       <input
         type="text"
         id="input1"
@@ -89,7 +95,7 @@ const Goal = () => {
         disabled={true}
         className={classes.input}
       />
-      <h3 className={classes.h3}>Objetivo</h3>
+      <h3 className={classes.h3}>Escreva abaixo o seu objetivo</h3>
       <input
         type="text"
         id="input3"
