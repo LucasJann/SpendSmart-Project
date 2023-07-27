@@ -9,7 +9,6 @@ import GoalItem from "./GoalItem";
 import { goalActions } from "../../store/goal-slice";
 import { v4 as uuidv4 } from "uuid";
 
-
 const formatMoney = (value) => {
   const formatter = new Intl.NumberFormat("pt-BR", {
     style: "currency",
@@ -22,16 +21,19 @@ const formatMoney = (value) => {
 
 const Goal = () => {
   const balance = useSelector((state) => state.value.balance);
+  console.log(balance)
   const goalItem = useSelector((state) => state.goal.items);
 
   const [goal, setGoal] = useState("");
-  const [goalText, setGoalText] = useState("");
   const [message, setMessage] = useState(false);
+  const [goalText, setGoalText] = useState("");
   const [isGoalFilled, setIsGoalFilled] = useState(false);
   const [isTextFilled, setIsTextFilled] = useState(false);
 
   const dispatch = useDispatch();
   const navigation = useNavigate();
+
+  const formattedBalance = formatMoney(balance);
 
   const goalValueChange = (event) => {
     let value = event.target.value.replace(/\D/g, "");
@@ -61,19 +63,17 @@ const Goal = () => {
   };
 
   const inputGoalHandler = () => {
-
-    const id = uuidv4()
-
+    const id = uuidv4();
     const item = {
       id,
       goalText: goalText,
       goal: goal,
     };
 
-    console.log(item);
-
     dispatch(goalActions.addItem(item));
 
+    setGoal("");
+    setGoalText("");
     setIsGoalFilled(false);
     setIsTextFilled(false);
   };
@@ -91,7 +91,7 @@ const Goal = () => {
       <input
         type="text"
         id="input1"
-        value={balance}
+        value={formattedBalance}
         disabled={true}
         className={classes.input}
       />

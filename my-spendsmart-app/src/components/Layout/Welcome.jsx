@@ -1,11 +1,11 @@
 import React, { useState } from "react";
+
+import image from "../../Imgs/logo.png";
 import classes from "./Welcome.module.css";
 
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { valueActions } from "../../store/value-slice";
-
-import image from "../../Imgs/logo.png";
 
 const formatMoney = (value) => {
   const formatter = new Intl.NumberFormat("pt-BR", {
@@ -20,25 +20,26 @@ const formatMoney = (value) => {
 const Welcome = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  
   const [initialBalance, setInitialBalance] = useState("");
 
   const onChangeHandler = (event) => {
-    let value = event.target.value.replace(/\D/g, ""); //estamos removendo todos os caracteres não numéricos da string contida na propriedade
+    let value = event.target.value.replace(/\D/g, ""); 
     setInitialBalance(formatMoney(value));
   };
-
+  
   const onClickHandler = () => {
-    dispatch(valueActions.addBalance(initialBalance));
+    const convertedValue = initialBalance.replace(/\D/g, "")
+    dispatch(valueActions.addBalance(convertedValue));
     navigate("/landingPage");
   };
 
   return (
     <div className={classes.welcomeDiv}>
-      <h1 className={classes.title}>SpendSmart</h1>
-      <img src={image} className={classes.logo} alt="A logo" />
-      <h2 className={classes.welcome}>Bem-vindo</h2>
-      <h3 className={classes.info}>Informe o seu saldo inicial</h3>
+      <h1 className={classes.welcometitle}>SpendSmart</h1>
+      <img src={image} className={classes.welcomeLogo} alt="A logo" />
+      <h2 className={classes.welcomeText}>Bem-vindo</h2>
+      <h3 className={classes.welcomeInfo}>Informe o seu saldo inicial</h3>
       <input
         type="text"
         value={initialBalance}

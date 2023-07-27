@@ -132,7 +132,7 @@ const ExpenseHistory = () => {
           Não há registros inseridos na data específicada
         </p>
       )}
-      {!isSearch && <h3 className={classes.historic}>Todos Lançamentos</h3>}
+      {!isSearch && <h3 className={classes.allReleasesText}>Todos Lançamentos</h3>}
       {isItemsFiltered
         ? itemsFiltered.map((item, index) => <ExpenseItem key={index} item={item} />)
         : releases.map((item, index) => (

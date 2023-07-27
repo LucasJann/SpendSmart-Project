@@ -123,7 +123,7 @@ const IncomeHistory = () => {
       {isSearch && (
         <h3 className={classes.releases}> Histórico de Lançamentos por Data</h3>
       )}
-      {!isSearch && <h3 className={classes.historic}>Todos Lançamentos</h3>}
+      {!isSearch && <h3 className={classes.allReleasesText}>Todos Lançamentos</h3>}
       {message && (
         <p className={classes.message}>
           Não há registros inseridos na data específicada

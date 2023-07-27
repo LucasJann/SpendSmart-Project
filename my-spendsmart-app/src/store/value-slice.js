@@ -4,10 +4,18 @@ const valueSlice = createSlice({
   name: "balance",
   initialState: { balance: 0 },
   reducers: {
-    addBalance(state, action) {
+    upgrade(state, action) {
       state.balance = action.payload;
     },
 
+    addBalance(state, action) {
+      const sum = parseInt(state.balance) + parseInt(action.payload);
+      state.balance = sum;
+    },
+
+    removeBalance(state, action) {
+      state.balance = state.balance - action.payload;
+    },
   },
 });
 

@@ -1,7 +1,9 @@
 import React from "react";
 
 import { useDispatch } from "react-redux";
+
 import incomeActions from "../../store/income-slice";
+import valueSlice from "../../store/value-slice";
 
 import classes from "./IncomeItem.module.css";
 
@@ -20,8 +22,12 @@ const ExpenseItem = ({ item }) => {
       "Clique em OK para confirmar a exclusão"
     );
 
+    const convertedValue = value.replace(/\D/g, '')
+
+
     if (userConfirmed) {
       dispatch(incomeActions.actions.removeItem(id));
+      dispatch(valueSlice.actions.removeBalance(convertedValue))
     }
   };
 

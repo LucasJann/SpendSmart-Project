@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import pic from "../../Imgs/pic.png";
 import classes from "./Profile.module.css";
 
+import { valueActions } from "../../store/value-slice";
+
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
-import { valueActions } from "../../store/value-slice";
 
 const formatMoney = (value) => {
   const formatter = new Intl.NumberFormat("pt-BR", {
@@ -22,34 +22,43 @@ const Profile = () => {
   const dispatch = useDispatch();
   const navigation = useNavigate();
 
+  const valueState = useSelector((state) => state.value.balance);
+  const convertedValue = formatMoney(valueState);
+
+  const [newValue, setNewValue] = useState(convertedValue);
   const [isDisabled, setIsDisabled] = useState(true);
   const [isEditClicked, setIsEditClicked] = useState(false);
+  const [isBalanceChanged, setIsBalanceChanged] = useState();
 
-  const valueState = useSelector((state) => state.value.money);
-  
   const onValueChange = (event) => {
-    const value = event.target.value.replace(/\D/g, ""); // Remove qualquer caractere que não seja um dígito
-    const formattedBalance = formatMoney(value.replace(/\D/g, ""));
-    dispatch(valueActions.addBalance(formattedBalance)); // Atualiza o Redux com o valor numérico
+    const value = event.target.value;
+    const numericValue = value.replace(/\D/g, ""); // Remove todos os caracteres não numéricos
+
+    if (numericValue.length > 14) {
+      setNewValue(formatMoney(numericValue));
+    } else {
+      setNewValue(formatMoney(numericValue));
+    }
   };
 
   const onEditButton = () => {
     setIsDisabled(false);
     setIsEditClicked(true);
+    setIsBalanceChanged(true);
   };
 
   const onConfirmButton = () => {
     setIsDisabled(true);
     setIsEditClicked(false);
+    dispatch(valueActions.upgrade(newValue.replace(/\D/g, "")));
   };
 
   const onGetBackHandler = () => {
     navigation("/landingPage");
   };
 
-
   return (
-    <div className={classes.div}>
+    <section className={classes.section}>
       <div className={classes.buttonDiv}>
         <button onClick={onGetBackHandler} className={classes.getBackButton}>
           Voltar
@@ -57,8 +66,12 @@ const Profile = () => {
       </div>
       <img src={pic} className={classes.profileImg} alt="A profile" />
       <h2 className={classes.profileName}>Lucas Jan </h2>
-      <h3 className={classes.balanceInfo}> Seu saldo bruto</h3>
-      <input value={valueState} disabled={isDisabled} onChange={onValueChange} />
+      <h3 className={classes.profileInfo}> Seu saldo bruto</h3>
+      <input
+        value={isBalanceChanged ? newValue : convertedValue}
+        disabled={isDisabled}
+        onChange={onValueChange}
+      />
       {!isEditClicked && (
         <button onClick={onEditButton} className={classes.editButton}>
           Editar Saldo
@@ -69,7 +82,7 @@ const Profile = () => {
           Confirmar
         </button>
       )}
-    </div>
+    </section>
   );
 };
 

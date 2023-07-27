@@ -1,11 +1,11 @@
 .item {
-  width: 87%;
+  width: 91%;
   margin: 1rem 0 0 0;
   padding: 0.5rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow-wrap: break-word;
   border-radius: 8px;
   background-color: #f2f2f2;
-  overflow-wrap: break-word;
 }
 
 .itemContainer {
@@ -16,12 +16,12 @@
 }
 
 .itemDelete {
+  margin: 0 0 0 17rem;
   border: none;
   box-shadow: 0 2px 1px rgba(0, 0, 0, 0.1);
+  font-weight: bold;
   border-radius: 8px 8px 8px 8px;
   background-color: #f2f2f2;
-  font-weight: bold;
-  margin-left: 16.2rem;
 }
 
 .itemDelete:hover {
@@ -34,9 +34,9 @@
   color: rgb(0, 0, 0);
   right: 0.5rem;
   height: 20px;
-  padding: 5px 10px;
   display: flex;
   margin: 0 0 0.3rem 0.3rem;
+  padding: 0.3rem;
   position: relative;
   min-width: 10%;
   align-items: center;
@@ -45,10 +45,10 @@
 }
 
 .itemPercentage::before {
-  content: "";
   height: 100%;
-  border-radius: 2rem;
+  content: "";
   transition: width 0.3s ease-in-out;
+  border-radius: 2rem;
 }
 
 .itemText {
@@ -67,11 +67,11 @@
 
 .goalDelete {
   border: none;
+  margin: 0 0 0 17rem;
   box-shadow: 0 2px 1px rgba(0, 0, 0, 0.1);
+  font-weight: bold;
   border-radius: 8px 8px 8px 8px;
   background-color: #f2f2f2;
-  font-weight: bold;
-  margin-left: 16.2rem;
 }
 
 .goalDelete:hover {
@@ -95,23 +95,27 @@
 }
 
 .goalText {
-  text-align: center;
   color: rgb(31, 189, 31);
+  text-align: center;
 }
 
 .goalValue {
-  text-align: center;
   color: rgb(31, 189, 31);
+  text-align: center;
 }
 
 .goalParagraph {
-  text-align: center;
   color: rgb(33, 201, 33);
+  text-align: center;
 }
 
 .goalPercentage {
-  text-align: end;
-  background-color: rgb(0, 255, 0);
   padding: 0.3rem;
+  text-align: end;
   border-radius: 1rem;
+  background-color: rgb(0, 255, 0);
+}
+
+.congrats {
+  text-align: center;
 }

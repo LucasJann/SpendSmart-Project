@@ -15,6 +15,8 @@ import { format, addMinutes } from "date-fns";
 import Card from "../Layout/Card";
 
 import { expenseActions } from "../../store/expense-slice";
+import { valueActions } from "../../store/value-slice";
+// import { valueActions } from "../../store/value-slice";
 
 const formatMoney = (value) => {
   const formatter = new Intl.NumberFormat("pt-BR", {
@@ -94,10 +96,14 @@ const Expense = () => {
       category: category,
     };
 
+    const convertedExpense = expense.replace(/\D/g, '')
+    console.log(convertedExpense)
+
     dispatch(expenseActions.addItem(newExpenseItem));
+    dispatch(valueActions.removeBalance(convertedExpense))
 
     setInput(true);
-    setTimeout(function() {
+    setTimeout(function () {
       setInput(false);
     }, 3000);
 
@@ -105,6 +111,7 @@ const Expense = () => {
     setMessage(true);
     setIsDateFilled(false);
     setIsExpenseFilled(false);
+    // dispatch(valueActions.removeBalance(expense));
   };
 
   const onGetBackHandler = () => {
@@ -121,7 +128,9 @@ const Expense = () => {
 
   return (
     <>
-      {input && <div className={classes.success}>Despesa inserida com sucesso</div>}
+      {input && (
+        <div className={classes.success}>Despesa inserida com sucesso</div>
+      )}
       <section className={classes.section}>
         <button className={classes.getBack} onClick={onGetBackHandler}>
           Voltar

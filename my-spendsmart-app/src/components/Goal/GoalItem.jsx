@@ -10,18 +10,12 @@ const GoalItem = ({ item }) => {
   const balance = useSelector((state) => state.value.balance);
   const dispatch = useDispatch();
 
-  const goalValue = parseInt(
-    goal.replace("R$", "").replace(/\s/g, "").replace(/\./g, "")
-  );
+  const goalValue = parseInt(goal.replace(/\D/g, ""));
 
-  const balanceValue = parseInt(
-    balance.replace("R$", "").replace(/\s/g, "").replace(/\./g, "")
-  );
-
-  const calc = (balanceValue / goalValue) * 100;
+  const calc = (balance / goalValue) * 100;
   let percentage;
 
-  if (balanceValue >= goalValue) {
+  if (balance >= goalValue) {
     percentage = "100%";
   } else {
     percentage = calc.toFixed(0) + "%";
@@ -85,22 +79,23 @@ const GoalItem = ({ item }) => {
       )}
       {congrats && (
         <>
-        <div className={classes.item}>
-          <button className={classes.goalDelete} onClick={deleteHandler}>
-            X
-          </button>
-          <div className={classes.goalContainer}>
-            <h2>Objetivo:</h2>
-            <p className={classes.goalText}>{goalText}</p>
-            <h2>Valor:</h2>
-            <p className={classes.goalValue}>{goal}</p>
-            <h2>Progresso:</h2>
+          <div className={classes.item}>
+            <button className={classes.goalDelete} onClick={deleteHandler}>
+              X
+            </button>
+            <div className={classes.goalContainer}>
+              <h2>Objetivo:</h2>
+              <p className={classes.goalText}>{goalText}</p>
+              <h2>Valor:</h2>
+              <p className={classes.goalValue}>{goal}</p>
+              <h2>Progresso:</h2>
+              <h3 className={classes.congrats}>Parabéns!</h3>
+            </div>
+            <div className={classes.goalPercentage}>
+              <div>{percentage}</div>
+            </div>
           </div>
-          <div className={classes.goalPercentage} >
-            <div>{percentage}</div>
-          </div>
-        </div>
-      </>
+        </>
       )}
     </Fragment>
   );
