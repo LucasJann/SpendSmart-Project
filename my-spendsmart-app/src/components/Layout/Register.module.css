@@ -1,0 +1,42 @@
+form {
+  margin: auto;
+  max-width: 20rem;
+}
+
+.image {
+  width: 98%;
+  border-radius:1rem ;
+  margin: 0.5rem 0 0rem 0;
+}
+
+.login {
+  color: #fff;
+  width: 20%;
+  cursor: pointer;
+  border: none;
+  margin: 0.2rem 0 0 15.5rem;
+  padding: 0.2rem;
+  font-size: 0.9em;
+  border-radius: 0.5rem;
+  background-color: #ab9c15;
+}
+
+h2 {
+  margin: auto;
+}
+
+input {
+  margin: 0 0 0.5rem 0
+}
+
+.register {
+  color: #fff;
+  width: 96%;
+  cursor: pointer;
+  border: none;
+  margin: 0.2rem 0 0 0rem;
+  padding: 0.4em;
+  font-size: 1em;
+  border-radius: 5px;
+  background-color: #ab9c15;
+}

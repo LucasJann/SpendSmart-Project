@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import pic from "../../Imgs/pic.png";
+import profileImage from "../../Imgs/profile_undefined.jpg";
 import classes from "./Profile.module.css";
 
 import { valueActions } from "../../store/value-slice";
-
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -22,13 +21,21 @@ const Profile = () => {
   const dispatch = useDispatch();
   const navigation = useNavigate();
 
+  const loggedUserJSON = localStorage.getItem("foundUser");
+  const loggedUser = JSON.parse(loggedUserJSON);
+
   const valueState = useSelector((state) => state.value.balance);
   const convertedValue = formatMoney(valueState);
 
+  const [image, setImage] = useState('')
+  const [isLogged, setIsLogged] = useState(false);
   const [newValue, setNewValue] = useState(convertedValue);
   const [isDisabled, setIsDisabled] = useState(true);
+  const [responseData, setResponseData] = useState([]);
   const [isEditClicked, setIsEditClicked] = useState(false);
   const [isBalanceChanged, setIsBalanceChanged] = useState();
+  const [selectorIsNeeded, setSelectorIsNeeded] = useState(false);
+
 
   const onValueChange = (event) => {
     const value = event.target.value;
@@ -57,6 +64,42 @@ const Profile = () => {
     navigation("/landingPage");
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://react-http-f8211-default-rtdb.firebaseio.com/logins.json"
+        );
+
+        if (!response.ok) {
+          throw new Error("Algo deu errado!");
+        }
+
+        const responseData = await response.json();
+
+        setResponseData(Object.values(responseData));
+      } catch (error) {
+        console.error("Error fetching data:", error.message);
+      }
+    };
+
+    fetchData();
+
+    const isUserLogged = responseData.some(
+      (item) => item.user.email === loggedUser.user.email
+    );
+    setIsLogged(isUserLogged);
+  }, [loggedUser, responseData]);
+
+  const onImageHandler = () => {
+    setSelectorIsNeeded(true);
+  };
+
+  const formSubmitHandler = async (e) => {
+    e.preventDefault()
+    console.log(image)
+  }
+
   return (
     <section className={classes.section}>
       <div className={classes.buttonDiv}>
@@ -64,14 +107,33 @@ const Profile = () => {
           Voltar
         </button>
       </div>
-      <img src={pic} className={classes.profileImg} alt="A profile" />
-      <h2 className={classes.profileName}>Lucas Jan </h2>
-      <h3 className={classes.profileInfo}> Seu saldo bruto</h3>
-      <input
-        value={isBalanceChanged ? newValue : convertedValue}
-        disabled={isDisabled}
-        onChange={onValueChange}
+      <img
+        src={profileImage}
+        className={classes.profileImg}
+        alt="profile pic"
+        onClick={onImageHandler}
       />
+      {selectorIsNeeded && (
+        <form onSubmit={formSubmitHandler}>
+          <input className={classes.profileSelector} type="file" onChange={e => setImage(e.target.files[0])}/>
+          <button>Ok</button>
+        </form>
+      )}
+      <div>
+        {isLogged && loggedUser && (
+          <div>
+            <h2 className={classes.profileUserName}>
+              {loggedUser.user.name} {loggedUser.user.lastName}
+            </h2>
+          </div>
+        )}
+        <input
+          value={isBalanceChanged ? newValue : convertedValue}
+          disabled={isDisabled}
+          onChange={onValueChange}
+          className={classes.profileInput}
+        />
+      </div>
       {!isEditClicked && (
         <button onClick={onEditButton} className={classes.editButton}>
           Editar Saldo

@@ -13,10 +13,11 @@
   display: grid;
   align-items: center;
   grid-template-columns: 42% 60%;
+  margin: 0 0 1.5rem 0.3rem;
 }
 
 .itemDelete {
-  margin: 0 0 0 17rem;
+  margin: 0.2rem 0 0 17rem;
   border: none;
   box-shadow: 0 2px 1px rgba(0, 0, 0, 0.1);
   font-weight: bold;
@@ -35,7 +36,7 @@
   right: 0.5rem;
   height: 20px;
   display: flex;
-  margin: 0 0 0.3rem 0.3rem;
+  margin: 0.5rem 0 0.3rem 0.3rem;
   padding: 0.3rem;
   position: relative;
   min-width: 10%;

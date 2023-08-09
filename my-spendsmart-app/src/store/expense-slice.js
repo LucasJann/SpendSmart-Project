@@ -17,6 +17,8 @@ const expenseSlice = createSlice({
         category: newItem.category,
       });
     },
+
+
     removeItem(state, action) {
       const newState = [];
 

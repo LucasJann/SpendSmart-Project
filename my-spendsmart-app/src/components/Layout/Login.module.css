@@ -1,0 +1,41 @@
+.container {
+  margin: auto;
+  max-width: 20rem;
+}
+
+h2 {
+  margin: 0.5rem 0 0 0.2rem;
+}
+
+input {
+  margin: auto;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  margin: 1rem 0 2rem 0;
+}
+
+.register {
+  color: #fff;
+  width: 96%;
+  cursor: pointer;
+  border: none;
+  margin: 3rem 0 0 0rem;
+  padding: 0.4em;
+  font-size: 1em;
+  border-radius: 5px;
+  background-color: #ab9c15;
+}
+
+.paragraph {
+  margin: 0 0 0 0.2rem;
+  color: rgb(153, 159, 165);
+  cursor: pointer;
+}
+
+.paragraph:hover {
+  color: rgb(78, 82, 87);
+}

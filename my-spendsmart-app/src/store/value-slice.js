@@ -2,7 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const valueSlice = createSlice({
   name: "balance",
-  initialState: { balance: 0 },
+  initialState: {
+    balance: 0,
+    user: [],
+  },
   reducers: {
     upgrade(state, action) {
       state.balance = action.payload;
@@ -11,6 +14,10 @@ const valueSlice = createSlice({
     addBalance(state, action) {
       const sum = parseInt(state.balance) + parseInt(action.payload);
       state.balance = sum;
+    },
+
+    addUser(state, action) {
+      state.user.unshift(action);
     },
 
     removeBalance(state, action) {

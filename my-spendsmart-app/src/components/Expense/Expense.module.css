@@ -3,11 +3,11 @@
   left: 0;
   color: #155724;
   width: 100.5%;
-  height: 1.5rem; /* Ajuste a altura conforme necessário */
+  height: 1.5rem; 
   position: absolute;
-  animation: slideInOut 4s forwards; /* 6s para uma animação de 6 segundos (3s para aparecer + 3s para desaparecer) */
+  animation: slideInOut 4s forwards; /* 4s para uma animação de 4 segundos */
   text-align: center;
-  visibility: hidden; /* Inicialmente oculta */
+  visibility: hidden; 
   padding-top: 0.5%;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   border-color: #c3e6cb;
@@ -28,7 +28,7 @@
   }
 }
 
-/* Atraso de 3 segundos antes de começar o processo inverso */
+/* Atraso de 2 segundos antes de começar o processo inverso */
 .success.delayed {
   animation-delay: 2s;
 }
@@ -86,8 +86,8 @@
 
 .inputDate {
   width: 94%;
-  font-size: 1.1em;
   margin: auto;
+  font-size: 1.1em;
 }
 
 .paragraph {
@@ -106,10 +106,10 @@
 }
 
 .warning {
-  margin: 0 0 0 0;
   color: #ce2121;
-  font-weight: bold;
+  margin: 0 0 0 0;
   text-align: center;
+  font-weight: bold;
 }
 
 .category {
@@ -131,10 +131,10 @@
   text-align: center;
 }
 .selected {
-  display: flex; /* Adiciona flexbox */
-  align-items: center; /* Alinha verticalmente o conteúdo */
   color: #fff;
+  display: flex; /* Adiciona flexbox */
   text-align: center;
+  align-items: center; /* Alinha verticalmente o conteúdo */
   background-color: #ccc7c7;
 }
 
