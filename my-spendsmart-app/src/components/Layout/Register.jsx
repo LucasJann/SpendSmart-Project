@@ -64,7 +64,7 @@ const Register = () => {
           }),
         }
       );
-      navigation("/loginPage");
+      navigation("/");
     } else {
       return console.log("not ok");
     }
@@ -76,7 +76,7 @@ const Register = () => {
   // };
 
   const onLoginHandler = () => {
-    navigation("/loginPage");
+    navigation("/registerPage");
   };
 
   return (

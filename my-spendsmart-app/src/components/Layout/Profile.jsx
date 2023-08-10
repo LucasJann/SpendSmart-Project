@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 
+import axios from "axios";
+
 import profileImage from "../../Imgs/profile_undefined.jpg";
 import classes from "./Profile.module.css";
 
@@ -96,9 +98,18 @@ const Profile = () => {
   };
 
   const formSubmitHandler = async (e) => {
-    e.preventDefault()
-    console.log(image)
-  }
+    e.preventDefault();
+  
+    const formData = new FormData();
+    formData.append("image", image);
+  
+    try {
+      const response = await axios.post("http://localhost:5000/uploadImage", formData); // Altere a URL para a porta correta (5000)
+      console.log(response.data); // Você pode lidar com a resposta do backend aqui
+    } catch (error) {
+      console.error("Erro ao enviar imagem:", error);
+    }
+  };
 
   return (
     <section className={classes.section}>
@@ -113,9 +124,13 @@ const Profile = () => {
         alt="profile pic"
         onClick={onImageHandler}
       />
-      {selectorIsNeeded && (
+     {selectorIsNeeded && (
         <form onSubmit={formSubmitHandler}>
-          <input className={classes.profileSelector} type="file" onChange={e => setImage(e.target.files[0])}/>
+          <input
+            className={classes.profileSelector}
+            type="file"
+            onChange={(e) => setImage(e.target.files[0])}
+          />
           <button>Ok</button>
         </form>
       )}

@@ -9,7 +9,7 @@ const Login = () => {
   const navigation = useNavigate();
 
   const registerHandler = () => {
-    navigation("/");
+    navigation("/registerPage");
   };
 
   const inputHandlerButton = async () => {
