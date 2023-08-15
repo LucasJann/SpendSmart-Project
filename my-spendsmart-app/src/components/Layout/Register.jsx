@@ -1,51 +1,21 @@
 import { useState } from "react";
-// import { useDispatch } from "react-redux";
-import image from "../../Imgs/finances.jpg";
+import { v4 as uuidv4 } from "uuid";
 import { Form, useNavigate } from "react-router-dom";
 
-import { v4 as uuidv4 } from "uuid";
-// import { valueActions } from "../../store/value-slice";
-
+import image from "../../Imgs/finances.jpg";
 import classes from "./Register.module.css";
 
 const Register = () => {
+  const navigation = useNavigate();
+
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [lastName, setLastName] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
 
-  const navigation = useNavigate();
-  // const dispatch = useDispatch();
-
-  const onNameChanged = (event) => {
-    const nameValue = event.target.value;
-    setName(nameValue);
-  };
-
-  const onLastNameChanged = (event) => {
-    const lastNameValue = event.target.value;
-    setLastName(lastNameValue);
-  };
-
-  const onEmailChanged = (event) => {
-    const emailValue = event.target.value;
-    setEmail(emailValue);
-  };
-
-  const onPasswordChanged = (event) => {
-    const passwordValue = event.target.value;
-    setPassword(passwordValue);
-  };
-
-  const onConfirmPasswordChanged = (event) => {
-    const confirmPasswordValue = event.target.value;
-    setConfirmPassword(confirmPasswordValue);
-  };
-
-  const onSubmitHandler = async () => {
+  const onSubmit = async () => {
     if (password === confirmPassword) {
-      console.log("ok");
       const id = uuidv4();
       const newLogin = {
         id,
@@ -59,30 +29,51 @@ const Register = () => {
         "https://react-http-f8211-default-rtdb.firebaseio.com/logins.json",
         {
           method: "POST",
-          body: JSON.stringify({
-            user: newLogin,
-          }),
+          body: JSON.stringify(newLogin),
         }
       );
+
       navigation("/");
     } else {
-      return console.log("not ok");
+      return console.log(
+        "os campos [Confirmar Senha] e [Senha] precisam conter os mesmos valores."
+      );
     }
   };
 
-  // const loginHandler = () => {
-  //   dispatch(valueActions.login('ribeiro@hotmail.com'));
-  //   navigation("/profilePage");
-  // };
-
-  const onLoginHandler = () => {
+  const onLogin = () => {
     navigation("/registerPage");
+  };
+
+  const nameChange = (event) => {
+    const name = event.target.value;
+    setName(name);
+  };
+
+  const lastNameChange = (event) => {
+    const lastName = event.target.value;
+    setLastName(lastName);
+  };
+
+  const emailChange = (event) => {
+    const email = event.target.value;
+    setEmail(email);
+  };
+
+  const passwordChange = (event) => {
+    const password = event.target.value;
+    setPassword(password);
+  };
+
+  const confirmPasswordChange = (event) => {
+    const confirmPassword = event.target.value;
+    setConfirmPassword(confirmPassword);
   };
 
   return (
     <>
-      <Form className={classes.form} onSubmit={onSubmitHandler}>
-        <button className={classes.login} onClick={onLoginHandler}>
+      <Form className={classes.form} onSubmit={onSubmit}>
+        <button className={classes.login} onClick={onLogin}>
           Login
         </button>
         <img
@@ -91,22 +82,19 @@ const Register = () => {
           className={classes.image}
         />
         <div>
+        <h2>Email</h2>
+          <input onChange={emailChange} />
           <h2>Nome</h2>
-          <input onChange={onNameChanged} />
+          <input onChange={nameChange} />
           <h2>Sobrenome</h2>
-          <input onChange={onLastNameChanged} />
-          <h2>Email</h2>
-          <input onChange={onEmailChanged} />
+          <input onChange={lastNameChange} />
           <h2>Senha</h2>
-          <input type="password" onChange={onPasswordChanged} />
+          <input type="password" onChange={passwordChange} />
           <h2>Confirmar Senha</h2>
-          <input type="password" onChange={onConfirmPasswordChanged} />
+          <input type="password" onChange={confirmPasswordChange} />
         </div>
         <button className={classes.register}>Registrar</button>
       </Form>
-      {/* <div>
-        <button onClick={loginHandler}>Login</button>
-      </div> */}
     </>
   );
 };

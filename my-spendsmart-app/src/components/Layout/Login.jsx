@@ -1,18 +1,26 @@
 import React, { useState } from "react";
-import image from "../../Imgs/logo.png";
 import classes from "./Login.module.css";
+
+import image from "../../Imgs/logo.png";
+
 import { Form } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
   const navigation = useNavigate();
 
-  const registerHandler = () => {
+  const [email, setEmail] = useState("");
+
+  const emailChange = (event) => {
+    const emailValue = event.target.value;
+    setEmail(emailValue);
+  };
+
+  const onRegister = () => {
     navigation("/registerPage");
   };
 
-  const inputHandlerButton = async () => {
+  const onButton = async () => {
     const response = await fetch(
       "https://react-http-f8211-default-rtdb.firebaseio.com/logins.json"
     );
@@ -20,7 +28,7 @@ const Login = () => {
     const responseData = await response.json();
 
     const foundUser = Object.values(responseData).find(
-      (data) => data.user.email === email
+      (data) => data.email === email
     );
 
     if (foundUser) {
@@ -32,31 +40,23 @@ const Login = () => {
     }
   };
 
-  const onEmailChanged = (event) => {
-    const emailValue = event.target.value;
-    setEmail(emailValue);
-  };
-
-  const onSubmitHandler = () => {
-    // You can dispatch email data here if needed
-  };
-
   return (
-    <Form className={classes.container} onSubmit={onSubmitHandler}>
-      <img src={image} alt="Carteira com dinheiro" className={classes.image} />
+    <Form className={classes.form}>
+      <img
+        src={image}
+        alt="Pessoa sentada em uma pilha de dinheiro com as pernas cruzadas"
+        className={classes.image}
+      />
       <div>
         <h2>Email</h2>
-        <input onChange={onEmailChanged} />
+        <input onChange={emailChange} />
         <h2>Senha</h2>
-        <input type='password' />
-        <p className={classes.paragraph} onClick={registerHandler}>
+        <input type="password" />
+        <p className={classes.paragraph} onClick={onRegister}>
           Clique aqui para se registrar
         </p>
       </div>
-      <button
-        className={classes.register}
-        onClick={() => inputHandlerButton(email)}
-      >
+      <button className={classes.register} onClick={onButton}>
         Entrar
       </button>
     </Form>
