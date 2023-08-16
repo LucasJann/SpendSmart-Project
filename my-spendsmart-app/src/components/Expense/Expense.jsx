@@ -1,4 +1,5 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
+
 import classes from "./Expense.module.css";
 
 import health from "../../Icons/checklist.png";
@@ -15,8 +16,7 @@ import { format, addMinutes } from "date-fns";
 import Card from "../Layout/Card";
 
 import { expenseActions } from "../../store/expense-slice";
-import { valueActions } from "../../store/value-slice";
-// import { valueActions } from "../../store/value-slice";
+// import { balanceActions } from "../../store/balance-slice";
 
 const formatMoney = (value) => {
   const formatter = new Intl.NumberFormat("pt-BR", {
@@ -31,9 +31,13 @@ const Expense = () => {
   const dispatch = useDispatch();
   const navigation = useNavigate();
 
+  const storedUserJSON = localStorage.getItem("foundUser");
+  const storedUser = JSON.parse(storedUserJSON);
+
   const [date, setDate] = useState();
   const [input, setInput] = useState(false);
   const [message, setMessage] = useState(true);
+  const [balance, setBalance] = useState();
   const [warning, setWarning] = useState(false);
   const [isDateFilled, setIsDateFilled] = useState(false);
 
@@ -43,6 +47,53 @@ const Expense = () => {
   const [category, setCategory] = useState();
   const [isCategoryFilled, setIsCategoryFilled] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://react-http-f8211-default-rtdb.firebaseio.com/logins.json"
+        );
+
+        if (!response.ok) {
+          throw new Error("Algo deu errado!");
+        }
+
+        const responseData = await response.json();
+
+        const loggedUser = Object.values(responseData).find(
+          (user) => user.email === storedUser.email
+        );
+
+        const updatedUserBalance = {
+          email: loggedUser.email,
+          id: loggedUser.id,
+          lastName: loggedUser.lastName,
+          name: loggedUser.name,
+          password: loggedUser.password,
+          image: loggedUser.image,
+          balance: balance,
+        };
+
+        const userKey = Object.keys(responseData).find(
+          (key) => responseData[key].email === storedUser.email
+        );
+
+        try {
+          await fetch(
+            `https://react-http-f8211-default-rtdb.firebaseio.com/logins/${userKey}.json`,
+            {
+              method: "PUT",
+              body: JSON.stringify(updatedUserBalance),
+            }
+          );
+        } catch {}
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, [balance]);
 
   const dateChange = (event) => {
     const selectedDate = new Date(event.target.value);
@@ -90,17 +141,26 @@ const Expense = () => {
   };
 
   const onInputHandler = () => {
+    const convertedExpense = expense.replace(/\D/g, "");
+    // const formattedConvertedExpense = formatMoney(convertedExpense)
+
+    const userBalance = storedUser.balance;
+    const convertedUserBalance = userBalance.replace(/\D/g, "");
+
+    const newBalance = convertedUserBalance - convertedExpense;
+
     const newExpenseItem = {
-      value: expense,
+      value: newBalance,
       date: date,
       category: category,
     };
 
-    const convertedExpense = expense.replace(/\D/g, '')
-    console.log(convertedExpense)
+    console.log(formatMoney(newBalance));
 
     dispatch(expenseActions.addItem(newExpenseItem));
-    dispatch(valueActions.removeBalance(convertedExpense))
+    setBalance(formatMoney(newBalance));
+
+    // dispatch(balanceActions.removeBalance(formattedConvertedExpense));
 
     setInput(true);
     setTimeout(function () {

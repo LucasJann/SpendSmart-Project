@@ -3,7 +3,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 
 import expenseAction from "../../store/expense-slice";
-import valueSlice from "../../store/value-slice";
+import balanceSlice from "../../store/balance-slice";
 
 import classes from "./ExpenseItem.module.css";
 
@@ -29,7 +29,7 @@ const ExpenseItem = ({ item }) => {
 
     if (userConfirmed) {
       dispatch(expenseAction.actions.removeItem(id));
-      dispatch(valueSlice.actions.addBalance(convertedValue))
+      dispatch(balanceSlice.actions.addBalance(convertedValue))
     }
   };
 

@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import goalSlice from "./goal-slice";
-import balanceSlice from "./value-slice";
+import balanceSlice from "./balance-slice";
 import incomeSlice from "./income-slice";
 import expenseSlice from "./expense-slice";
 

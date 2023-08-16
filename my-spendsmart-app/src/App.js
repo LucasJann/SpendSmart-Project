@@ -6,7 +6,7 @@ import store from './store/index'
 import Goal from "./components/Goal/Goal";
 import Login from "./components/Layout/Login"
 import Income from "./components/Income/Income";
-import Welcome from "./components/Layout/Welcome";
+// import Welcome from "./components/Layout/Welcome";
 import Profile from "./components/Layout/Profile";
 import Expense from "./components/Expense/Expense";
 import Register from "./components/Layout/Register";
@@ -20,7 +20,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Login /> },
       { path: "/registerPage", element: <Register /> },
-      { path: "/welcomePage", element: <Welcome /> },
+      // { path: "/welcomePage", element: <Welcome /> },
       { path: "/landingPage", element: <LandingPage /> },
       { path: "/profilePage", element: <Profile /> },
       { path: "/expensePage", element: <Expense /> },

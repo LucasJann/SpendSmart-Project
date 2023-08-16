@@ -12,7 +12,7 @@ import { useDispatch } from "react-redux";
 import { format, addMinutes } from "date-fns";
 
 import { incomeActions } from "../../store/income-slice";
-import { valueActions } from "../../store/value-slice";
+import { balanceActions } from "../../store/balance-slice";
 
 const formatMoney = (value) => {
   const formatter = new Intl.NumberFormat("pt-BR", {
@@ -100,7 +100,7 @@ const Income = () => {
     const convertedIncome = income.replace(/\D/g, "");
 
     dispatch(incomeActions.addItem(newIncomeItem));
-    dispatch(valueActions.addBalance(convertedIncome));
+    dispatch(balanceActions.addBalance(convertedIncome));
 
     setInput(true);
     setTimeout(function () {

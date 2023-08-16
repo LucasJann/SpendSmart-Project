@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const valueSlice = createSlice({
+const balanceSlice = createSlice({
   name: "balance",
   initialState: {
     balance: 0,
@@ -26,6 +26,6 @@ const valueSlice = createSlice({
   },
 });
 
-export const valueActions = valueSlice.actions;
+export const balanceActions = balanceSlice.actions;
 
-export default valueSlice;
+export default balanceSlice;

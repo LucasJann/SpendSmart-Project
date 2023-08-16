@@ -4,7 +4,7 @@ import classes from "./Profile.module.css";
 import axios from "axios";
 import undefinedImage from "../../Imgs/profile_undefined.jpg";
 
-import { valueActions } from "../../store/value-slice";
+import { balanceActions } from "../../store/balance-slice";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -22,13 +22,13 @@ const Profile = () => {
   const dispatch = useDispatch();
   const navigation = useNavigate();
 
+  const reduxBalance = useSelector((state) => state.value.balance);
+  console.log(reduxBalance);
+
   const storedUser = localStorage.getItem("foundUser");
   const loggedUser = JSON.parse(storedUser); //JSON.parse <=== Converte JSON em um Objeto
 
-  const balanceValue = useSelector((state) => state.value.balance);
-  const convertedBalance = formatMoney(balanceValue);
-
-  const [balance, setBalance] = useState(convertedBalance);
+  const [balance, setBalance] = useState("");
 
   const [key, setKey] = useState();
   const [image, setImage] = useState(loggedUser.image);
@@ -40,6 +40,38 @@ const Profile = () => {
   const [isEditClicked, setIsEditClicked] = useState(false);
   const [isImageChanged, setIsImageChanged] = useState(false);
   const [isBalanceChanged, setIsBalanceChanged] = useState(false);
+
+  // useEffect(() => {
+  //   console.log(reduxBalance)
+
+  // }, [reduxBalance])
+
+  useEffect(() => {
+    const fetchNewData = async () => {
+      const newResponse = await fetch(
+        "https://react-http-f8211-default-rtdb.firebaseio.com/logins.json"
+      );
+
+      if (!newResponse.ok) {
+        throw new Error("Algo deu errado!");
+      }
+
+      const newResponseData = await newResponse.json();
+
+      const user = Object.values(newResponseData).find(
+        (user) => user.email === loggedUser.email
+      );
+
+      const loggedUserJSON = JSON.stringify(user);
+      localStorage.setItem("foundUser", loggedUserJSON);
+
+      const storedUserJSON = localStorage.getItem("foundUser");
+      const storedUser = JSON.parse(storedUserJSON);
+      dispatch(balanceActions.upgrade(storedUser.balance));
+        setBalance(storedUser.balance)
+    };
+    fetchNewData();
+  }, [isBalanceChanged, reduxBalance]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -173,7 +205,6 @@ const Profile = () => {
   const onEditButton = () => {
     setIsDisabled(false);
     setIsEditClicked(true);
-    setIsBalanceChanged(true);
   };
 
   const onConfirmButton = () => {
@@ -181,21 +212,9 @@ const Profile = () => {
     setIsEditClicked(false);
 
     const unformattedBalance = balance.replace(/\D/g, "");
-
-    dispatch(valueActions.upgrade(unformattedBalance));
+    dispatch(balanceActions.upgrade(unformattedBalance));
 
     const newBalance = async () => {
-      // try {
-      //   const response = await fetch(
-      //     "https://react-http-f8211-default-rtdb.firebaseio.com/logins.json"
-      //   );
-
-      //   if (!response.ok) {
-      //     console.log(response.error);
-      //   }
-
-      //   const responseData = await response.json();
-
       const updatedUserData = {
         email: loggedUser.email,
         id: loggedUser.id,
@@ -217,6 +236,7 @@ const Profile = () => {
       } catch (error) {
         console.error(error);
       }
+      setIsBalanceChanged(true);
     };
 
     newBalance();
@@ -230,20 +250,24 @@ const Profile = () => {
         </button>
       </div>
       {isChecked && (
-        <img
-          src={`http://localhost:5000/uploads/${image || storedImage}`}
-          className={classes.profileImg}
-          alt="profile"
-          onClick={onImageHandler}
-        />
+        <div className={classes.profileContainer}>
+          <img
+            src={`http://localhost:5000/uploads/${image || storedImage}`}
+            className={classes.profileImg}
+            alt="profile"
+            onClick={onImageHandler}
+          />
+        </div>
       )}
       {!isChecked && (
-        <img
-          src={undefinedImage}
-          className={classes.profileImg}
-          alt="profile undefined"
-          onClick={onImageHandler}
-        />
+        <div className={classes.profileContainer}>
+          <img
+            src={undefinedImage}
+            className={classes.profileImg}
+            alt="profile undefined"
+            onClick={onImageHandler}
+          />
+        </div>
       )}
       {isImageChanged && (
         <form onSubmit={onImageSubmitHandler}>
@@ -264,7 +288,7 @@ const Profile = () => {
           </div>
         )}
         <input
-          value={isBalanceChanged ? balance : convertedBalance}
+          value={balance}
           disabled={isDisabled}
           onChange={balanceHandler}
           className={classes.profileInput}
