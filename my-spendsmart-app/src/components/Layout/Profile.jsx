@@ -22,13 +22,17 @@ const Profile = () => {
   const dispatch = useDispatch();
   const navigation = useNavigate();
 
+  const storedUser = localStorage.getItem("foundUser");
+  const loggedUser = JSON.parse(storedUser); //JSON.parse <=== Converte JSON em um Objeto
+
   const balanceValue = useSelector((state) => state.value.balance);
   const convertedBalance = formatMoney(balanceValue);
 
   const [balance, setBalance] = useState(convertedBalance);
 
   const [key, setKey] = useState();
-  const [image, setImage] = useState();
+  const [image, setImage] = useState(loggedUser.image);
+  const [storedImage, setStoredImage] = useState();
   const [selectedImage, setSelectedImage] = useState("");
 
   const [isChecked, setIsChecked] = useState(false);
@@ -36,9 +40,6 @@ const Profile = () => {
   const [isEditClicked, setIsEditClicked] = useState(false);
   const [isImageChanged, setIsImageChanged] = useState(false);
   const [isBalanceChanged, setIsBalanceChanged] = useState(false);
-
-  const storedUser = localStorage.getItem("foundUser");
-  const loggedUser = JSON.parse(storedUser); //JSON.parse <=== Converte JSON em um Objeto
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,7 +61,7 @@ const Profile = () => {
         // Retorna o usuário logado com suas propriedades.
 
         if (loggedUser && loggedUser.hasOwnProperty("image")) {
-          setImage(user.image);
+          setStoredImage(user.image);
           setIsChecked(true);
         } else {
           setIsChecked(false);
@@ -93,6 +94,7 @@ const Profile = () => {
 
   const onImageSubmitHandler = async (e) => {
     e.preventDefault();
+    setIsImageChanged(false);
 
     if (!selectedImage) {
       console.error("Nenhuma imagem selecionada");
@@ -120,31 +122,32 @@ const Profile = () => {
         image: image,
       };
 
-      await fetch(
-        `https://react-http-f8211-default-rtdb.firebaseio.com/logins/${key}.json`,
-        {
-          method: "PUT",
-          body: JSON.stringify(updatedUserData),
+      try {
+        await fetch(
+          `https://react-http-f8211-default-rtdb.firebaseio.com/logins/${key}.json`,
+          {
+            method: "PUT",
+            body: JSON.stringify(updatedUserData),
+          }
+        );
+
+        const newResponse = await fetch(
+          "https://react-http-f8211-default-rtdb.firebaseio.com/logins.json"
+        );
+
+        if (!newResponse.ok) {
+          throw new Error("Algo deu errado!");
         }
-      );
 
-      const newResponse = await fetch(
-        "https://react-http-f8211-default-rtdb.firebaseio.com/logins.json"
-      );
+        const newResponseData = await newResponse.json();
 
-      if (newResponse.ok) {
-        console.error("Error fetching data:");
-      }
+        const user = Object.values(newResponseData).find(
+          (user) => user.email === loggedUser.email
+        );
 
-      const newResponseData = await newResponse.json();
-
-      const user = Object.values(newResponseData).find(
-        (user) => user.email === loggedUser.email
-      );
-
-      const loggedUserJSON = JSON.stringify(user);
-      localStorage.setItem("foundUser", loggedUserJSON);
-
+        const loggedUserJSON = JSON.stringify(user);
+        localStorage.setItem("foundUser", loggedUserJSON);
+      } catch {}
     } catch (error) {
       console.error("Erro ao enviar imagem:", error);
     }
@@ -176,7 +179,47 @@ const Profile = () => {
   const onConfirmButton = () => {
     setIsDisabled(true);
     setIsEditClicked(false);
-    dispatch(valueActions.upgrade(balance.replace(/\D/g, "")));
+
+    const unformattedBalance = balance.replace(/\D/g, "");
+
+    dispatch(valueActions.upgrade(unformattedBalance));
+
+    const newBalance = async () => {
+      // try {
+      //   const response = await fetch(
+      //     "https://react-http-f8211-default-rtdb.firebaseio.com/logins.json"
+      //   );
+
+      //   if (!response.ok) {
+      //     console.log(response.error);
+      //   }
+
+      //   const responseData = await response.json();
+
+      const updatedUserData = {
+        email: loggedUser.email,
+        id: loggedUser.id,
+        lastName: loggedUser.lastName,
+        name: loggedUser.name,
+        password: loggedUser.password,
+        image: image,
+        balance: balance,
+      };
+
+      try {
+        await fetch(
+          `https://react-http-f8211-default-rtdb.firebaseio.com/logins/${key}.json`,
+          {
+            method: "PUT",
+            body: JSON.stringify(updatedUserData),
+          }
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    newBalance();
   };
 
   return (
@@ -188,7 +231,7 @@ const Profile = () => {
       </div>
       {isChecked && (
         <img
-          src={`http://localhost:5000/uploads/${image}`}
+          src={`http://localhost:5000/uploads/${image || storedImage}`}
           className={classes.profileImg}
           alt="profile"
           onClick={onImageHandler}
@@ -209,7 +252,7 @@ const Profile = () => {
             type="file"
             onChange={inputChange}
           />
-          <button>Ok</button>
+          <button className={classes.confirmButton}>Ok</button>
         </form>
       )}
       <div>

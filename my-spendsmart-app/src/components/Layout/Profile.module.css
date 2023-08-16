@@ -1,12 +1,11 @@
+/* Estilos base */
 .section {
-  top: 50%;
-  left: 50%;
+  position: relative;
   width: 100%;
-  height: 90%;
-  position: absolute;
-  transform: translate(-50%, -100%);
+  height: 90vh;
   max-width: 20rem;
   max-height: 20rem;
+  margin: 0 auto;
   border-radius: 6px;
   background-color: #e9e7d2;
 }
@@ -16,7 +15,7 @@
   width: 20%;
   cursor: pointer;
   border: none;
-  margin: 0.1rem 0 0 16.8rem;
+  margin: 0.1rem 0 0 16rem;
   padding: 0.2rem;
   font-size: 0.9em;
   border-radius: 0.5rem;
@@ -24,33 +23,35 @@
 }
 
 .profileImg {
-  width: 70%;
-  margin: 1rem 0 0 4rem;
+  width: 80%;
+  height: 80%;
+  margin: 1rem 0 0 2rem;
   border-radius: 10rem;
 }
 
-.profileSelector { 
+.profileSelector {
+  width: 84.3%;
+  border: 1px solid black;
+  border-right: none; /* Removendo a borda direita */
+  border-radius: 0.5rem 0 0 0.5rem;
   font-size: 0.9rem;
-  border: black;
-
-  font-family:'Times New Roman', Times, serif;
+  font-family: "Times New Roman", Times, serif;
   text-align: center;
-  margin: 0.5rem 0 1rem 1rem;
+  margin: 0.5rem auto;
 }
 
 .profileUserName {
-  margin: 13rem 0 0 0.8rem;
+  margin: 12rem 0 0 0 ;
 }
 
 .profileInput {
-  margin: 0 0 0 0.7rem;
+  margin: auto;
 }
-
 
 .profileInfo {
   color: #666;
   font-size: 1em;
-  margin-top: 5rem;
+  margin-top: 2rem;
   padding-left: 0.3em;
 }
 
@@ -59,7 +60,7 @@
   width: 97%;
   cursor: pointer;
   border: none;
-  margin: 1rem 0 0 0.7rem;
+  margin: 0.5rem auto;
   padding: 0.2rem;
   font-size: 0.9em;
   border-radius: 0.5rem;
@@ -67,5 +68,37 @@
 }
 
 .editButton:hover {
-  background-color: #ab9c15;
+  background-color: #8a7a0f;
 }
+
+.confirmButton {
+  color: #fff;
+  width: 10%;
+  cursor: pointer;
+  border: 1px solid black;
+  margin: 0.5rem 0.66rem 0 0;
+  padding: 0.34rem 0.1rem 0.4rem 0.1rem;
+  font-size: 0.9em;
+  border-radius: 0 0.5rem 0.5rem 0 ;
+  background-color: #ab9c15;
+  float: right; 
+}
+
+/* Estilos responsivos */
+/* @media screen and (max-width: 768px) {
+  .section {
+    max-width: 90vw;
+    max-height: none;
+  }
+
+  .getBackButton,
+  .profileImg,
+  .profileUserName,
+  .profileInput,
+  .profileInfo,
+  .editButton {
+    width: 100%;
+    margin: 0.5rem auto;
+    float: none;
+  }
+} */
