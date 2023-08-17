@@ -3,11 +3,11 @@
   left: 0;
   color: #155724;
   width: 100.5%;
-  height: 1.5rem; 
+  height: 1.5rem;
   position: absolute;
   animation: slideInOut 4s forwards; /* 4s para uma animação de 4 segundos */
   text-align: center;
-  visibility: hidden; 
+  visibility: hidden;
   padding-top: 0.5%;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   border-color: #c3e6cb;
@@ -81,13 +81,13 @@
 }
 
 .date {
-  margin: 1rem 0 0.2rem;
+  margin: 1rem 0 0 0.5rem;
 }
 
 .inputDate {
-  width: 94%;
+  width: 92%;
   margin: auto;
-  font-size: 1.1em;
+  font-size: 0.9em;
 }
 
 .paragraph {
@@ -97,11 +97,11 @@
 }
 
 .expense {
-  margin: 1rem 0 0.2rem;
+  margin: 1rem 0 0 0.5rem;
 }
 
 .inputExpense {
-  margin: auto;
+  width: 92%;
   font-size: 0.9em;
 }
 
@@ -113,7 +113,7 @@
 }
 
 .category {
-  margin: 0.8rem 0 0rem 0rem;
+  margin: 0 0 0.3rem 0.5rem;
 }
 
 .categories {

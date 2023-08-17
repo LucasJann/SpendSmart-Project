@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import classes from "./Income.module.css";
 
 import Card from "../Layout/Card";
@@ -27,18 +27,69 @@ const Income = () => {
   const dispatch = useDispatch();
   const navigation = useNavigate();
 
+  const storedUserJSON = localStorage.getItem("foundUser");
+  const storedUser = JSON.parse(storedUserJSON);
+
   const [date, setDate] = useState("");
   const [input, setInput] = useState(false);
   const [message, setMessage] = useState(true);
   const [isDateFilled, setIsDateFilled] = useState(false);
 
   const [income, setIncome] = useState("");
+  const [newIncome, setNewIncome] = useState(storedUser.balance)
   const [warning, setWarning] = useState(false);
   const [isIncomeFilled, setIsIncomeFilled] = useState(false);
 
   const [category, setCategory] = useState();
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isCategoryFilled, setIsCategoryFilled] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://react-http-f8211-default-rtdb.firebaseio.com/logins.json"
+        );
+
+        if (!response.ok) {
+          throw new Error("Algo deu errado!");
+        }
+
+        const responseData = await response.json();
+
+        const loggedUser = Object.values(responseData).find(
+          (user) => user.email === storedUser.email
+        );
+
+        const updatedUserBalance = {
+          email: loggedUser.email,
+          id: loggedUser.id,
+          lastName: loggedUser.lastName,
+          name: loggedUser.name,
+          password: loggedUser.password,
+          image: loggedUser.image,
+          balance: newIncome,
+        };
+
+        const userKey = Object.keys(responseData).find(
+          (key) => responseData[key].email === storedUser.email
+        );
+
+        try {
+          await fetch(
+            `https://react-http-f8211-default-rtdb.firebaseio.com/logins/${userKey}.json`,
+            {
+              method: "PUT",
+              body: JSON.stringify(updatedUserBalance),
+            }
+          );
+        } catch {}
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, [newIncome]);
 
   const dateChange = (event) => {
     const selectedDate = new Date(event.target.value);
@@ -92,15 +143,26 @@ const Income = () => {
   };
 
   const onInputHandler = () => {
+    const convertedIncome = income.replace(/\D/g, "");
+    // const formattedConvertedExpense = formatMoney(convertedExpense)
+
+    const userBalance = storedUser.balance;
+    const convertedUserBalance = userBalance.replace(/\D/g, "");
+    const sum = parseInt(convertedUserBalance) + parseInt(convertedIncome);
+
+    const newBalance = JSON.stringify(sum);
+
     const newIncomeItem = {
-      value: income,
+      value: newBalance,
       date: date,
       category: category,
     };
-    const convertedIncome = income.replace(/\D/g, "");
 
     dispatch(incomeActions.addItem(newIncomeItem));
-    dispatch(balanceActions.addBalance(convertedIncome));
+
+    console.log(formatMoney(newBalance))
+    
+    setNewIncome(formatMoney(newBalance))
 
     setInput(true);
     setTimeout(function () {

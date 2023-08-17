@@ -47,7 +47,7 @@ const Login = () => {
         alt="Pessoa sentada em uma pilha de dinheiro com as pernas cruzadas"
         className={classes.image}
       />
-      <div>
+      <div className={classes.container}>
         <h2>Email</h2>
         <input onChange={emailChange} />
         <h2>Senha</h2>
@@ -55,10 +55,11 @@ const Login = () => {
         <p className={classes.paragraph} onClick={onRegister}>
           Clique aqui para se registrar
         </p>
-      </div>
-      <button className={classes.register} onClick={onButton}>
+      <button className={classes.login} onClick={onButton}>
         Entrar
       </button>
+      </div>
+
     </Form>
   );
 };

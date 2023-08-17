@@ -14,6 +14,15 @@ import homeIcon from "../../Icons/home.png";
 import nutrition from "../../Icons/clock.png";
 import transportation from "../../Icons/location.png";
 
+const formatMoney = (value) => {
+  const formatter = new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+    minimumFractionDigits: 2,
+  });
+  return formatter.format((value / 100).toFixed(2));
+};
+
 const ExpenseItem = ({ item }) => {
   const dispatch = useDispatch();
 
@@ -114,7 +123,7 @@ const ExpenseItem = ({ item }) => {
         </div>
         <div className={classes.values}>
           <p>{formattedDate}</p>
-          <p>{value}</p>
+          <p>{formatMoney(value)}</p>
         </div>
       </section>
     </section>

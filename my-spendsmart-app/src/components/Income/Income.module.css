@@ -82,13 +82,13 @@
 
 
 .date {
-  margin: 1rem 0 0.2rem;
+  margin: 1rem 0 0 0.5rem;
 }
 
 .inputDate {
-  width: 94%;
-  font-size: 1.1em;
+  width: 92%;
   margin: auto;
+  font-size: 0.9em;
 }
 
 .paragraph {
@@ -98,11 +98,11 @@
 }
 
 .income {
-  margin: 1rem 0 0.2rem;
+  margin: 1rem 0 0 0.5rem;
 }
 
 .inputIncome {
-  margin: auto;
+  width: 92%;
   font-size: 0.9em;
 }
 
@@ -114,7 +114,7 @@
 }
 
 .category {
-  margin: 1rem 0 0rem 0rem;
+  margin: 0 0 0.3rem 0.5rem;
 }
 
 .categories {

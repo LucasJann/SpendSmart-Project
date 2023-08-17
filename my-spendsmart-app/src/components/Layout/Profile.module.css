@@ -5,6 +5,7 @@
   max-width: 20rem;
   max-height: 20rem;
   margin: 0 auto;
+  text-align: center;
   border-radius: 6px;
   background-color: #e9e7d2;
 }
@@ -29,18 +30,20 @@
 }
 
 .profileSelector {
-  width: 84.6%;
+  width: 84.4%;
   border: 1px solid black;
   margin: 0.5rem auto;
-  font-size: 0.9rem;
+  padding: 0.2rem;
   text-align: center;
+  font-size: 0.9rem;
   font-family: "Times New Roman", Times, serif;
   border-right: none; /* Removendo a borda direita */
   border-radius: 0.5rem 0 0 0.5rem;
 }
 
 .profileUserName {
-  margin: 10rem 0 0 0 ;
+  margin: 10rem 0 0 0.5rem ;
+  text-align:left;
 }
 
 .profileInput {
@@ -70,7 +73,8 @@
   background-color: #8a7a0f;
 }
 
-.confirmButton {
+.okButton {
+  float: right; 
   color: #fff;
   width: 10%;
   cursor: pointer;
@@ -80,7 +84,6 @@
   font-size: 0.9em;
   border-radius: 0 0.5rem 0.5rem 0 ;
   background-color: #ab9c15;
-  float: right; 
 }
 
 /* Estilos responsivos */

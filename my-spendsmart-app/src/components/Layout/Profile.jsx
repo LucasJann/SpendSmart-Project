@@ -23,7 +23,6 @@ const Profile = () => {
   const navigation = useNavigate();
 
   const reduxBalance = useSelector((state) => state.value.balance);
-  console.log(reduxBalance);
 
   const storedUser = localStorage.getItem("foundUser");
   const loggedUser = JSON.parse(storedUser); //JSON.parse <=== Converte JSON em um Objeto
@@ -152,6 +151,7 @@ const Profile = () => {
         name: loggedUser.name,
         password: loggedUser.password,
         image: image,
+        balance: reduxBalance
       };
 
       try {
@@ -276,7 +276,7 @@ const Profile = () => {
             type="file"
             onChange={inputChange}
           />
-          <button className={classes.confirmButton}>Ok</button>
+          <button className={classes.okButton}>Ok</button>
         </form>
       )}
       <div>
@@ -288,7 +288,7 @@ const Profile = () => {
           </div>
         )}
         <input
-          value={balance}
+          value={balance ? balance : formatMoney(0.00)}
           disabled={isDisabled}
           onChange={balanceHandler}
           className={classes.profileInput}

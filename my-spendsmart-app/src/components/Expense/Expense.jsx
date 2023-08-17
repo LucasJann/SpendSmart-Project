@@ -37,11 +37,12 @@ const Expense = () => {
   const [date, setDate] = useState();
   const [input, setInput] = useState(false);
   const [message, setMessage] = useState(true);
-  const [balance, setBalance] = useState();
   const [warning, setWarning] = useState(false);
   const [isDateFilled, setIsDateFilled] = useState(false);
+  const [callerEffect, setCallerEffect] = useState(false);
 
   const [expense, setExpense] = useState("");
+  const [newExpense, setNewExpense] = useState(storedUser.balance);
   const [isExpenseFilled, setIsExpenseFilled] = useState(false);
 
   const [category, setCategory] = useState();
@@ -49,6 +50,7 @@ const Expense = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   useEffect(() => {
+    console.log(newExpense);
     const fetchData = async () => {
       try {
         const response = await fetch(
@@ -72,8 +74,10 @@ const Expense = () => {
           name: loggedUser.name,
           password: loggedUser.password,
           image: loggedUser.image,
-          balance: balance,
+          balance: newExpense,
         };
+
+        console.log(updatedUserBalance);
 
         const userKey = Object.keys(responseData).find(
           (key) => responseData[key].email === storedUser.email
@@ -93,7 +97,7 @@ const Expense = () => {
       }
     };
     fetchData();
-  }, [balance]);
+  }, [newExpense, callerEffect]);
 
   const dateChange = (event) => {
     const selectedDate = new Date(event.target.value);
@@ -142,25 +146,74 @@ const Expense = () => {
 
   const onInputHandler = () => {
     const convertedExpense = expense.replace(/\D/g, "");
-    // const formattedConvertedExpense = formatMoney(convertedExpense)
 
     const userBalance = storedUser.balance;
     const convertedUserBalance = userBalance.replace(/\D/g, "");
+    // Será necessário chamar o valor atual do localStorage, aqui, sempre que
+    // o Input for utilizado pois caso contrário os outros valores não será levados em consideração
 
-    const newBalance = convertedUserBalance - convertedExpense;
+    console.log(userBalance[0]);
 
-    const newExpenseItem = {
-      value: newBalance,
-      date: date,
-      category: category,
-    };
+    if (userBalance[0] === "-") {
+      const negativeConvertedExpense = convertedExpense * -1;
+      const negativeBalance = negativeConvertedExpense - convertedUserBalance;
 
-    console.log(formatMoney(newBalance));
 
-    dispatch(expenseActions.addItem(newExpenseItem));
-    setBalance(formatMoney(newBalance));
+      const newExpenseItem = {
+        value: negativeBalance,
+        date: date,
+        category: category,
+      };
 
-    // dispatch(balanceActions.removeBalance(formattedConvertedExpense));
+      const formattedUserBalance = formatMoney(negativeBalance);
+
+      const userUpdated = {
+        email: storedUser.email,
+        id: storedUser.id,
+        lastName: storedUser.lastName,
+        name: storedUser.name,
+        password: storedUser.password,
+        image: storedUser.image,
+        balance: formattedUserBalance,
+      };
+
+      const userUpdatedJSON = JSON.stringify(userUpdated);
+
+      localStorage.setItem("foundUser", userUpdatedJSON);
+      dispatch(expenseActions.addItem(newExpenseItem));
+      setNewExpense(formatMoney(negativeBalance));
+      setCallerEffect(!callerEffect);
+    } else {
+      const newBalance = convertedUserBalance - convertedExpense;
+
+      const newExpenseItem = {
+        value: newBalance,
+        date: date,
+        category: category,
+      };
+
+      const formattedUserBalance = formatMoney(newBalance);
+
+      const userUpdated = {
+        email: storedUser.email,
+        id: storedUser.id,
+        lastName: storedUser.lastName,
+        name: storedUser.name,
+        password: storedUser.password,
+        image: storedUser.image,
+        balance: formattedUserBalance,
+      };
+
+      const userUpdatedJSON = JSON.stringify(userUpdated);
+
+      localStorage.setItem("foundUser", userUpdatedJSON);
+      setNewExpense(formatMoney(newBalance));
+      dispatch(expenseActions.addItem(newExpenseItem));
+      setCallerEffect(!callerEffect);
+    }
+
+    //Outro erro que ocorre quando colocamos dois valores iguais que vão ficar negativos, os valores negativos se anulam
+    //Verificar toda a lógica de cálculos.
 
     setInput(true);
     setTimeout(function () {
@@ -171,7 +224,6 @@ const Expense = () => {
     setMessage(true);
     setIsDateFilled(false);
     setIsExpenseFilled(false);
-    // dispatch(valueActions.removeBalance(expense));
   };
 
   const onGetBackHandler = () => {

@@ -72,29 +72,31 @@ const Register = () => {
 
   return (
     <>
-      <Form className={classes.form} onSubmit={onSubmit}>
-        <button className={classes.login} onClick={onLogin}>
-          Login
-        </button>
-        <img
-          src={image}
-          alt="Carteira com dinheiro"
-          className={classes.image}
-        />
-        <div>
-        <h2>Email</h2>
-          <input onChange={emailChange} />
-          <h2>Nome</h2>
-          <input onChange={nameChange} />
-          <h2>Sobrenome</h2>
-          <input onChange={lastNameChange} />
-          <h2>Senha</h2>
-          <input type="password" onChange={passwordChange} />
-          <h2>Confirmar Senha</h2>
-          <input type="password" onChange={confirmPasswordChange} />
-        </div>
-        <button className={classes.register}>Registrar</button>
-      </Form>
+      <div className={classes.container}>
+        <Form className={classes.form} onSubmit={onSubmit}>
+          <button className={classes.login} onClick={onLogin}>
+            Login
+          </button>
+          <img
+            src={image}
+            alt="Carteira com dinheiro"
+            className={classes.image}
+          />
+          <div>
+            <h2>Email</h2>
+            <input onChange={emailChange} />
+            <h2>Nome</h2>
+            <input onChange={nameChange} />
+            <h2>Sobrenome</h2>
+            <input onChange={lastNameChange} />
+            <h2>Senha</h2>
+            <input type="password" onChange={passwordChange} />
+            <h2>Confirmar Senha</h2>
+            <input type="password" onChange={confirmPasswordChange} />
+          </div>
+          <button className={classes.register}>Registrar</button>
+        </Form>
+      </div>
     </>
   );
 };
