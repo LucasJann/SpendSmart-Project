@@ -23,7 +23,10 @@ const Register = () => {
         lastName: lastName,
         email: email,
         password: password,
+        items: [''],
+        balance: '0'
       };
+
 
       await fetch(
         "https://react-http-f8211-default-rtdb.firebaseio.com/logins.json",
@@ -32,6 +35,8 @@ const Register = () => {
           body: JSON.stringify(newLogin),
         }
       );
+
+      localStorage.setItem('foundUser', JSON.stringify(newLogin))
 
       navigation("/");
     } else {

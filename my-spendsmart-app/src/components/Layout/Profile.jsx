@@ -22,8 +22,6 @@ const Profile = () => {
   const dispatch = useDispatch();
   const navigation = useNavigate();
 
-  const reduxBalance = useSelector((state) => state.value.balance);
-
   const storedUser = localStorage.getItem("foundUser");
   const loggedUser = JSON.parse(storedUser); //JSON.parse <=== Converte JSON em um Objeto
 
@@ -39,11 +37,6 @@ const Profile = () => {
   const [isEditClicked, setIsEditClicked] = useState(false);
   const [isImageChanged, setIsImageChanged] = useState(false);
   const [isBalanceChanged, setIsBalanceChanged] = useState(false);
-
-  // useEffect(() => {
-  //   console.log(reduxBalance)
-
-  // }, [reduxBalance])
 
   useEffect(() => {
     const fetchNewData = async () => {
@@ -66,11 +59,12 @@ const Profile = () => {
 
       const storedUserJSON = localStorage.getItem("foundUser");
       const storedUser = JSON.parse(storedUserJSON);
+
       dispatch(balanceActions.upgrade(storedUser.balance));
-        setBalance(storedUser.balance)
+      setBalance(storedUser.balance);
     };
     fetchNewData();
-  }, [isBalanceChanged, reduxBalance]);
+  }, [isBalanceChanged]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -151,8 +145,12 @@ const Profile = () => {
         name: loggedUser.name,
         password: loggedUser.password,
         image: image,
-        balance: reduxBalance
+        balance: balance,
+        items: loggedUser.items,
       };
+
+      // const updatedUserDataJSON = JSON.stringify(updatedUserData);
+      // localStorage.setItem("foundUser", updatedUserDataJSON);
 
       try {
         await fetch(
@@ -223,6 +221,7 @@ const Profile = () => {
         password: loggedUser.password,
         image: image,
         balance: balance,
+        items: loggedUser.items,
       };
 
       try {
@@ -288,7 +287,7 @@ const Profile = () => {
           </div>
         )}
         <input
-          value={balance ? balance : formatMoney(0.00)}
+          value={balance ? balance : formatMoney(0.0)}
           disabled={isDisabled}
           onChange={balanceHandler}
           className={classes.profileInput}

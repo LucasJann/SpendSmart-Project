@@ -14,15 +14,6 @@ import homeIcon from "../../Icons/home.png";
 import nutrition from "../../Icons/clock.png";
 import transportation from "../../Icons/location.png";
 
-const formatMoney = (value) => {
-  const formatter = new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-    minimumFractionDigits: 2,
-  });
-  return formatter.format((value / 100).toFixed(2));
-};
-
 const ExpenseItem = ({ item }) => {
   const dispatch = useDispatch();
 
@@ -34,11 +25,11 @@ const ExpenseItem = ({ item }) => {
       "Clique em OK para confirmar a exclusão"
     );
 
-    const convertedValue = value.replace(/\D/g, '')
+    const convertedValue = value.replace(/\D/g, "");
 
     if (userConfirmed) {
       dispatch(expenseAction.actions.removeItem(id));
-      dispatch(balanceSlice.actions.addBalance(convertedValue))
+      dispatch(balanceSlice.actions.addBalance(convertedValue));
     }
   };
 
@@ -123,7 +114,7 @@ const ExpenseItem = ({ item }) => {
         </div>
         <div className={classes.values}>
           <p>{formattedDate}</p>
-          <p>{formatMoney(value)}</p>
+          <p>{value}</p>
         </div>
       </section>
     </section>

@@ -12,7 +12,6 @@ import { useDispatch } from "react-redux";
 import { format, addMinutes } from "date-fns";
 
 import { incomeActions } from "../../store/income-slice";
-import { balanceActions } from "../../store/balance-slice";
 
 const formatMoney = (value) => {
   const formatter = new Intl.NumberFormat("pt-BR", {
@@ -33,10 +32,11 @@ const Income = () => {
   const [date, setDate] = useState("");
   const [input, setInput] = useState(false);
   const [message, setMessage] = useState(true);
+  const [callerEffect, setCallerEffect] = useState(false);
   const [isDateFilled, setIsDateFilled] = useState(false);
 
   const [income, setIncome] = useState("");
-  const [newIncome, setNewIncome] = useState(storedUser.balance)
+  const [newIncome, setNewIncome] = useState(storedUser.balance);
   const [warning, setWarning] = useState(false);
   const [isIncomeFilled, setIsIncomeFilled] = useState(false);
 
@@ -89,7 +89,7 @@ const Income = () => {
       }
     };
     fetchData();
-  }, [newIncome]);
+  }, [newIncome, callerEffect]);
 
   const dateChange = (event) => {
     const selectedDate = new Date(event.target.value);
@@ -144,25 +144,69 @@ const Income = () => {
 
   const onInputHandler = () => {
     const convertedIncome = income.replace(/\D/g, "");
-    // const formattedConvertedExpense = formatMoney(convertedExpense)
 
     const userBalance = storedUser.balance;
     const convertedUserBalance = userBalance.replace(/\D/g, "");
-    const sum = parseInt(convertedUserBalance) + parseInt(convertedIncome);
 
-    const newBalance = JSON.stringify(sum);
+    if (userBalance[0] === "-") {
+      const negativeUserBalance = convertedUserBalance * -1;
+      const sum = parseInt(negativeUserBalance) + parseInt(convertedIncome);
 
-    const newIncomeItem = {
-      value: newBalance,
-      date: date,
-      category: category,
-    };
+      const newBalance = JSON.stringify(sum);
 
-    dispatch(incomeActions.addItem(newIncomeItem));
+      const newIncomeItem = {
+        value: income,
+        date: date,
+        category: category,
+      };
 
-    console.log(formatMoney(newBalance))
-    
-    setNewIncome(formatMoney(newBalance))
+      const formattedUserBalance = formatMoney(newBalance);
+
+      const userUpdated = {
+        email: storedUser.email,
+        id: storedUser.id,
+        lastName: storedUser.lastName,
+        name: storedUser.name,
+        password: storedUser.password,
+        image: storedUser.image,
+        balance: formattedUserBalance,
+      };
+
+      const userUpdatedJSON = JSON.stringify(userUpdated);
+      localStorage.setItem("foundUser", userUpdatedJSON);
+
+      dispatch(incomeActions.addItem(newIncomeItem));
+      setNewIncome(formatMoney(newBalance));
+      setCallerEffect(!callerEffect);
+    } else {
+      const sum = parseInt(convertedUserBalance) + parseInt(convertedIncome);
+      const newBalance = JSON.stringify(sum);
+
+      const newIncomeItem = {
+        value: income,
+        date: date,
+        category: category,
+      };
+
+      const formattedUserBalance = formatMoney(newBalance);
+
+      const userUpdated = {
+        email: storedUser.email,
+        id: storedUser.id,
+        lastName: storedUser.lastName,
+        name: storedUser.name,
+        password: storedUser.password,
+        image: storedUser.image,
+        balance: formattedUserBalance,
+      };
+
+      const userUpdatedJSON = JSON.stringify(userUpdated);
+      localStorage.setItem("foundUser", userUpdatedJSON);
+
+      dispatch(incomeActions.addItem(newIncomeItem));
+      setNewIncome(formatMoney(newBalance));
+      setCallerEffect(!callerEffect);
+    }
 
     setInput(true);
     setTimeout(function () {

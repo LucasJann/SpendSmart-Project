@@ -9,14 +9,16 @@ import homeIcon from "../../Icons/home.png";
 import nutrition from "../../Icons/clock.png";
 import transportation from "../../Icons/location.png";
 
+import Card from "../Layout/Card";
+
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { format, addMinutes } from "date-fns";
 
-import Card from "../Layout/Card";
+import { v4 as uuidv4 } from "uuid";
 
 import { expenseActions } from "../../store/expense-slice";
-// import { balanceActions } from "../../store/balance-slice";
+
 
 const formatMoney = (value) => {
   const formatter = new Intl.NumberFormat("pt-BR", {
@@ -48,9 +50,34 @@ const Expense = () => {
   const [category, setCategory] = useState();
   const [isCategoryFilled, setIsCategoryFilled] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [userItems, setUserItems] = useState([]);
 
   useEffect(() => {
-    console.log(newExpense);
+    const fetchNewData = async () => {
+      try {
+        const response = await fetch(
+          "https://react-http-f8211-default-rtdb.firebaseio.com/logins.json"
+        );
+
+        if (!response.ok) {
+          throw new Error("Algo deu errado!");
+        }
+
+        const responseData = await response.json();
+
+        const loggedUser = Object.values(responseData).find(
+          (user) => user.email === storedUser.email
+        );
+
+        setUserItems(loggedUser.items);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchNewData();
+  }, [userItems]);
+
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
@@ -75,9 +102,8 @@ const Expense = () => {
           password: loggedUser.password,
           image: loggedUser.image,
           balance: newExpense,
+          items: storedUser.items,
         };
-
-        console.log(updatedUserBalance);
 
         const userKey = Object.keys(responseData).find(
           (key) => responseData[key].email === storedUser.email
@@ -149,23 +175,29 @@ const Expense = () => {
 
     const userBalance = storedUser.balance;
     const convertedUserBalance = userBalance.replace(/\D/g, "");
-    // Será necessário chamar o valor atual do localStorage, aqui, sempre que
-    // o Input for utilizado pois caso contrário os outros valores não será levados em consideração
-
-    console.log(userBalance[0]);
 
     if (userBalance[0] === "-") {
       const negativeConvertedExpense = convertedExpense * -1;
       const negativeBalance = negativeConvertedExpense - convertedUserBalance;
 
+      const id = uuidv4();
 
-      const newExpenseItem = {
-        value: negativeBalance,
-        date: date,
-        category: category,
-      };
+      const expenseItem = [
+        {
+          id: id,
+          value: expense,
+          date: date,
+          category: category,
+        },
+      ];
+
+      setUserItems(expenseItem);
 
       const formattedUserBalance = formatMoney(negativeBalance);
+
+      const storedItems = storedUser.items;
+      storedItems.push(expenseItem[0]);
+      const storedNewItem = storedItems;
 
       const userUpdated = {
         email: storedUser.email,
@@ -175,24 +207,42 @@ const Expense = () => {
         password: storedUser.password,
         image: storedUser.image,
         balance: formattedUserBalance,
+        items: storedNewItem,
       };
+
+      console.log(userUpdated);
 
       const userUpdatedJSON = JSON.stringify(userUpdated);
 
       localStorage.setItem("foundUser", userUpdatedJSON);
-      dispatch(expenseActions.addItem(newExpenseItem));
+      dispatch(expenseActions.addItem(expenseItem));
       setNewExpense(formatMoney(negativeBalance));
       setCallerEffect(!callerEffect);
     } else {
       const newBalance = convertedUserBalance - convertedExpense;
 
-      const newExpenseItem = {
-        value: newBalance,
-        date: date,
-        category: category,
-      };
+      const id = uuidv4();
+      const expenseItem = [
+        {
+          id: id,
+          value: expense,
+          date: date,
+          category: category,
+        },
+      ];
 
       const formattedUserBalance = formatMoney(newBalance);
+      const storedItems = storedUser.items;
+
+      console.log(storedUser.items[0])
+      console.log(storedItems)
+      console.log(expenseItem)
+      console.log(expenseItem[0])
+
+      storedItems.push(expenseItem[0]);
+      const storedNewItem = storedItems;
+
+      console.log(storedUser)
 
       const userUpdated = {
         email: storedUser.email,
@@ -202,13 +252,16 @@ const Expense = () => {
         password: storedUser.password,
         image: storedUser.image,
         balance: formattedUserBalance,
+        items: storedNewItem,
       };
+
+      console.log(userUpdated);
 
       const userUpdatedJSON = JSON.stringify(userUpdated);
 
       localStorage.setItem("foundUser", userUpdatedJSON);
       setNewExpense(formatMoney(newBalance));
-      dispatch(expenseActions.addItem(newExpenseItem));
+      dispatch(expenseActions.addItem(expenseItem));
       setCallerEffect(!callerEffect);
     }
 

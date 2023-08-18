@@ -32,8 +32,6 @@ const Login = () => {
     );
 
     if (foundUser) {
-      const foundUserJSON = JSON.stringify(foundUser);
-      localStorage.setItem("foundUser", foundUserJSON);
       navigation("/landingPage");
     } else {
       console.log("User not found");
