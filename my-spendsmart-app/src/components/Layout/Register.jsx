@@ -23,10 +23,9 @@ const Register = () => {
         lastName: lastName,
         email: email,
         password: password,
-        items: [''],
-        balance: '0'
+        items: [""],
+        balance: "0",
       };
-
 
       await fetch(
         "https://react-http-f8211-default-rtdb.firebaseio.com/logins.json",
@@ -36,7 +35,7 @@ const Register = () => {
         }
       );
 
-      localStorage.setItem('foundUser', JSON.stringify(newLogin))
+      localStorage.setItem("foundUser", JSON.stringify(newLogin));
 
       navigation("/");
     } else {
@@ -88,12 +87,12 @@ const Register = () => {
             className={classes.image}
           />
           <div>
-            <h2>Email</h2>
-            <input onChange={emailChange} />
             <h2>Nome</h2>
             <input onChange={nameChange} />
             <h2>Sobrenome</h2>
             <input onChange={lastNameChange} />
+            <h2>Email</h2>
+            <input onChange={emailChange} />
             <h2>Senha</h2>
             <input type="password" onChange={passwordChange} />
             <h2>Confirmar Senha</h2>

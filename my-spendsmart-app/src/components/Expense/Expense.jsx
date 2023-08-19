@@ -19,7 +19,6 @@ import { v4 as uuidv4 } from "uuid";
 
 import { expenseActions } from "../../store/expense-slice";
 
-
 const formatMoney = (value) => {
   const formatter = new Intl.NumberFormat("pt-BR", {
     style: "currency",
@@ -37,45 +36,22 @@ const Expense = () => {
   const storedUser = JSON.parse(storedUserJSON);
 
   const [date, setDate] = useState();
+  const [expense, setExpense] = useState("");
+  const [category, setCategory] = useState();
+  const [userItems, setUserItems] = useState([]);
+  const [isCategoryFilled, setIsCategoryFilled] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
   const [input, setInput] = useState(false);
   const [message, setMessage] = useState(true);
   const [warning, setWarning] = useState(false);
   const [isDateFilled, setIsDateFilled] = useState(false);
   const [callerEffect, setCallerEffect] = useState(false);
-
-  const [expense, setExpense] = useState("");
-  const [newExpense, setNewExpense] = useState(storedUser.balance);
   const [isExpenseFilled, setIsExpenseFilled] = useState(false);
 
-  const [category, setCategory] = useState();
-  const [isCategoryFilled, setIsCategoryFilled] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [userItems, setUserItems] = useState([]);
+  const [newExpense, setNewExpense] = useState(storedUser.balance);
 
-  useEffect(() => {
-    const fetchNewData = async () => {
-      try {
-        const response = await fetch(
-          "https://react-http-f8211-default-rtdb.firebaseio.com/logins.json"
-        );
-
-        if (!response.ok) {
-          throw new Error("Algo deu errado!");
-        }
-
-        const responseData = await response.json();
-
-        const loggedUser = Object.values(responseData).find(
-          (user) => user.email === storedUser.email
-        );
-
-        setUserItems(loggedUser.items);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchNewData();
-  }, [userItems]);
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -193,9 +169,13 @@ const Expense = () => {
 
       setUserItems(expenseItem);
 
+      const storedItems = storedUser.items;
       const formattedUserBalance = formatMoney(negativeBalance);
 
-      const storedItems = storedUser.items;
+      if (storedItems[0] === "") {
+        storedItems.shift();
+      }
+
       storedItems.push(expenseItem[0]);
       const storedNewItem = storedItems;
 
@@ -210,12 +190,9 @@ const Expense = () => {
         items: storedNewItem,
       };
 
-      console.log(userUpdated);
-
       const userUpdatedJSON = JSON.stringify(userUpdated);
 
       localStorage.setItem("foundUser", userUpdatedJSON);
-      dispatch(expenseActions.addItem(expenseItem));
       setNewExpense(formatMoney(negativeBalance));
       setCallerEffect(!callerEffect);
     } else {
@@ -234,15 +211,13 @@ const Expense = () => {
       const formattedUserBalance = formatMoney(newBalance);
       const storedItems = storedUser.items;
 
-      console.log(storedUser.items[0])
-      console.log(storedItems)
-      console.log(expenseItem)
-      console.log(expenseItem[0])
+
+      if (storedItems[0] === "") {
+        storedItems.shift();
+      }
 
       storedItems.push(expenseItem[0]);
       const storedNewItem = storedItems;
-
-      console.log(storedUser)
 
       const userUpdated = {
         email: storedUser.email,
@@ -255,18 +230,12 @@ const Expense = () => {
         items: storedNewItem,
       };
 
-      console.log(userUpdated);
-
       const userUpdatedJSON = JSON.stringify(userUpdated);
 
       localStorage.setItem("foundUser", userUpdatedJSON);
       setNewExpense(formatMoney(newBalance));
-      dispatch(expenseActions.addItem(expenseItem));
       setCallerEffect(!callerEffect);
     }
-
-    //Outro erro que ocorre quando colocamos dois valores iguais que vão ficar negativos, os valores negativos se anulam
-    //Verificar toda a lógica de cálculos.
 
     setInput(true);
     setTimeout(function () {

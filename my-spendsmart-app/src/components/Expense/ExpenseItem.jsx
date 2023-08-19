@@ -1,9 +1,11 @@
-import React from "react";
+// import React, { useState } from "react";
 
 import { useDispatch } from "react-redux";
 
+import { useNavigate } from "react-router-dom";
+
 import expenseAction from "../../store/expense-slice";
-import balanceSlice from "../../store/balance-slice";
+// import balanceSlice from "../../store/balance-slice";
 
 import classes from "./ExpenseItem.module.css";
 
@@ -16,8 +18,15 @@ import transportation from "../../Icons/location.png";
 
 const ExpenseItem = ({ item }) => {
   const dispatch = useDispatch();
+  const navigation = useNavigate();
+
+  const storedUserJSON = localStorage.getItem("foundUser");
+  const storedUser = JSON.parse(storedUserJSON);
+
+  // const [deleted, setDeleted] = useState(false);
 
   const { id, value, date, category } = item;
+
   let image = "";
 
   const deleteHandler = () => {
@@ -25,11 +34,108 @@ const ExpenseItem = ({ item }) => {
       "Clique em OK para confirmar a exclusão"
     );
 
-    const convertedValue = value.replace(/\D/g, "");
-
     if (userConfirmed) {
-      dispatch(expenseAction.actions.removeItem(id));
-      dispatch(balanceSlice.actions.addBalance(convertedValue));
+      const fetchData = async () => {
+        try {
+          const response = await fetch(
+            "https://react-http-f8211-default-rtdb.firebaseio.com/logins.json"
+          );
+
+          if (!response.ok) {
+            console.log("Algo deu errado");
+          }
+
+          const responseData = await response.json();
+
+          const loggedUser = Object.values(responseData).find(
+            (user) => user.email === storedUser.email
+          );
+
+          console.log("loggedUser: ", loggedUser);
+
+          const newItems = loggedUser.items.filter((item) => item.id !== id);
+
+          if (newItems.length > 0) {
+            const updatedUserItems = {
+              email: loggedUser.email,
+              id: loggedUser.id,
+              lastName: loggedUser.lastName,
+              name: loggedUser.name,
+              password: loggedUser.password,
+              image: loggedUser.image,
+              balance: loggedUser.balance,
+              items: newItems,
+            };
+
+            console.log("updatedUserItems: ", updatedUserItems);
+
+            const userKey = Object.keys(responseData).find(
+              (key) => responseData[key].email === storedUser.email
+            );
+
+            await fetch(
+              `https://react-http-f8211-default-rtdb.firebaseio.com/logins/${userKey}.json`,
+              {
+                method: "PUT",
+                body: JSON.stringify(updatedUserItems),
+              }
+            );
+          } else {
+            const newItems = [""];
+            const updatedUserItems = {
+              email: loggedUser.email,
+              id: loggedUser.id,
+              lastName: loggedUser.lastName,
+              name: loggedUser.name,
+              password: loggedUser.password,
+              image: loggedUser.image,
+              balance: loggedUser.balance,
+              items: newItems,
+            };
+
+            console.log("updatedUserItems: ", updatedUserItems);
+
+            const userKey = Object.keys(responseData).find(
+              (key) => responseData[key].email === storedUser.email
+            );
+
+            await fetch(
+              `https://react-http-f8211-default-rtdb.firebaseio.com/logins/${userKey}.json`,
+              {
+                method: "PUT",
+                body: JSON.stringify(updatedUserItems),
+              }
+            );
+          }
+
+          const newResponse = await fetch(
+            "https://react-http-f8211-default-rtdb.firebaseio.com/logins.json"
+          );
+
+          if (!newResponse.ok) {
+            console.log("Algo deu errado");
+          }
+
+          const responseNewData = await newResponse.json();
+
+          console.log("loggedUserJSON: ", responseNewData);
+
+          const user = Object.values(responseNewData).find(
+            (user) => user.email === storedUser.email
+          );
+
+          console.log("user: ", user);
+
+          const loggedUserJSON = JSON.stringify(user);
+
+          console.log("loggedUserJSON: ", loggedUserJSON);
+          localStorage.setItem("foundUser", loggedUserJSON);
+          dispatch(expenseAction.actions.update());
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      fetchData();
     }
   };
 
@@ -97,8 +203,6 @@ const ExpenseItem = ({ item }) => {
       break;
   }
 
-  const formattedDate = date.split("-").reverse().join("-");
-
   return (
     <section className={classes.container}>
       <button className={classes.delete} onClick={deleteHandler}>
@@ -113,7 +217,7 @@ const ExpenseItem = ({ item }) => {
           <p>Valor:</p>
         </div>
         <div className={classes.values}>
-          <p>{formattedDate}</p>
+          <p>{date}</p>
           <p>{value}</p>
         </div>
       </section>
