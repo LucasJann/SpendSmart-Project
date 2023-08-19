@@ -1,72 +1,33 @@
-import classes from "./ExpenseHistory.module.css";
-import ExpenseItem from "./ExpenseItem";
-
 import { addMinutes } from "date-fns";
-
-import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+
+import classes from "./ExpenseHistory.module.css";
+
+import ExpenseItem from "./ExpenseItem";
 
 const ExpenseHistory = () => {
   const navigation = useNavigate();
 
+  const [items, setItems] = useState([]);
+  const [filteredItems, setFilteredItems] = useState([]);
+
   const [selectedEndDate, setSelectedEndDate] = useState(new Date());
   const [selectedStartDate, setSelectedStartDate] = useState(new Date());
 
-  const [filteredItems, setFilteredItems] = useState([]);
-  const [items, setItems] = useState([]);
-  const [isFilteredItems, setIsFilteredItems] = useState(false);
-
   const [message, setMessage] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
-
-  const itemsUpdated = useSelector((state) => state.expense.caller);
+  const [isFilteredItems, setIsFilteredItems] = useState(false);
 
   const storedUser = localStorage.getItem("foundUser");
   const storedUserJSON = JSON.parse(storedUser);
 
-  console.log(itemsUpdated);
-  // useEffect(() => {
-  //   if (items === [""]) {
-  //     console.log('hi')
-  //     setItems([]);
-  //   }
-  // }, [items]);
-
-  // useEffect(() => {
-  //   const fetchNewData = async () => {
-  //     try {
-  //       const response = await fetch(
-  //         "https://react-http-f8211-default-rtdb.firebaseio.com/logins.json"
-  //       );
-
-  //       if (!response.ok) {
-  //         throw new Error("Algo deu errado!");
-  //       }
-
-  //       const responseData = await response.json();
-
-  //       const loggedUser = Object.values(responseData).find(
-  //         (user) => user.email === storedUserJSON.email
-  //       );
-
-  //       const loggedUserJSON = JSON.stringify(loggedUser);
-  //       localStorage.setItem("foundUser", loggedUserJSON);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  //   fetchNewData();
-  // }, [itemsUpdated, storedUserJSON]);
+  const itemsUpdated = useSelector((state) => state.expense.caller);
 
   useEffect(() => {
-
-   console.log(storedUserJSON.items[0])
-
     if (storedUserJSON.items[0] === "") {
       setItems([]);
-      // setFilteredItems([]);
-      // setIsFilteredItems(false)
     } else {
       const storedItems = storedUserJSON.items;
       setItems(storedItems);

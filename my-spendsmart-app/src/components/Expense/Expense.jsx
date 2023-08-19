@@ -1,4 +1,7 @@
-import React, { Fragment, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { format, addMinutes } from "date-fns";
+import { Fragment, useEffect, useState } from "react";
 
 import classes from "./Expense.module.css";
 
@@ -11,13 +14,7 @@ import transportation from "../../Icons/location.png";
 
 import Card from "../Layout/Card";
 
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { format, addMinutes } from "date-fns";
-
 import { v4 as uuidv4 } from "uuid";
-
-import { expenseActions } from "../../store/expense-slice";
 
 const formatMoney = (value) => {
   const formatter = new Intl.NumberFormat("pt-BR", {
@@ -29,7 +26,6 @@ const formatMoney = (value) => {
 };
 
 const Expense = () => {
-  const dispatch = useDispatch();
   const navigation = useNavigate();
 
   const storedUserJSON = localStorage.getItem("foundUser");
@@ -38,7 +34,6 @@ const Expense = () => {
   const [date, setDate] = useState();
   const [expense, setExpense] = useState("");
   const [category, setCategory] = useState();
-  const [userItems, setUserItems] = useState([]);
   const [isCategoryFilled, setIsCategoryFilled] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
 
@@ -50,8 +45,6 @@ const Expense = () => {
   const [isExpenseFilled, setIsExpenseFilled] = useState(false);
 
   const [newExpense, setNewExpense] = useState(storedUser.balance);
-
-  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -122,7 +115,7 @@ const Expense = () => {
 
   const expenseChange = (event) => {
     const value = event.target.value;
-    const numericValue = value.replace(/\D/g, ""); // Remove todos os caracteres não numéricos
+    const numericValue = value.replace(/\D/g, "");
 
     if (numericValue.length > 14) {
       setWarning(true);
@@ -167,7 +160,6 @@ const Expense = () => {
         },
       ];
 
-      setUserItems(expenseItem);
 
       const storedItems = storedUser.items;
       const formattedUserBalance = formatMoney(negativeBalance);
@@ -210,7 +202,6 @@ const Expense = () => {
 
       const formattedUserBalance = formatMoney(newBalance);
       const storedItems = storedUser.items;
-
 
       if (storedItems[0] === "") {
         storedItems.shift();

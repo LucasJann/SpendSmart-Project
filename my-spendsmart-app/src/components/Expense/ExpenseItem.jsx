@@ -1,11 +1,4 @@
-// import React, { useState } from "react";
-
 import { useDispatch } from "react-redux";
-
-import { useNavigate } from "react-router-dom";
-
-import expenseAction from "../../store/expense-slice";
-// import balanceSlice from "../../store/balance-slice";
 
 import classes from "./ExpenseItem.module.css";
 
@@ -16,14 +9,13 @@ import homeIcon from "../../Icons/home.png";
 import nutrition from "../../Icons/clock.png";
 import transportation from "../../Icons/location.png";
 
+import expenseAction from "../../store/expense-slice";
+
 const ExpenseItem = ({ item }) => {
   const dispatch = useDispatch();
-  const navigation = useNavigate();
 
   const storedUserJSON = localStorage.getItem("foundUser");
   const storedUser = JSON.parse(storedUserJSON);
-
-  // const [deleted, setDeleted] = useState(false);
 
   const { id, value, date, category } = item;
 
@@ -51,8 +43,6 @@ const ExpenseItem = ({ item }) => {
             (user) => user.email === storedUser.email
           );
 
-          console.log("loggedUser: ", loggedUser);
-
           const newItems = loggedUser.items.filter((item) => item.id !== id);
 
           if (newItems.length > 0) {
@@ -66,8 +56,6 @@ const ExpenseItem = ({ item }) => {
               balance: loggedUser.balance,
               items: newItems,
             };
-
-            console.log("updatedUserItems: ", updatedUserItems);
 
             const userKey = Object.keys(responseData).find(
               (key) => responseData[key].email === storedUser.email
@@ -93,8 +81,6 @@ const ExpenseItem = ({ item }) => {
               items: newItems,
             };
 
-            console.log("updatedUserItems: ", updatedUserItems);
-
             const userKey = Object.keys(responseData).find(
               (key) => responseData[key].email === storedUser.email
             );
@@ -118,17 +104,12 @@ const ExpenseItem = ({ item }) => {
 
           const responseNewData = await newResponse.json();
 
-          console.log("loggedUserJSON: ", responseNewData);
-
           const user = Object.values(responseNewData).find(
             (user) => user.email === storedUser.email
           );
 
-          console.log("user: ", user);
-
           const loggedUserJSON = JSON.stringify(user);
 
-          console.log("loggedUserJSON: ", loggedUserJSON);
           localStorage.setItem("foundUser", loggedUserJSON);
           dispatch(expenseAction.actions.update());
         } catch (error) {
