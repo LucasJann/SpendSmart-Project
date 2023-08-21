@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 
 import classes from "./ExpenseItem.module.css";
@@ -10,6 +11,16 @@ import nutrition from "../../Icons/clock.png";
 import transportation from "../../Icons/location.png";
 
 import expenseAction from "../../store/expense-slice";
+
+const formatMoney = (value) => {
+  const formatter = new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+    minimumFractionDigits: 2,
+  });
+
+  return formatter.format((value / 100).toFixed(2));
+};
 
 const ExpenseItem = ({ item }) => {
   const dispatch = useDispatch();
@@ -44,54 +55,140 @@ const ExpenseItem = ({ item }) => {
           );
 
           const newItems = loggedUser.items.filter((item) => item.id !== id);
+          const storedBalance = storedUser;
+          console.log(storedBalance);
 
-          if (newItems.length > 0) {
-            const updatedUserItems = {
-              email: loggedUser.email,
-              id: loggedUser.id,
-              lastName: loggedUser.lastName,
-              name: loggedUser.name,
-              password: loggedUser.password,
-              image: loggedUser.image,
-              balance: loggedUser.balance,
-              items: newItems,
-            };
+          if (storedBalance.balance[0] === "-") {
+            const convertedValue = value.replace(/\D/g, "");
+            const convertedBalance = storedBalance.balance.replace(/\D/g, "");
+            const negativeBalance = convertedBalance * -1;
+            console.log(negativeBalance);
 
-            const userKey = Object.keys(responseData).find(
-              (key) => responseData[key].email === storedUser.email
-            );
+            const cashBack =
+              parseInt(negativeBalance) + parseInt(convertedValue);
+            console.log(cashBack);
 
-            await fetch(
-              `https://react-http-f8211-default-rtdb.firebaseio.com/logins/${userKey}.json`,
-              {
-                method: "PUT",
-                body: JSON.stringify(updatedUserItems),
-              }
-            );
+            const formattedCashBack = formatMoney(cashBack);
+
+            if (newItems.length > 0) {
+              console.log(newItems.length);
+              console.log("NEGATIVO, maior que zero");
+              const updatedUserItems = {
+                email: loggedUser.email,
+                id: loggedUser.id,
+                lastName: loggedUser.lastName,
+                name: loggedUser.name,
+                password: loggedUser.password,
+                image: loggedUser.image,
+                balance: formattedCashBack,
+                items: newItems,
+              };
+
+              const userKey = Object.keys(responseData).find(
+                (key) => responseData[key].email === storedUser.email
+              );
+
+              await fetch(
+                `https://react-http-f8211-default-rtdb.firebaseio.com/logins/${userKey}.json`,
+                {
+                  method: "PUT",
+                  body: JSON.stringify(updatedUserItems),
+                }
+              );
+            } else {
+              console.log("NEGATIVO = zero items");
+              const newItems = [""];
+
+              const updatedUserItems = {
+                email: loggedUser.email,
+                id: loggedUser.id,
+                lastName: loggedUser.lastName,
+                name: loggedUser.name,
+                password: loggedUser.password,
+                image: loggedUser.image,
+                balance: formattedCashBack,
+                items: newItems,
+              };
+
+              const userKey = Object.keys(responseData).find(
+                (key) => responseData[key].email === storedUser.email
+              );
+
+              await fetch(
+                `https://react-http-f8211-default-rtdb.firebaseio.com/logins/${userKey}.json`,
+                {
+                  method: "PUT",
+                  body: JSON.stringify(updatedUserItems),
+                }
+              );
+            }
           } else {
-            const newItems = [""];
-            const updatedUserItems = {
-              email: loggedUser.email,
-              id: loggedUser.id,
-              lastName: loggedUser.lastName,
-              name: loggedUser.name,
-              password: loggedUser.password,
-              image: loggedUser.image,
-              balance: loggedUser.balance,
-              items: newItems,
-            };
+            const convertedValue = value.replace(/\D/g, "");
+            const convertedBalance = storedBalance.balance.replace(/\D/g, "");
 
-            const userKey = Object.keys(responseData).find(
-              (key) => responseData[key].email === storedUser.email
-            );
+            console.log(convertedValue);
+            console.log(convertedBalance);
 
-            await fetch(
-              `https://react-http-f8211-default-rtdb.firebaseio.com/logins/${userKey}.json`,
-              {
-                method: "PUT",
-                body: JSON.stringify(updatedUserItems),
-              }
-            );
+            const cashBack =
+              parseInt(convertedBalance) + parseInt(convertedValue);
+
+            const formattedCashBack = formatMoney(cashBack);
+
+            if (newItems.length > 0) {
+              console.log("POSITIVO, maior que zero");
+              const updatedUserItems = {
+                email: loggedUser.email,
+                id: loggedUser.id,
+                lastName: loggedUser.lastName,
+                name: loggedUser.name,
+                password: loggedUser.password,
+                image: loggedUser.image,
+                balance: formattedCashBack,
+                items: newItems,
+              };
+
+              console.log(updatedUserItems);
+
+              const userKey = Object.keys(responseData).find(
+                (key) => responseData[key].email === storedUser.email
+              );
+
+              await fetch(
+                `https://react-http-f8211-default-rtdb.firebaseio.com/logins/${userKey}.json`,
+                {
+                  method: "PUT",
+                  body: JSON.stringify(updatedUserItems),
+                }
+              );
+            } else {
+              console.log("POSITIVO = zero items");
+              const newItems = [""];
+
+              const updatedUserItems = {
+                email: loggedUser.email,
+                id: loggedUser.id,
+                lastName: loggedUser.lastName,
+                name: loggedUser.name,
+                password: loggedUser.password,
+                image: loggedUser.image,
+                balance: formattedCashBack,
+                items: newItems,
+              };
+
+              console.log(updatedUserItems);
+
+              const userKey = Object.keys(responseData).find(
+                (key) => responseData[key].email === storedUser.email
+              );
+
+              await fetch(
+                `https://react-http-f8211-default-rtdb.firebaseio.com/logins/${userKey}.json`,
+                {
+                  method: "PUT",
+                  body: JSON.stringify(updatedUserItems),
+                }
+              );
+            }
           }
 
           const newResponse = await fetch(

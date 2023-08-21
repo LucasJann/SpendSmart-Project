@@ -140,10 +140,9 @@ const Expense = () => {
   };
 
   const onInputHandler = () => {
-    const convertedExpense = expense.replace(/\D/g, "");
-
     const userBalance = storedUser.balance;
     const convertedUserBalance = userBalance.replace(/\D/g, "");
+    const convertedExpense = expense.replace(/\D/g, "");
 
     if (userBalance[0] === "-") {
       const negativeConvertedExpense = convertedExpense * -1;
@@ -159,7 +158,6 @@ const Expense = () => {
           category: category,
         },
       ];
-
 
       const storedItems = storedUser.items;
       const formattedUserBalance = formatMoney(negativeBalance);

@@ -6,7 +6,7 @@ import undefinedImage from "../../Imgs/profile_undefined.jpg";
 
 import { balanceActions } from "../../store/balance-slice";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const formatMoney = (value) => {
   const formatter = new Intl.NumberFormat("pt-BR", {
@@ -50,6 +50,9 @@ const Profile = () => {
 
       const newResponseData = await newResponse.json();
 
+      const logged = localStorage.getItem("foundUser");
+      const loggedUser = JSON.parse(logged);
+
       const user = Object.values(newResponseData).find(
         (user) => user.email === loggedUser.email
       );
@@ -64,7 +67,7 @@ const Profile = () => {
       setBalance(storedUser.balance);
     };
     fetchNewData();
-  }, [isBalanceChanged]);
+  }, [isBalanceChanged, dispatch]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -149,9 +152,6 @@ const Profile = () => {
         items: loggedUser.items,
       };
 
-      // const updatedUserDataJSON = JSON.stringify(updatedUserData);
-      // localStorage.setItem("foundUser", updatedUserDataJSON);
-
       try {
         await fetch(
           `https://react-http-f8211-default-rtdb.firebaseio.com/logins/${key}.json`,
@@ -191,7 +191,9 @@ const Profile = () => {
 
   const balanceHandler = (event) => {
     const value = event.target.value;
+    console.log(value);
     const numericValue = value.replace(/\D/g, ""); // Remove todos os caracteres não numéricos
+    console.log(numericValue);
 
     if (numericValue.length > 14) {
       setBalance(formatMoney(numericValue));
@@ -287,7 +289,7 @@ const Profile = () => {
           </div>
         )}
         <input
-          value={balance ? balance : formatMoney(0.0)}
+          value={balance === '0' ? "R$0,00" : balance}
           disabled={isDisabled}
           onChange={balanceHandler}
           className={classes.profileInput}
