@@ -40,6 +40,7 @@ const Profile = () => {
 
   useEffect(() => {
     const fetchNewData = async () => {
+      console.log("hey");
       const newResponse = await fetch(
         "https://react-http-f8211-default-rtdb.firebaseio.com/logins.json"
       );
@@ -50,21 +51,21 @@ const Profile = () => {
 
       const newResponseData = await newResponse.json();
 
-      const logged = localStorage.getItem("foundUser");
-      const loggedUser = JSON.parse(logged);
+      const storedUserJSON = localStorage.getItem("foundUser");
+      const storedUser = JSON.parse(storedUserJSON);
 
       const user = Object.values(newResponseData).find(
-        (user) => user.email === loggedUser.email
+        (user) => user.email === storedUser.email
       );
 
       const loggedUserJSON = JSON.stringify(user);
       localStorage.setItem("foundUser", loggedUserJSON);
 
-      const storedUserJSON = localStorage.getItem("foundUser");
-      const storedUser = JSON.parse(storedUserJSON);
+      const updatedJSON = localStorage.getItem("foundUser");
+      const updated = JSON.parse(updatedJSON);
 
-      dispatch(balanceActions.upgrade(storedUser.balance));
-      setBalance(storedUser.balance);
+      setBalance(updated.balance);
+      // dispatch(balanceActions.upgrade(storedUser.balance));
     };
     fetchNewData();
   }, [isBalanceChanged, dispatch]);
@@ -82,11 +83,9 @@ const Profile = () => {
 
         const responseData = await response.json();
 
-        // Verificando se o usuário logado está presente no Firebase.
         const user = Object.values(responseData).find(
           (user) => user.email === loggedUser.email
         );
-        // Retorna o usuário logado com suas propriedades.
 
         if (loggedUser && loggedUser.hasOwnProperty("image")) {
           setStoredImage(user.image);
@@ -95,7 +94,6 @@ const Profile = () => {
           setIsChecked(false);
         }
 
-        //Se o usuário estiver presente, o objeto será verificado para acessar sua chave
         if (user) {
           const userKey = Object.keys(responseData).find(
             (key) => responseData[key].email === loggedUser.email
@@ -149,7 +147,8 @@ const Profile = () => {
         password: loggedUser.password,
         image: image,
         balance: balance,
-        items: loggedUser.items,
+        expenseItems: loggedUser.expenseItems,
+        incomeItems: loggedUser.incomeItems,
       };
 
       try {
@@ -191,9 +190,7 @@ const Profile = () => {
 
   const balanceHandler = (event) => {
     const value = event.target.value;
-    console.log(value);
-    const numericValue = value.replace(/\D/g, ""); // Remove todos os caracteres não numéricos
-    console.log(numericValue);
+    const numericValue = value.replace(/\D/g, ""); 
 
     if (numericValue.length > 14) {
       setBalance(formatMoney(numericValue));
@@ -222,8 +219,9 @@ const Profile = () => {
         name: loggedUser.name,
         password: loggedUser.password,
         image: image,
+        expenseItems: loggedUser.expenseItems,
+        incomeItems: loggedUser.incomeItems,
         balance: balance,
-        items: loggedUser.items,
       };
 
       try {
@@ -289,7 +287,7 @@ const Profile = () => {
           </div>
         )}
         <input
-          value={balance === '0' ? "R$0,00" : balance}
+          value={balance === "0" ? "R$0,00" : balance}
           disabled={isDisabled}
           onChange={balanceHandler}
           className={classes.profileInput}

@@ -54,9 +54,8 @@ const ExpenseItem = ({ item }) => {
             (user) => user.email === storedUser.email
           );
 
-          const newItems = loggedUser.items.filter((item) => item.id !== id);
+          const newItems = loggedUser.expenseItems.filter((item) => item.id !== id);
           const storedBalance = storedUser;
-          console.log(storedBalance);
 
           if (storedBalance.balance[0] === "-") {
             const convertedValue = value.replace(/\D/g, "");
@@ -81,7 +80,8 @@ const ExpenseItem = ({ item }) => {
                 password: loggedUser.password,
                 image: loggedUser.image,
                 balance: formattedCashBack,
-                items: newItems,
+                expenseItems: newItems,
+                incomeItems: loggedUser.incomeItems,
               };
 
               const userKey = Object.keys(responseData).find(
@@ -107,7 +107,8 @@ const ExpenseItem = ({ item }) => {
                 password: loggedUser.password,
                 image: loggedUser.image,
                 balance: formattedCashBack,
-                items: newItems,
+                expenseItems: newItems,
+                incomeItems: loggedUser.incomeItems,
               };
 
               const userKey = Object.keys(responseData).find(
@@ -144,7 +145,8 @@ const ExpenseItem = ({ item }) => {
                 password: loggedUser.password,
                 image: loggedUser.image,
                 balance: formattedCashBack,
-                items: newItems,
+                expenseItems: newItems,
+                incomeItems: loggedUser.incomeItems,
               };
 
               console.log(updatedUserItems);
@@ -172,7 +174,8 @@ const ExpenseItem = ({ item }) => {
                 password: loggedUser.password,
                 image: loggedUser.image,
                 balance: formattedCashBack,
-                items: newItems,
+                expenseItems: newItems,
+                incomeItems: loggedUser.incomeItems,
               };
 
               console.log(updatedUserItems);

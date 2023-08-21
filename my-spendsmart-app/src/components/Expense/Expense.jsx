@@ -71,7 +71,8 @@ const Expense = () => {
           password: loggedUser.password,
           image: loggedUser.image,
           balance: newExpense,
-          items: storedUser.items,
+          expenseItems: storedUser.expenseItems,
+          incomeItems: loggedUser.incomeItems,
         };
 
         const userKey = Object.keys(responseData).find(
@@ -159,7 +160,7 @@ const Expense = () => {
         },
       ];
 
-      const storedItems = storedUser.items;
+      const storedItems = storedUser.expenseItems;
       const formattedUserBalance = formatMoney(negativeBalance);
 
       if (storedItems[0] === "") {
@@ -177,7 +178,8 @@ const Expense = () => {
         password: storedUser.password,
         image: storedUser.image,
         balance: formattedUserBalance,
-        items: storedNewItem,
+        expenseItems: storedNewItem,
+        incomeItems: storedUser.incomeItems,
       };
 
       const userUpdatedJSON = JSON.stringify(userUpdated);
@@ -199,7 +201,7 @@ const Expense = () => {
       ];
 
       const formattedUserBalance = formatMoney(newBalance);
-      const storedItems = storedUser.items;
+      const storedItems = storedUser.expenseItems;
 
       if (storedItems[0] === "") {
         storedItems.shift();
@@ -216,7 +218,8 @@ const Expense = () => {
         password: storedUser.password,
         image: storedUser.image,
         balance: formattedUserBalance,
-        items: storedNewItem,
+        expenseItems: storedNewItem,
+        incomeItems: storedUser.incomeItems,
       };
 
       const userUpdatedJSON = JSON.stringify(userUpdated);

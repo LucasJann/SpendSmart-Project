@@ -26,10 +26,10 @@ const ExpenseHistory = () => {
   const itemsUpdated = useSelector((state) => state.expense.caller);
 
   useEffect(() => {
-    if (storedUserJSON.items[0] === "") {
+    if (storedUserJSON.expenseItems[0] === "") {
       setItems([]);
     } else {
-      const storedItems = storedUserJSON.items;
+      const storedItems = storedUserJSON.expenseItems;
       setItems(storedItems);
     }
   }, [itemsUpdated]);

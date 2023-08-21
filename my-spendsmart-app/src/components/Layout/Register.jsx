@@ -23,7 +23,8 @@ const Register = () => {
         lastName: lastName,
         email: email,
         password: password,
-        items: [""],
+        expenseItems: [""],
+        imcomeItems: [""],
         balance: "0",
       };
 
