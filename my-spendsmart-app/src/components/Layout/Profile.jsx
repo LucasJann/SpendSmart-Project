@@ -40,7 +40,6 @@ const Profile = () => {
 
   useEffect(() => {
     const fetchNewData = async () => {
-      console.log("hey");
       const newResponse = await fetch(
         "https://react-http-f8211-default-rtdb.firebaseio.com/logins.json"
       );

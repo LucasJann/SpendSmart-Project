@@ -7,8 +7,7 @@ const goalSlice = createSlice({
   },
   reducers: {
     addItem(state, action) {
-      state.items.unshift(action.payload) 
-      console.log(state.items.slice())
+      state.items.unshift(action.payload);
     },
     removeItem(state, action) {
       const newState = [];

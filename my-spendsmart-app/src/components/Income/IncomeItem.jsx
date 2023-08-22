@@ -200,8 +200,6 @@ const IncomeItem = ({ item }) => {
     }
   };
 
-  console.log(category);
-
   switch (category) {
     case "finance":
       image = (

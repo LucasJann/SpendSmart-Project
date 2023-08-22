@@ -53,24 +53,22 @@ const ExpenseItem = ({ item }) => {
             (user) => user.email === storedUser.email
           );
 
-          const newItems = loggedUser.expenseItems.filter((item) => item.id !== id);
+          const newItems = loggedUser.expenseItems.filter(
+            (item) => item.id !== id
+          );
           const storedBalance = storedUser;
 
           if (storedBalance.balance[0] === "-") {
             const convertedValue = value.replace(/\D/g, "");
             const convertedBalance = storedBalance.balance.replace(/\D/g, "");
             const negativeBalance = convertedBalance * -1;
-            console.log(negativeBalance);
 
             const cashBack =
               parseInt(negativeBalance) + parseInt(convertedValue);
-            console.log(cashBack);
 
             const formattedCashBack = formatMoney(cashBack);
 
             if (newItems.length > 0) {
-              console.log(newItems.length);
-              console.log("NEGATIVO, maior que zero");
               const updatedUserItems = {
                 email: loggedUser.email,
                 id: loggedUser.id,
@@ -95,7 +93,6 @@ const ExpenseItem = ({ item }) => {
                 }
               );
             } else {
-              console.log("NEGATIVO = zero items");
               const newItems = [""];
 
               const updatedUserItems = {
@@ -126,16 +123,12 @@ const ExpenseItem = ({ item }) => {
             const convertedValue = value.replace(/\D/g, "");
             const convertedBalance = storedBalance.balance.replace(/\D/g, "");
 
-            console.log(convertedValue);
-            console.log(convertedBalance);
-
             const cashBack =
               parseInt(convertedBalance) + parseInt(convertedValue);
 
             const formattedCashBack = formatMoney(cashBack);
 
             if (newItems.length > 0) {
-              console.log("POSITIVO, maior que zero");
               const updatedUserItems = {
                 email: loggedUser.email,
                 id: loggedUser.id,
@@ -147,8 +140,6 @@ const ExpenseItem = ({ item }) => {
                 expenseItems: newItems,
                 incomeItems: loggedUser.incomeItems,
               };
-
-              console.log(updatedUserItems);
 
               const userKey = Object.keys(responseData).find(
                 (key) => responseData[key].email === storedUser.email
@@ -162,7 +153,6 @@ const ExpenseItem = ({ item }) => {
                 }
               );
             } else {
-              console.log("POSITIVO = zero items");
               const newItems = [""];
 
               const updatedUserItems = {
@@ -176,8 +166,6 @@ const ExpenseItem = ({ item }) => {
                 expenseItems: newItems,
                 incomeItems: loggedUser.incomeItems,
               };
-
-              console.log(updatedUserItems);
 
               const userKey = Object.keys(responseData).find(
                 (key) => responseData[key].email === storedUser.email

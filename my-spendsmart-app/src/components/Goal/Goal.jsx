@@ -21,7 +21,6 @@ const formatMoney = (value) => {
 
 const Goal = () => {
   const balance = useSelector((state) => state.value.balance);
-  console.log(balance)
   const goalItem = useSelector((state) => state.goal.items);
 
   const [goal, setGoal] = useState("");

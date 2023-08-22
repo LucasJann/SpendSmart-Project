@@ -23,9 +23,6 @@ const IncomeHistory = () => {
   const storedUser = localStorage.getItem("foundUser");
   const storedUserJSON = JSON.parse(storedUser);
 
-  console.log(storedUserJSON)
-  console.log(storedUserJSON.incomeItems)
-
   const itemsUpdated = useSelector((state) => state.income.caller);
 
   useEffect(() => {
@@ -36,22 +33,6 @@ const IncomeHistory = () => {
       setItems(storedItems);
     }
   }, [itemsUpdated]);
-
-  useEffect(() => {
-    const formattedStartDate = selectedStartDate.toISOString().split("T")[0];
-    const formattedEndDate = selectedEndDate.toISOString().split("T")[0];
-
-    const filteredItems = items.filter((items) => {
-      const date = items.date;
-
-      if (date >= formattedStartDate && date <= formattedEndDate) {
-        return true;
-      } else {
-        return false;
-      }
-    });
-    setFilteredItems(filteredItems);
-  }, [isFilteredItems, selectedStartDate, selectedEndDate, items]);
 
   const startDateChange = (event) => {
     const selectedStartDate = new Date(event.target.value);

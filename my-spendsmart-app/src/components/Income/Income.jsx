@@ -75,8 +75,6 @@ const Income = () => {
           incomeItems: storedUser.incomeItems,
         };
 
-        console.log(updatedUserBalance)
-
         const userKey = Object.keys(responseData).find(
           (key) => responseData[key].email === storedUser.email
         );
