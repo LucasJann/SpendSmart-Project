@@ -13,6 +13,8 @@ import { format, addMinutes } from "date-fns";
 
 import { incomeActions } from "../../store/income-slice";
 
+import { v4 as uuidv4 } from "uuid";
+
 const formatMoney = (value) => {
   const formatter = new Intl.NumberFormat("pt-BR", {
     style: "currency",
@@ -69,7 +71,11 @@ const Income = () => {
           password: loggedUser.password,
           image: loggedUser.image,
           balance: newIncome,
+          expenseItems: loggedUser.expenseItems,
+          incomeItems: storedUser.incomeItems,
         };
+
+        console.log(updatedUserBalance)
 
         const userKey = Object.keys(responseData).find(
           (key) => responseData[key].email === storedUser.email
@@ -143,9 +149,9 @@ const Income = () => {
   };
 
   const onInputHandler = () => {
-    const convertedIncome = income.replace(/\D/g, "");
-
     const userBalance = storedUser.balance;
+
+    const convertedIncome = income.replace(/\D/g, "");
     const convertedUserBalance = userBalance.replace(/\D/g, "");
 
     if (userBalance[0] === "-") {
@@ -153,14 +159,27 @@ const Income = () => {
       const sum = parseInt(negativeUserBalance) + parseInt(convertedIncome);
 
       const newBalance = JSON.stringify(sum);
-
-      const newIncomeItem = {
-        value: income,
-        date: date,
-        category: category,
-      };
-
       const formattedUserBalance = formatMoney(newBalance);
+
+      const storedItems = storedUser.incomeItems;
+
+      if (storedItems[0] === "") {
+        storedItems.shift();
+      }
+
+      const id = uuidv4();
+
+      const newIncomeItem = [
+        {
+          id: id,
+          value: income,
+          date: date,
+          category: category,
+        },
+      ];
+
+      storedItems.push(newIncomeItem[0]);
+      const storedNewItem = storedItems;
 
       const userUpdated = {
         email: storedUser.email,
@@ -170,25 +189,38 @@ const Income = () => {
         password: storedUser.password,
         image: storedUser.image,
         balance: formattedUserBalance,
+        expenseItems: storedUser.expenseItems,
+        incomeItems: storedNewItem,
       };
 
       const userUpdatedJSON = JSON.stringify(userUpdated);
       localStorage.setItem("foundUser", userUpdatedJSON);
 
-      dispatch(incomeActions.addItem(newIncomeItem));
       setNewIncome(formatMoney(newBalance));
       setCallerEffect(!callerEffect);
     } else {
       const sum = parseInt(convertedUserBalance) + parseInt(convertedIncome);
       const newBalance = JSON.stringify(sum);
-
-      const newIncomeItem = {
-        value: income,
-        date: date,
-        category: category,
-      };
-
       const formattedUserBalance = formatMoney(newBalance);
+
+      const id = uuidv4();
+      const incomeItem = [
+        {
+          id: id,
+          value: income,
+          date: date,
+          category: category,
+        },
+      ];
+
+      const storedItems = storedUser.incomeItems;
+
+      if (storedItems[0] === "") {
+        storedItems.shift();
+      }
+
+      storedItems.push(incomeItem[0]);
+      const storedNewItem = storedItems;
 
       const userUpdated = {
         email: storedUser.email,
@@ -198,12 +230,13 @@ const Income = () => {
         password: storedUser.password,
         image: storedUser.image,
         balance: formattedUserBalance,
+        expenseItems: storedUser.expenseItems,
+        incomeItems: storedNewItem,
       };
 
       const userUpdatedJSON = JSON.stringify(userUpdated);
-      localStorage.setItem("foundUser", userUpdatedJSON);
 
-      dispatch(incomeActions.addItem(newIncomeItem));
+      localStorage.setItem("foundUser", userUpdatedJSON);
       setNewIncome(formatMoney(newBalance));
       setCallerEffect(!callerEffect);
     }

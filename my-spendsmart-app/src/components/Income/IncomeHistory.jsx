@@ -10,21 +10,38 @@ import { useNavigate } from "react-router-dom";
 const IncomeHistory = () => {
   const navigation = useNavigate();
 
-  const [selectedStartDate, setSelectedStartDate] = useState(new Date());
-  const [selectedEndDate, setSelectedEndDate] = useState(new Date());
-
   const [items, setItems] = useState([]);
-  const [isSearch, setIsSearch] = useState(false);
-  const [message, setMessage] = useState(false);
-  const [isItemsFiltered, setIsItemsFiltered] = useState(false);
+  const [filteredItems, setFilteredItems] = useState([]);
 
-  const releases = useSelector((state) => state.income.items);
+  const [selectedEndDate, setSelectedEndDate] = useState(new Date());
+  const [selectedStartDate, setSelectedStartDate] = useState(new Date());
+
+  const [message, setMessage] = useState(false);
+  const [isSearch, setIsSearch] = useState(false);
+  const [isFilteredItems, setIsFilteredItems] = useState(false);
+
+  const storedUser = localStorage.getItem("foundUser");
+  const storedUserJSON = JSON.parse(storedUser);
+
+  console.log(storedUserJSON)
+  console.log(storedUserJSON.incomeItems)
+
+  const itemsUpdated = useSelector((state) => state.income.caller);
+
+  useEffect(() => {
+    if (storedUserJSON.incomeItems[0] === "") {
+      setItems([]);
+    } else {
+      const storedItems = storedUserJSON.incomeItems;
+      setItems(storedItems);
+    }
+  }, [itemsUpdated]);
 
   useEffect(() => {
     const formattedStartDate = selectedStartDate.toISOString().split("T")[0];
     const formattedEndDate = selectedEndDate.toISOString().split("T")[0];
 
-    const filteredItems = releases.filter((items) => {
+    const filteredItems = items.filter((items) => {
       const date = items.date;
 
       if (date >= formattedStartDate && date <= formattedEndDate) {
@@ -33,8 +50,8 @@ const IncomeHistory = () => {
         return false;
       }
     });
-    setItems(filteredItems);
-  }, [releases]);
+    setFilteredItems(filteredItems);
+  }, [isFilteredItems, selectedStartDate, selectedEndDate, items]);
 
   const startDateChange = (event) => {
     const selectedStartDate = new Date(event.target.value);
@@ -69,21 +86,22 @@ const IncomeHistory = () => {
     const formattedStartDate = selectedStartDate.toISOString().split("T")[0];
     const formattedEndDate = selectedEndDate.toISOString().split("T")[0];
 
-    const filteredItems = releases.filter((items) => {
+    const filteredItems = items.filter((items) => {
       const date = items.date;
 
       if (date >= formattedStartDate && date <= formattedEndDate) {
         return true;
+      } else {
+        return false;
       }
-      return false;
     });
 
     if (filteredItems.length >= 0) {
       filteredItems.length === 0 ? setMessage(true) : setMessage(false);
-      setItems(filteredItems);
-      setIsItemsFiltered(true);
+      setFilteredItems(filteredItems);
+      setIsFilteredItems(true);
     } else {
-      setIsItemsFiltered(false);
+      setIsFilteredItems(false);
     }
     setIsSearch(true);
   };
@@ -117,22 +135,26 @@ const IncomeHistory = () => {
           className={classes.inputDate}
         />
       </h2>
-      <button onClick={searchHandler} className={classes.searchBtn}>
+      <button className={classes.searchBtn} onClick={searchHandler}>
         Procurar
       </button>
       {isSearch && (
         <h3 className={classes.releases}> Histórico de Lançamentos por Data</h3>
       )}
-      {!isSearch && <h3 className={classes.allReleasesText}>Todos Lançamentos</h3>}
       {message && (
         <p className={classes.message}>
           Não há registros inseridos na data específicada
         </p>
       )}
-      {isItemsFiltered
-        ? items.map((item, index) => <IncomeItem key={index} item={item} />)
-        : releases.map((item, index) => <IncomeItem key={index} item={item} />)}
-      {releases.length === 0 && !message && (
+      {!isSearch && (
+        <h3 className={classes.allReleasesText}>Todos Lançamentos</h3>
+      )}
+      {isFilteredItems
+        ? filteredItems.map((item, index) => (
+            <IncomeItem key={index} item={item} />
+          ))
+        : items.map((item, index) => <IncomeItem key={index} item={item} />)}
+      {items.length === 0 && !message && (
         <p className={classes.releaseMessage}>Não há lançamentos registrados</p>
       )}
     </section>

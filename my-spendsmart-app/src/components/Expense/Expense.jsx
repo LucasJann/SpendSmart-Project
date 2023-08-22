@@ -146,8 +146,16 @@ const Expense = () => {
     const convertedExpense = expense.replace(/\D/g, "");
 
     if (userBalance[0] === "-") {
-      const negativeConvertedExpense = convertedExpense * -1;
-      const negativeBalance = negativeConvertedExpense - convertedUserBalance;
+      const negativeExpense = convertedExpense * -1;
+      const negativeBalance = negativeExpense - convertedUserBalance;
+
+      const formattedUserBalance = formatMoney(negativeBalance);
+
+      const storedItems = storedUser.expenseItems;
+
+      if (storedItems[0] === "") {
+        storedItems.shift();
+      }
 
       const id = uuidv4();
 
@@ -159,13 +167,6 @@ const Expense = () => {
           category: category,
         },
       ];
-
-      const storedItems = storedUser.expenseItems;
-      const formattedUserBalance = formatMoney(negativeBalance);
-
-      if (storedItems[0] === "") {
-        storedItems.shift();
-      }
 
       storedItems.push(expenseItem[0]);
       const storedNewItem = storedItems;
