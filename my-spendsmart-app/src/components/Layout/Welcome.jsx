@@ -5,7 +5,6 @@ import classes from "./Welcome.module.css";
 
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { balanceActions } from "../../store/balance-slice";
 
 const formatMoney = (value) => {
   const formatter = new Intl.NumberFormat("pt-BR", {
@@ -30,7 +29,6 @@ const Welcome = () => {
   
   const onClickHandler = () => {
     const convertedValue = initialBalance.replace(/\D/g, "")
-    dispatch(balanceActions.addBalance(convertedValue));
     navigate("/landingPage");
   };
 

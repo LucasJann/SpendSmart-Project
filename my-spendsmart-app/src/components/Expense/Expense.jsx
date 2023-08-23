@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { format, addMinutes } from "date-fns";
 import { Fragment, useEffect, useState } from "react";
 
@@ -73,6 +72,7 @@ const Expense = () => {
           balance: newExpense,
           expenseItems: storedUser.expenseItems,
           incomeItems: loggedUser.incomeItems,
+          goals: loggedUser.goals,
         };
 
         const userKey = Object.keys(responseData).find(
@@ -181,6 +181,7 @@ const Expense = () => {
         balance: formattedUserBalance,
         expenseItems: storedNewItem,
         incomeItems: storedUser.incomeItems,
+        goal: storedUser.goal,
       };
 
       const userUpdatedJSON = JSON.stringify(userUpdated);
@@ -221,6 +222,7 @@ const Expense = () => {
         balance: formattedUserBalance,
         expenseItems: storedNewItem,
         incomeItems: storedUser.incomeItems,
+        goal: storedUser.goal,
       };
 
       const userUpdatedJSON = JSON.stringify(userUpdated);

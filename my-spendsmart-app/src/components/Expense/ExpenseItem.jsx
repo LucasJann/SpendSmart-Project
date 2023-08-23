@@ -9,7 +9,7 @@ import homeIcon from "../../Icons/home.png";
 import nutrition from "../../Icons/clock.png";
 import transportation from "../../Icons/location.png";
 
-import expenseAction from "../../store/expense-slice";
+import { callerActions } from "../../store/caller-slice";
 
 const formatMoney = (value) => {
   const formatter = new Intl.NumberFormat("pt-BR", {
@@ -79,6 +79,7 @@ const ExpenseItem = ({ item }) => {
                 balance: formattedCashBack,
                 expenseItems: newItems,
                 incomeItems: loggedUser.incomeItems,
+                goals: loggedUser.goals,
               };
 
               const userKey = Object.keys(responseData).find(
@@ -105,6 +106,7 @@ const ExpenseItem = ({ item }) => {
                 balance: formattedCashBack,
                 expenseItems: newItems,
                 incomeItems: loggedUser.incomeItems,
+                goals: loggedUser.goals,
               };
 
               const userKey = Object.keys(responseData).find(
@@ -139,6 +141,7 @@ const ExpenseItem = ({ item }) => {
                 balance: formattedCashBack,
                 expenseItems: newItems,
                 incomeItems: loggedUser.incomeItems,
+                goals: loggedUser.goals,
               };
 
               const userKey = Object.keys(responseData).find(
@@ -165,6 +168,7 @@ const ExpenseItem = ({ item }) => {
                 balance: formattedCashBack,
                 expenseItems: newItems,
                 incomeItems: loggedUser.incomeItems,
+                goals: loggedUser.goals,
               };
 
               const userKey = Object.keys(responseData).find(
@@ -198,7 +202,7 @@ const ExpenseItem = ({ item }) => {
           const loggedUserJSON = JSON.stringify(user);
 
           localStorage.setItem("foundUser", loggedUserJSON);
-          dispatch(expenseAction.actions.update());
+          dispatch(callerActions.update());
         } catch (error) {
           console.error(error);
         }

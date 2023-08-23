@@ -11,8 +11,6 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { format, addMinutes } from "date-fns";
 
-import { incomeActions } from "../../store/income-slice";
-
 import { v4 as uuidv4 } from "uuid";
 
 const formatMoney = (value) => {
@@ -73,6 +71,7 @@ const Income = () => {
           balance: newIncome,
           expenseItems: loggedUser.expenseItems,
           incomeItems: storedUser.incomeItems,
+          goals: loggedUser.goals,
         };
 
         const userKey = Object.keys(responseData).find(
@@ -189,6 +188,7 @@ const Income = () => {
         balance: formattedUserBalance,
         expenseItems: storedUser.expenseItems,
         incomeItems: storedNewItem,
+        goals: storedUser.goals,
       };
 
       const userUpdatedJSON = JSON.stringify(userUpdated);
@@ -230,6 +230,7 @@ const Income = () => {
         balance: formattedUserBalance,
         expenseItems: storedUser.expenseItems,
         incomeItems: storedNewItem,
+        goals: storedUser.goals,
       };
 
       const userUpdatedJSON = JSON.stringify(userUpdated);

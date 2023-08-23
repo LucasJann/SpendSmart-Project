@@ -1,16 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import goalSlice from "./goal-slice";
-import balanceSlice from "./balance-slice";
-import incomeSlice from "./income-slice";
-import expenseSlice from "./expense-slice";
+import callerSlice from "./caller-slice";
 
 const store = configureStore({
   reducer: {
-    goal: goalSlice.reducer,
-    value: balanceSlice.reducer,
-    income: incomeSlice.reducer,
-    expense: expenseSlice.reducer,
+    call: callerSlice.reducer,
   },
 });
 

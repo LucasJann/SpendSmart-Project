@@ -4,7 +4,6 @@ import classes from "./Profile.module.css";
 import axios from "axios";
 import undefinedImage from "../../Imgs/profile_undefined.jpg";
 
-import { balanceActions } from "../../store/balance-slice";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
@@ -23,7 +22,7 @@ const Profile = () => {
   const navigation = useNavigate();
 
   const storedUser = localStorage.getItem("foundUser");
-  const loggedUser = JSON.parse(storedUser); //JSON.parse <=== Converte JSON em um Objeto
+  const loggedUser = JSON.parse(storedUser);
 
   const [balance, setBalance] = useState("");
 
@@ -64,7 +63,6 @@ const Profile = () => {
       const updated = JSON.parse(updatedJSON);
 
       setBalance(updated.balance);
-      // dispatch(balanceActions.upgrade(storedUser.balance));
     };
     fetchNewData();
   }, [isBalanceChanged, dispatch]);
@@ -148,6 +146,7 @@ const Profile = () => {
         balance: balance,
         expenseItems: loggedUser.expenseItems,
         incomeItems: loggedUser.incomeItems,
+        goals: loggedUser.goals,
       };
 
       try {
@@ -189,7 +188,7 @@ const Profile = () => {
 
   const balanceHandler = (event) => {
     const value = event.target.value;
-    const numericValue = value.replace(/\D/g, ""); 
+    const numericValue = value.replace(/\D/g, "");
 
     if (numericValue.length > 14) {
       setBalance(formatMoney(numericValue));
@@ -207,9 +206,6 @@ const Profile = () => {
     setIsDisabled(true);
     setIsEditClicked(false);
 
-    const unformattedBalance = balance.replace(/\D/g, "");
-    dispatch(balanceActions.upgrade(unformattedBalance));
-
     const newBalance = async () => {
       const updatedUserData = {
         email: loggedUser.email,
@@ -221,6 +217,7 @@ const Profile = () => {
         expenseItems: loggedUser.expenseItems,
         incomeItems: loggedUser.incomeItems,
         balance: balance,
+        goals: loggedUser.goals,
       };
 
       try {

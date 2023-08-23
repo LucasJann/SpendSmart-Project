@@ -1,12 +1,11 @@
+import { useState, useEffect } from "react";
 import classes from "./Goal.module.css";
 
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import GoalItem from "./GoalItem";
 
-import { goalActions } from "../../store/goal-slice";
 import { v4 as uuidv4 } from "uuid";
 
 const formatMoney = (value) => {
@@ -20,19 +19,86 @@ const formatMoney = (value) => {
 };
 
 const Goal = () => {
-  const balance = useSelector((state) => state.value.balance);
-  const goalItem = useSelector((state) => state.goal.items);
+  const loggedUserJSON = localStorage.getItem("foundUser");
+  const loggedUser = JSON.parse(loggedUserJSON);
 
+  const storedGoals = loggedUser.goals;
+
+  const [items, setItems] = useState([]);
   const [goal, setGoal] = useState("");
+  const [render, setRender] = useState(false);
   const [message, setMessage] = useState(false);
   const [goalText, setGoalText] = useState("");
   const [isGoalFilled, setIsGoalFilled] = useState(false);
   const [isTextFilled, setIsTextFilled] = useState(false);
+  const [callerEffect, setCallerEffect] = useState(false);
 
-  const dispatch = useDispatch();
+  const itemsUpdated = useSelector((state) => state.call.caller);
+
   const navigation = useNavigate();
 
-  const formattedBalance = formatMoney(balance);
+  useEffect(() => {
+    if (storedGoals === "") {
+      setItems([]);
+    } else {
+      const storedItems = storedGoals;
+      setItems(storedItems);
+    }
+  }, [itemsUpdated, callerEffect]);
+
+  useEffect(() => {
+    storedGoals[0] === "" ? setRender(false) : setRender(true);
+  }, [storedGoals]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://react-http-f8211-default-rtdb.firebaseio.com/logins.json"
+        );
+
+        if (!response.ok) {
+          throw new Error("Algo deu errado!");
+        }
+
+        const responseData = await response.json();
+
+        const storedUser = Object.values(responseData).find(
+          (user) => user.email === loggedUser.email
+        );
+
+        const updatedUserBalance = {
+          email: storedUser.email,
+          id: storedUser.id,
+          lastName: storedUser.lastName,
+          name: storedUser.name,
+          password: storedUser.password,
+          image: storedUser.image,
+          balance: storedUser.balance,
+          expenseItems: storedUser.expenseItems,
+          incomeItems: storedUser.incomeItems,
+          goals: loggedUser.goals,
+        };
+
+        const userKey = Object.keys(responseData).find(
+          (key) => responseData[key].email === storedUser.email
+        );
+
+        try {
+          await fetch(
+            `https://react-http-f8211-default-rtdb.firebaseio.com/logins/${userKey}.json`,
+            {
+              method: "PUT",
+              body: JSON.stringify(updatedUserBalance),
+            }
+          );
+        } catch {}
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, [callerEffect]);
 
   const goalValueChange = (event) => {
     let value = event.target.value.replace(/\D/g, "");
@@ -61,15 +127,41 @@ const Goal = () => {
     }
   };
 
-  const inputGoalHandler = () => {
+  const inputGoalHandler = async () => {
+    if (storedGoals[0] === "") {
+      storedGoals.shift();
+    }
+
     const id = uuidv4();
-    const item = {
-      id,
-      goalText: goalText,
-      goal: goal,
+    const item = [
+      {
+        id: id,
+        goalText: goalText,
+        goal: goal,
+      },
+    ];
+
+    storedGoals.push(item[0]);
+
+    const newItem = storedGoals;
+
+    const updatedUser = {
+      email: loggedUser.email,
+      id: loggedUser.id,
+      lastName: loggedUser.lastName,
+      name: loggedUser.name,
+      password: loggedUser.password,
+      image: loggedUser.image,
+      balance: loggedUser.balance,
+      expenseItems: loggedUser.expenseItems,
+      incomeItems: loggedUser.incomeItems,
+      goals: newItem,
     };
 
-    dispatch(goalActions.addItem(item));
+    const updatedUserJSON = JSON.stringify(updatedUser);
+
+    localStorage.setItem("foundUser", updatedUserJSON);
+    setCallerEffect(!callerEffect);
 
     setGoal("");
     setGoalText("");
@@ -90,7 +182,7 @@ const Goal = () => {
       <input
         type="text"
         id="input1"
-        value={formattedBalance}
+        value={loggedUser.balance}
         disabled={true}
         className={classes.input}
       />
@@ -121,9 +213,8 @@ const Goal = () => {
           Inserir
         </button>
       )}
-      {goalItem.map((item, index) => (
-        <GoalItem key={index} item={item} />
-      ))}
+      {render &&
+        items.map((item, index) => <GoalItem key={index} item={item} />)}
     </div>
   );
 };

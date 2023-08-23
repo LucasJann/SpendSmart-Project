@@ -23,7 +23,7 @@ const ExpenseHistory = () => {
   const storedUser = localStorage.getItem("foundUser");
   const storedUserJSON = JSON.parse(storedUser);
 
-  const itemsUpdated = useSelector((state) => state.expense.caller);
+  const itemsUpdated = useSelector((state) => state.call.caller);
 
   useEffect(() => {
     if (storedUserJSON.expenseItems[0] === "") {

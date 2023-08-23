@@ -6,7 +6,7 @@ import money from "../../Icons/moneyBag.png";
 import finance from "../../Icons/finance.png";
 import identifier from "../../Icons/id.png";
 
-import incomeAction from "../../store/income-slice";
+import { callerActions } from "../../store/caller-slice";
 
 const formatMoney = (value) => {
   const formatter = new Intl.NumberFormat("pt-BR", {
@@ -74,6 +74,7 @@ const IncomeItem = ({ item }) => {
                 balance: formattedCashBack,
                 expenseItems: loggedUser.expenseItems,
                 incomeItems: newItems,
+                goals: loggedUser.goals,
               };
 
               const userKey = Object.keys(responseData).find(
@@ -100,6 +101,7 @@ const IncomeItem = ({ item }) => {
                 balance: formattedCashBack,
                 expenseItems: loggedUser.expenseItems,
                 incomeItems: newItems,
+                goals: loggedUser.goals,
               };
 
               const userKey = Object.keys(responseData).find(
@@ -134,6 +136,7 @@ const IncomeItem = ({ item }) => {
                 balance: formattedCashBack,
                 expenseItems: loggedUser.expenseItems,
                 incomeItems: newItems,
+                goals: loggedUser.goals,
               };
 
               const userKey = Object.keys(responseData).find(
@@ -160,6 +163,7 @@ const IncomeItem = ({ item }) => {
                 balance: formattedCashBack,
                 expenseItems: loggedUser.expenseItems,
                 incomeItems: newItems,
+                goals: loggedUser.goals,
               };
 
               const userKey = Object.keys(responseData).find(
@@ -191,7 +195,7 @@ const IncomeItem = ({ item }) => {
 
           const loggedUserJSON = JSON.stringify(user);
           localStorage.setItem("foundUser", loggedUserJSON);
-          dispatch(incomeAction.actions.update());
+          dispatch(callerActions.update());
         } catch (error) {
           console.error(error);
         }

@@ -26,6 +26,7 @@ const Register = () => {
         expenseItems: [""],
         incomeItems: [""],
         balance: "0",
+        goals: [""],
       };
 
       await fetch(

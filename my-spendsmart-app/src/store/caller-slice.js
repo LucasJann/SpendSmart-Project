@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const incomeSlice = createSlice({
-  name: "income",
+const callerSlice = createSlice({
+  name: "caller",
   initialState: {
     caller: false,
   },
@@ -12,6 +12,6 @@ const incomeSlice = createSlice({
   },
 });
 
-export const incomeActions = incomeSlice.actions;
+export const callerActions = callerSlice.actions;
 
-export default incomeSlice;
+export default callerSlice;
