@@ -181,7 +181,7 @@ const Expense = () => {
         balance: formattedUserBalance,
         expenseItems: storedNewItem,
         incomeItems: storedUser.incomeItems,
-        goal: storedUser.goal,
+        goals: storedUser.goals,
       };
 
       const userUpdatedJSON = JSON.stringify(userUpdated);
@@ -222,7 +222,7 @@ const Expense = () => {
         balance: formattedUserBalance,
         expenseItems: storedNewItem,
         incomeItems: storedUser.incomeItems,
-        goal: storedUser.goal,
+        goals: storedUser.goals,
       };
 
       const userUpdatedJSON = JSON.stringify(userUpdated);

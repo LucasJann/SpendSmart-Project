@@ -19,6 +19,8 @@ const ExpenseHistory = () => {
   const [message, setMessage] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
   const [isFilteredItems, setIsFilteredItems] = useState(false);
+  const [filteredItemsUpdated, setFilteredItemsUpdated] = useState(false);
+
 
   const storedUser = localStorage.getItem("foundUser");
   const storedUserJSON = JSON.parse(storedUser);
@@ -26,15 +28,38 @@ const ExpenseHistory = () => {
   const itemsUpdated = useSelector((state) => state.call.caller);
 
   useEffect(() => {
+    const localIncomesJSON = localStorage.getItem("foundUser");
+    const localIncomes = JSON.parse(localIncomesJSON);
+
+    const newFilteredItems = localIncomes.expenseItems;
+
+    const formattedStartDate = selectedStartDate.toISOString().split("T")[0];
+    const formattedEndDate = selectedEndDate.toISOString().split("T")[0];
+
+    const filteredItems = newFilteredItems.filter((items) => {
+      const date = items.date;
+
+      if (date >= formattedStartDate && date <= formattedEndDate) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+
+    filteredItems.length === 0 ? setMessage(true) : setMessage(false)
+
+    setFilteredItems(filteredItems);
+
+  }, [filteredItemsUpdated]);
+
+  useEffect(() => {
     if (storedUserJSON.expenseItems[0] === "") {
       setItems([]);
       setFilteredItems([]);
       setIsFilteredItems(false);
     } else {
-      const localExpensesJSON = localStorage.getItem("foundUser");
-      const localExpenses = JSON.parse(localExpensesJSON);
-
-      setFilteredItems(localExpenses.expenseItems);
+      setItems(storedUserJSON.expenseItems);
+      setFilteredItemsUpdated(!filteredItemsUpdated);
     }
   }, [itemsUpdated]);
 
