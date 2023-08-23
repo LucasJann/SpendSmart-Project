@@ -79,7 +79,17 @@ const GoalItem = ({ item }) => {
           (item) => item.email === loggedUser.email
         );
 
-        const goalItems = user.goals.filter((item) => item.id !== id);
+        const goalItem = user.goals.filter((item) => item.id !== id);
+
+        console.log(goalItem[0]);
+
+        if (goalItem[0] === undefined) {
+          console.log("????????");
+        }
+
+        const newItem = goalItem[0] === undefined ? [""] : goalItem;
+
+        console.log(newItem);
 
         const updatedGoalItems = {
           email: loggedUser.email,
@@ -91,8 +101,10 @@ const GoalItem = ({ item }) => {
           balance: loggedUser.balance,
           expenseItems: loggedUser.expenseItems,
           incomeItems: loggedUser.incomeItems,
-          goals: goalItems,
+          goals: newItem,
         };
+
+        console.log(updatedGoalItems);
 
         const userKeys = Object.keys(responseData).find(
           (key) => responseData[key].email === loggedUser.email

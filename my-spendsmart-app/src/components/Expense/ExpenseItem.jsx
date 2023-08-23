@@ -56,6 +56,7 @@ const ExpenseItem = ({ item }) => {
           const newItems = loggedUser.expenseItems.filter(
             (item) => item.id !== id
           );
+          
           const storedBalance = storedUser;
 
           if (storedBalance.balance[0] === "-") {

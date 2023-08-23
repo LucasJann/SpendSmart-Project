@@ -37,9 +37,11 @@ const Goal = () => {
 
   const navigation = useNavigate();
 
+  console.log(items)
+
   useEffect(() => {
     if (storedGoals === "") {
-      setItems([]);
+      setItems([""]);
     } else {
       const storedItems = storedGoals;
       setItems(storedItems);

@@ -28,9 +28,13 @@ const ExpenseHistory = () => {
   useEffect(() => {
     if (storedUserJSON.expenseItems[0] === "") {
       setItems([]);
+      setFilteredItems([]);
+      setIsFilteredItems(false);
     } else {
-      const storedItems = storedUserJSON.expenseItems;
-      setItems(storedItems);
+      const localExpensesJSON = localStorage.getItem("foundUser");
+      const localExpenses = JSON.parse(localExpensesJSON);
+
+      setFilteredItems(localExpenses.expenseItems);
     }
   }, [itemsUpdated]);
 

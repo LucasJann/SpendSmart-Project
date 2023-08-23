@@ -28,9 +28,13 @@ const IncomeHistory = () => {
   useEffect(() => {
     if (storedUserJSON.incomeItems[0] === "") {
       setItems([]);
+      setFilteredItems([]);
+      setIsFilteredItems(false);
     } else {
-      const storedItems = storedUserJSON.incomeItems;
-      setItems(storedItems);
+      const localIncomesJSON = localStorage.getItem("foundUser");
+      const localIncomes = JSON.parse(localIncomesJSON);
+
+      setFilteredItems(localIncomes.incomeItems);
     }
   }, [itemsUpdated]);
 
