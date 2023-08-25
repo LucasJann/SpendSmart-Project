@@ -40,11 +40,6 @@ const Register = () => {
   const [caller, setCaller] = useState(false);
   const [validation, setValidation] = useState(false);
 
-  console.log(isPasswordValid);
-  console.log(isEmailValid);
-  console.log(isLastNameValid);
-  console.log(isNameValid);
-
   useEffect(() => {
     const postData = async () => {
       if (isPasswordValid && isEmailValid && isLastNameValid && isNameValid) {
