@@ -47,7 +47,7 @@ const Login = () => {
       />
       <div className={classes.container}>
         <h2>Email</h2>
-        <input onChange={emailChange} />
+        <input type="email" onChange={emailChange} />
         <h2>Senha</h2>
         <input type="password" />
         <p className={classes.paragraph} onClick={onRegister}>

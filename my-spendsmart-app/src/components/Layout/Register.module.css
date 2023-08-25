@@ -9,8 +9,8 @@ form {
 
 .image {
   width: 98%;
-  border-radius:1rem ;
-  margin: 0.5rem 0 0rem 0;
+  border-radius: 0.5rem;
+  margin: 0.8rem 0 0rem 0;
 }
 
 .login {
@@ -26,7 +26,7 @@ form {
 }
 
 h2 {
-  margin: 0 0 0 0.5rem
+  margin: 0 0 0 0.5rem;
 }
 
 input {
@@ -35,7 +35,18 @@ input {
   border: 2px solid #ccc9c9;
   padding: 0.4rem;
   border-radius: 0.2rem;
-  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  font-size: large;
+}
+
+.inputError {
+  width: 91%;
+  margin: 0 0 0.5rem 0;
+  border: 1px solid #aa0b20;
+  background-color: #ffeff1;
+  padding: 0.4rem;
+  border-radius: 0.2rem;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   font-size: large;
 }
 
@@ -44,9 +55,14 @@ input {
   width: 96%;
   cursor: pointer;
   border: none;
-  margin: 0.6rem 0 0 0rem;
+  margin: 0.3rem 0 0 0rem;
   padding: 0.4em;
   font-size: 1em;
   border-radius: 5px;
   background-color: #ab9c15;
+}
+
+.error {
+  margin: 0.1rem 0 0.5rem 0rem;
+  color: #ca3e51;
 }
