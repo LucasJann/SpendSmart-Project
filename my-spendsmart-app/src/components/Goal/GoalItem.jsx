@@ -18,16 +18,25 @@ const GoalItem = ({ item }) => {
   useEffect(() => {
     const balance = loggedUser.balance;
 
+    console.log(balance);
+
     const goalValue = goal.replace(/\D/g, "");
     const balanceValue = balance.replace(/\D/g, "");
 
-    const calc = (parseInt(balanceValue) / parseInt(goalValue)) * 100;
+    let calc;
+
+    if (balance[0] === "-") {
+      calc = 0;
+    } else {
+      calc = (parseInt(balanceValue) / parseInt(goalValue)) * 100;
+    }
+
+    console.log(calc);
 
     let calculatedPercentage;
 
     if (calc > 100) {
       calculatedPercentage = "100%";
-      setPercentage(calculatedPercentage);
     } else {
       calculatedPercentage = calc.toFixed(0) + "%";
       const percentageColor = getPercentageColor(calc);
@@ -37,14 +46,10 @@ const GoalItem = ({ item }) => {
         width: calc >= 10 ? calc + "%" : "10%",
       };
       setItemPercentageStyle(itemPercentageStyle);
-      setPercentage(calculatedPercentage);
     }
 
-    if (calc >= 100) {
-      setCongrats(true);
-    } else {
-      setCongrats(false);
-    }
+    setPercentage(calculatedPercentage);
+    setCongrats(calc >= 100);
   }, [id, goalText, goal]);
 
   const getPercentageColor = (percentage) => {
