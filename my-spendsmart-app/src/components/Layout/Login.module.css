@@ -25,6 +25,16 @@ h2 {
   background-color: #ab9c15;
 }
 
+input {
+  width: 91%;
+  border: 2px solid #ccc9c9;
+  padding: 0.4rem;
+  font-size: large;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  border-radius: 0.2rem;
+  margin-bottom: 0.5rem;
+}
+
 .paragraph {
   color: rgb(153, 159, 165);
   margin: auto;

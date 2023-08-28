@@ -7,13 +7,7 @@ form {
   text-align: center;
 }
 
-.image {
-  width: 98%;
-  border-radius: 0.5rem;
-  margin: 0.8rem 0 0rem 0;
-}
-
-.login {
+.loginBtn {
   color: #fff;
   width: 20%;
   cursor: pointer;
@@ -25,44 +19,49 @@ form {
   background-color: #ab9c15;
 }
 
+.image {
+  width: 98%;
+  border-radius: 0.5rem;
+  margin: 0.8rem 0 0rem 0;
+}
+
 h2 {
   margin: 0 0 0 0.5rem;
 }
 
-input {
+.input {
   width: 91%;
-  margin: 0 0 0.5rem 0;
   border: 2px solid #ccc9c9;
   padding: 0.4rem;
-  border-radius: 0.2rem;
-  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   font-size: large;
+  border-radius: 0.2rem;
+  margin-bottom: 0.5rem;
 }
 
 .inputError {
   width: 91%;
-  margin: 0 0 0.5rem 0;
   border: 1px solid #aa0b20;
-  background-color: #ffeff1;
   padding: 0.4rem;
-  border-radius: 0.2rem;
-  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   font-size: large;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  border-radius: 0.2rem;
+  margin-bottom: 0.5rem;
+  background-color: #ffeff1;
 }
 
-.register {
+.errorMessage {
+  margin: auto;
+  color: #ca3e51;
+}
+
+.registerBtn {
   color: #fff;
   width: 96%;
   cursor: pointer;
   border: none;
-  margin: 0.3rem 0 0 0rem;
   padding: 0.4em;
   font-size: 1em;
+  margin-top: 0.3rem;
   border-radius: 5px;
   background-color: #ab9c15;
-}
-
-.error {
-  margin: 0.1rem 0 0.5rem 0rem;
-  color: #ca3e51;
 }

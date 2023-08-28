@@ -1,24 +1,30 @@
 import image from "../../Imgs/finances.jpg";
 import classes from "./Register.module.css";
 
-import { useEffect, useState } from "react";
-import { Form, useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import { Form, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const Register = () => {
   const navigation = useNavigate();
 
+  const [caller, setCaller] = useState(false);
+  const [isValid, setIsValid] = useState(false);
+
   const [name, setName] = useState("");
-  const [isNameValid, setIsNameValid] = useState(null);
-
-  const [lastName, setLastName] = useState("");
-  const [isLastNameValid, setIsLastNameValid] = useState(null);
-
   const [email, setEmail] = useState("");
-  const [isEmailValid, setIsEmailValid] = useState(null);
-
+  const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [nameError, setNameError] = useState(null);
+  const [emailError, setEmailError] = useState(null);
+  const [lastNameError, setLastNameError] = useState(null);
+  const [passwordError, setPasswordError] = useState(null);
+
+  const [isNameValid, setIsNameValid] = useState(null);
+  const [isEmailValid, setIsEmailValid] = useState(null);
+  const [isLastNameValid, setIsLastNameValid] = useState(null);
   const [isPasswordValid, setIsPasswordValid] = useState(null);
 
   const [hasNameValue, setHasNameValue] = useState(false);
@@ -26,51 +32,6 @@ const Register = () => {
   const [hasLastNameValue, setHasLastNameValue] = useState(false);
   const [hasPasswordValue, setHasPasswordValue] = useState(false);
   const [hasConfirmPasswordValue, setHasConfirmPasswordValue] = useState(false);
-
-  const [isNameError, setIsNameError] = useState(null);
-  const [isEmailError, setIsEmailError] = useState(null);
-  const [isLastNameError, setIsLastNameError] = useState(null);
-  const [isPasswordError, setIsPasswordError] = useState(null);
-
-  const [nameError, setNameError] = useState(null);
-  const [emailError, setEmailError] = useState(null);
-  const [lastNameError, setLastNameError] = useState(null);
-  const [passwordError, setPasswordError] = useState(null);
-
-  const [caller, setCaller] = useState(false);
-  const [validation, setValidation] = useState(false);
-
-  useEffect(() => {
-    const postData = async () => {
-      if (isPasswordValid && isEmailValid && isLastNameValid && isNameValid) {
-        const id = uuidv4();
-        const newLogin = {
-          id,
-          name: name,
-          lastName: lastName,
-          email: email,
-          password: password,
-          expenseItems: [""],
-          incomeItems: [""],
-          balance: "0",
-          goals: [""],
-        };
-
-        await fetch(
-          "https://react-http-f8211-default-rtdb.firebaseio.com/logins.json",
-          {
-            method: "POST",
-            body: JSON.stringify(newLogin),
-          }
-        );
-
-        localStorage.setItem("foundUser", JSON.stringify(newLogin));
-
-        navigation("/");
-      }
-    };
-    postData();
-  }, [caller]);
 
   useEffect(() => {
     if (
@@ -89,9 +50,9 @@ const Register = () => {
           ? true
           : false;
 
-      setValidation(validator);
+      setIsValid(validator);
     } else {
-      setValidation(false);
+      setIsValid(false);
     }
   }, [
     hasNameValue,
@@ -100,34 +61,6 @@ const Register = () => {
     hasPasswordValue,
     hasConfirmPasswordValue,
   ]);
-
-  useEffect(() => {
-    if (isNameError !== null) {
-      isNameError
-        ? setNameError(true) && nameInitialState()
-        : setNameError(false) && nameInitialState();
-    }
-
-    if (isLastNameError !== null) {
-      isLastNameError
-        ? setLastNameError(true) && lastNameInitialState()
-        : setLastNameError(false) && lastNameInitialState();
-    }
-
-    if (isEmailError !== null) {
-      isEmailError ? setEmailError(true) : setEmailError(false);
-    }
-
-    if (isPasswordError !== null) {
-      isPasswordError ? setPasswordError(true) : setPasswordError(false);
-    }
-  }, [isNameError, isLastNameError, isEmailError, isPasswordError]);
-
-  useEffect(() => {
-    isPasswordValid && isEmailValid && isLastNameValid && isNameValid
-      ? setCaller(true)
-      : setCaller(false);
-  }, [isPasswordValid, isEmailValid, isLastNameValid, isNameValid]);
 
   useEffect(() => {
     if (nameError !== null) {
@@ -147,6 +80,43 @@ const Register = () => {
     }
   }, [nameError, lastNameError, emailError, passwordError]);
 
+  useEffect(() => {
+    const postData = async () => {
+      if (isPasswordValid && isEmailValid && isLastNameValid && isNameValid) {
+        const id = uuidv4();
+        const newLogin = {
+          id,
+          name: name,
+          email: email,
+          goals: [""],
+          balance: "0",
+          lastName: lastName,
+          password: password,
+          incomeItems: [""],
+          expenseItems: [""],
+        };
+
+        await fetch(
+          "https://react-http-f8211-default-rtdb.firebaseio.com/logins.json",
+          {
+            method: "POST",
+            body: JSON.stringify(newLogin),
+          }
+        );
+
+        localStorage.setItem("foundUser", JSON.stringify(newLogin));
+        navigation("/");
+      }
+    };
+    postData();
+  }, [caller]);
+
+  useEffect(() => {
+    isPasswordValid && isEmailValid && isLastNameValid && isNameValid
+      ? setCaller(true)
+      : setCaller(false);
+  }, [isPasswordValid, isEmailValid, isLastNameValid, isNameValid]);
+
   const onSubmit = async (event) => {
     event.preventDefault();
     const nameValidator = /[0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\\/\-="']/.test(name);
@@ -155,49 +125,45 @@ const Register = () => {
     );
 
     if (nameValidator) {
-      setIsNameError(true);
+      setNameError(true);
     } else {
-      setIsNameError(false);
+      setNameError(false);
     }
 
     if (lastNameValidator) {
-      setIsLastNameError(true);
+      setLastNameError(true);
     } else {
-      setIsLastNameError(false);
+      setLastNameError(false);
     }
 
     const hotmail = email.indexOf("@hotmail.com");
 
     if (hotmail > 0) {
-      setIsEmailError(false);
+      setEmailError(false);
     } else {
       const gmail = email.indexOf("@gmail.com");
       if (gmail > 0) {
-        setIsEmailError(false);
+        setEmailError(false);
       } else {
-        setIsEmailError(true);
+        setEmailError(true);
       }
     }
 
     if (password === confirmPassword) {
-      setIsPasswordError(false);
+      setPasswordError(false);
     } else {
-      setIsPasswordError(true);
-    }
-
-    if (isPasswordValid && isEmailValid && isLastNameValid && isNameValid) {
-      setCaller(true);
+      setPasswordError(true);
     }
   };
 
-  const nameChange = (event) => {
+  const nameChangeHandler = (event) => {
     const name = event.target.value;
     setName(name);
 
     name.length > 0 ? setHasNameValue(true) : setHasNameValue(false);
   };
 
-  const lastNameChange = (event) => {
+  const lastNameChangeHandler = (event) => {
     const lastName = event.target.value;
     setLastName(lastName);
 
@@ -206,13 +172,13 @@ const Register = () => {
       : setHasLastNameValue(false);
   };
 
-  const emailChange = (event) => {
+  const emailChangeHandler = (event) => {
     const email = event.target.value;
     setEmail(email);
     email.length > 0 ? setHasEmailValue(true) : setHasEmailValue(false);
   };
 
-  const passwordChange = (event) => {
+  const passwordChangeHandler = (event) => {
     const password = event.target.value;
     setPassword(password);
 
@@ -221,7 +187,7 @@ const Register = () => {
       : setHasPasswordValue(false);
   };
 
-  const confirmPasswordChange = (event) => {
+  const confirmPasswordChangeHandler = (event) => {
     const confirmPassword = event.target.value;
     setConfirmPassword(confirmPassword);
 
@@ -230,7 +196,7 @@ const Register = () => {
       : setHasConfirmPasswordValue(false);
   };
 
-  const nameInitialState = () => {
+  const nameStyle = () => {
     if (isNameValid === null) {
       return classes.input;
     } else if (isNameValid === false) {
@@ -240,7 +206,7 @@ const Register = () => {
     }
   };
 
-  const lastNameInitialState = () => {
+  const lastNameStyle = () => {
     if (isLastNameValid === null) {
       return classes.input;
     } else if (isLastNameValid === false) {
@@ -250,7 +216,7 @@ const Register = () => {
     }
   };
 
-  const emailInitialState = () => {
+  const emailStyle = () => {
     if (isEmailValid === null) {
       return classes.input;
     } else if (isEmailValid === false) {
@@ -260,7 +226,7 @@ const Register = () => {
     }
   };
 
-  const passwordInitialState = () => {
+  const passwordStyle = () => {
     if (isPasswordValid === null) {
       return classes.input;
     } else if (isPasswordValid === false) {
@@ -270,78 +236,70 @@ const Register = () => {
     }
   };
 
-  const onLogin = () => {
+  const onLoginHandler = () => {
     navigation("/");
   };
 
   return (
-    <>
-      <div className={classes.container}>
-        <Form className={classes.form} onSubmit={onSubmit}>
-          <button className={classes.login} onClick={onLogin}>
-            Login
-          </button>
-          <img
-            src={image}
-            alt="Carteira com dinheiro"
-            className={classes.image}
-          />
-          <div>
-            <h2>Nome</h2>
-            <input onChange={nameChange} className={nameInitialState()} />
-            {nameError && (
-              <p className={classes.error}>
-                Preencha o campo nome sem utilizar números nem caractéres
-                especiais, e clique novamente em Registrar
-              </p>
-            )}
-            <h2>Sobrenome</h2>
-            <input
-              onChange={lastNameChange}
-              className={lastNameInitialState()}
-            />
-            {lastNameError && (
-              <p className={classes.error}>
-                Preencha o campo sobrenome sem utilizar números nem caractéres
-                especiais, e clique novamente em Registrar
-              </p>
-            )}
-            <h2>Email</h2>
-            <input
-              className={emailInitialState()}
-              type="email"
-              onChange={emailChange}
-            />
-            {emailError && (
-              <p className={classes.error}>
-                Por favor, insira um email válido! E clique novamente em
-                Registrar
-              </p>
-            )}
-            <h2>Senha</h2>
-            <input
-              type="password"
-              onChange={passwordChange}
-              className={passwordInitialState()}
-            />
-            <h2>Confirmar Senha</h2>
-            <input
-              type="password"
-              onChange={confirmPasswordChange}
-              className={passwordInitialState()}
-            />
-            {passwordError && (
-              <p className={classes.error}>
-                O campo [Senha] e o campo [Confirmar Senha] devem ser idênticos
-              </p>
-            )}
-          </div>
-          {validation && (
-            <button className={classes.register}>Registrar</button>
+    <div className={classes.container}>
+      <Form className={classes.form} onSubmit={onSubmit}>
+        <button className={classes.loginBtn} onClick={onLoginHandler}>
+          Login
+        </button>
+        <img
+          src={image}
+          alt="Carteira com dinheiro"
+          className={classes.image}
+        />
+        <div>
+          <h2>Nome</h2>
+          <input onChange={nameChangeHandler} className={nameStyle()} />
+          {nameError && (
+            <p className={classes.errorMessage}>
+              Preencha o campo nome sem utilizar números nem caractéres
+              especiais, e clique novamente em Registrar
+            </p>
           )}
-        </Form>
-      </div>
-    </>
+          <h2>Sobrenome</h2>
+          <input onChange={lastNameChangeHandler} className={lastNameStyle()} />
+          {lastNameError && (
+            <p className={classes.errorMessage}>
+              Preencha o campo sobrenome sem utilizar números nem caractéres
+              especiais, e clique novamente em Registrar
+            </p>
+          )}
+          <h2>Email</h2>
+          <input
+            type="email"
+            onChange={emailChangeHandler}
+            className={emailStyle()}
+          />
+          {emailError && (
+            <p className={classes.errorMessage}>
+              Por favor, insira um email válido! E clique novamente em Registrar
+            </p>
+          )}
+          <h2>Senha</h2>
+          <input
+            type="password"
+            onChange={passwordChangeHandler}
+            className={passwordStyle()}
+          />
+          <h2>Confirmar Senha</h2>
+          <input
+            type="password"
+            onChange={confirmPasswordChangeHandler}
+            className={passwordStyle()}
+          />
+          {passwordError && (
+            <p className={classes.errorMessage}>
+              O campo [Senha] e o campo [Confirmar Senha] devem ser idênticos
+            </p>
+          )}
+        </div>
+        {isValid && <button className={classes.registerBtn}>Registrar</button>}
+      </Form>
+    </div>
   );
 };
 
