@@ -8,17 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigation = useNavigate();
-
   const [email, setEmail] = useState("");
-
-  const emailChange = (event) => {
-    const emailValue = event.target.value;
-    setEmail(emailValue);
-  };
-
-  const onRegister = () => {
-    navigation("/registerPage");
-  };
 
   const onButton = async () => {
     const response = await fetch(
@@ -34,12 +24,22 @@ const Login = () => {
     if (foundUser) {
       navigation("/landingPage");
     } else {
-      console.log("User not found");
+      console.log("O usuário não foi encontrado");
     }
   };
 
+  const emailChangeHandler = (event) => {
+    const emailValue = event.target.value;
+    setEmail(emailValue);
+  };
+
+  const onRegisterHandler = () => {
+    navigation("/registerPage");
+  };
+
+  
   return (
-    <Form className={classes.form}>
+    <Form className={classes.form} onSubmit={onButton}>
       <img
         src={image}
         alt="Pessoa sentada em uma pilha de dinheiro com as pernas cruzadas"
@@ -47,17 +47,14 @@ const Login = () => {
       />
       <div className={classes.container}>
         <h2>Email</h2>
-        <input type="email" onChange={emailChange} />
+        <input type="email" onChange={emailChangeHandler} />
         <h2>Senha</h2>
         <input type="password" />
-        <p className={classes.paragraph} onClick={onRegister}>
+        <p className={classes.paragraph} onClick={onRegisterHandler}>
           Clique aqui para se registrar
         </p>
-      <button className={classes.login} onClick={onButton}>
-        Entrar
-      </button>
+        <button className={classes.loginBtn}>Entrar</button>
       </div>
-
     </Form>
   );
 };

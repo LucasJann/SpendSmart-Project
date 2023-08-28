@@ -36,6 +36,7 @@ const Profile = () => {
   const [isEditClicked, setIsEditClicked] = useState(false);
   const [isImageChanged, setIsImageChanged] = useState(false);
   const [isBalanceChanged, setIsBalanceChanged] = useState(false);
+  const [isSwitchClicked, setIsSwitchClicked] = useState(false);
 
   useEffect(() => {
     const fetchNewData = async () => {
@@ -237,6 +238,90 @@ const Profile = () => {
     newBalance();
   };
 
+  const convertButton = async () => {
+    const userJSON = localStorage.getItem("foundUser");
+    const user = JSON.parse(userJSON);
+
+    const balance = user.balance;
+
+    if (balance[0] === "R") {
+      const convertedBalance = balance.replace(/\D/g, "");
+
+      const negativeBalance = convertedBalance * -1;
+
+      const formattedNegativeBalance = formatMoney(negativeBalance);
+      setBalance(formattedNegativeBalance);
+
+      console.log(formattedNegativeBalance);
+
+      const updatedUserData = {
+        email: loggedUser.email,
+        id: loggedUser.id,
+        lastName: loggedUser.lastName,
+        name: loggedUser.name,
+        password: loggedUser.password,
+        image: image,
+        expenseItems: loggedUser.expenseItems,
+        incomeItems: loggedUser.incomeItems,
+        balance: formattedNegativeBalance,
+        goals: loggedUser.goals,
+      };
+
+      try {
+        await fetch(
+          `https://react-http-f8211-default-rtdb.firebaseio.com/logins/${key}.json`,
+          {
+            method: "PUT",
+            body: JSON.stringify(updatedUserData),
+          }
+        );
+      } catch (error) {
+        console.error(error);
+      }
+
+      const updatedUserDataJSON = JSON.stringify(updatedUserData);
+      localStorage.setItem("foundUser", updatedUserDataJSON);
+    } else {
+      const convertedBalance = balance.replace(/\D/g, "");
+      const positiveBalance = convertedBalance * 1;
+
+      const formattedPositiveBalance = formatMoney(positiveBalance);
+
+      setBalance(formattedPositiveBalance);
+
+      const updatedUserData = {
+        email: loggedUser.email,
+        id: loggedUser.id,
+        lastName: loggedUser.lastName,
+        name: loggedUser.name,
+        password: loggedUser.password,
+        image: image,
+        expenseItems: loggedUser.expenseItems,
+        incomeItems: loggedUser.incomeItems,
+        balance: formattedPositiveBalance,
+        goals: loggedUser.goals,
+      };
+
+      try {
+        await fetch(
+          `https://react-http-f8211-default-rtdb.firebaseio.com/logins/${key}.json`,
+          {
+            method: "PUT",
+            body: JSON.stringify(updatedUserData),
+          }
+        );
+      } catch (error) {
+        console.error(error);
+      }
+
+      const updatedUserDataJSON = JSON.stringify(updatedUserData);
+      localStorage.setItem("foundUser", updatedUserDataJSON);
+    }
+
+    setIsBalanceChanged(true);
+    setIsSwitchClicked(!isSwitchClicked);
+  };
+
   return (
     <section className={classes.section}>
       <div className={classes.buttonDiv}>
@@ -282,12 +367,32 @@ const Profile = () => {
             </h2>
           </div>
         )}
-        <input
-          value={balance === "0" ? "R$0,00" : balance}
-          disabled={isDisabled}
-          onChange={balanceHandler}
-          className={classes.profileInput}
-        />
+        {!isSwitchClicked && (
+          <div className={classes.container}>
+            <input
+              value={balance === "0" ? "R$0,00" : balance}
+              disabled={isDisabled}
+              onChange={balanceHandler}
+              className={classes.profileInput}
+            />
+            <button onClick={convertButton} className={classes.convertButton}>
+              -
+            </button>
+          </div>
+        )}
+        {isSwitchClicked && (
+          <div className={classes.container}>
+            <input
+              value={balance === "0" ? "R$0,00" : balance}
+              disabled={isDisabled}
+              onChange={balanceHandler}
+              className={classes.profileInput}
+            />
+            <button onClick={convertButton} className={classes.convertButton}>
+              +
+            </button>
+          </div>
+        )}
       </div>
       {!isEditClicked && (
         <button onClick={onEditButton} className={classes.editButton}>

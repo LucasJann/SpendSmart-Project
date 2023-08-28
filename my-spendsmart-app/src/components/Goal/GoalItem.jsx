@@ -18,8 +18,6 @@ const GoalItem = ({ item }) => {
   useEffect(() => {
     const balance = loggedUser.balance;
 
-    console.log(balance);
-
     const goalValue = goal.replace(/\D/g, "");
     const balanceValue = balance.replace(/\D/g, "");
 
@@ -30,8 +28,6 @@ const GoalItem = ({ item }) => {
     } else {
       calc = (parseInt(balanceValue) / parseInt(goalValue)) * 100;
     }
-
-    console.log(calc);
 
     let calculatedPercentage;
 
@@ -86,15 +82,7 @@ const GoalItem = ({ item }) => {
 
         const goalItem = user.goals.filter((item) => item.id !== id);
 
-        console.log(goalItem[0]);
-
-        if (goalItem[0] === undefined) {
-          console.log("????????");
-        }
-
         const newItem = goalItem[0] === undefined ? [""] : goalItem;
-
-        console.log(newItem);
 
         const updatedGoalItems = {
           email: loggedUser.email,
@@ -108,8 +96,6 @@ const GoalItem = ({ item }) => {
           incomeItems: loggedUser.incomeItems,
           goals: newItem,
         };
-
-        console.log(updatedGoalItems);
 
         const userKeys = Object.keys(responseData).find(
           (key) => responseData[key].email === loggedUser.email
