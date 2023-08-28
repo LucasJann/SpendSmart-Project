@@ -1,4 +1,4 @@
-.landingPageDiv {
+.container {
   right: 1rem;
   width: 90%;
   height: 90%;
@@ -11,12 +11,7 @@
   background-color: #e9e7d2;
 }
 
-.unorderedList {
-  font-size: 4em;
-  list-style: none;
-}
-
-.landingPageImg {
+.image {
   top: 2rem;
   left: 2rem;
   width: 70%;
@@ -24,7 +19,12 @@
   position: relative;
 }
 
-.listButton {
+ul {
+  font-size: 4em;
+  list-style: none;
+}
+
+button {
   width: 70%;
   color: #fff;
   border: none;

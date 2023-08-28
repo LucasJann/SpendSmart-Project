@@ -3,44 +3,33 @@ import landingPage from "../../Imgs/money.png";
 
 import { useNavigate } from "react-router-dom";
 
-
 const LandingPage = () => {
   const navigation = useNavigate();
 
-  const profilePageWasClicked = () => {
+  const profilePageHandler = () => {
     navigation("/profilePage");
   };
 
-  const expensePageWasClicked = () => {
+  const expensePageHandler = () => {
     navigation("/expensePage");
   };
 
-  const goalPageWasClicked = () => {
+  const goalPageHandler = () => {
     navigation("/goalPage");
   };
 
   return (
-    <div className={classes.landingPageDiv}>
-      <img
-        src={landingPage}
-        className={classes.landingPageImg}
-        alt="A landing page"
-      />
-      <ul className={classes.unorderedList}>
+    <div className={classes.container}>
+      <img src={landingPage} className={classes.image} alt="A landing page" />
+      <ul>
         <li>
-          <button className={classes.listButton} onClick={profilePageWasClicked}>
-            Perfil
-          </button>
+          <button onClick={profilePageHandler}>Perfil</button>
         </li>
         <li>
-          <button className={classes.listButton} onClick={expensePageWasClicked}>
-            Minhas Finanças
-          </button>
+          <button onClick={expensePageHandler}>Minhas Finanças</button>
         </li>
         <li>
-          <button className={classes.listButton} onClick={goalPageWasClicked}>
-            Objetivo
-          </button>
+          <button onClick={goalPageHandler}>Objetivo</button>
         </li>
       </ul>
     </div>
