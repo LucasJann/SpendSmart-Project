@@ -42,7 +42,16 @@ const Profile = () => {
   const [isSwitchClicked, setIsSwitchClicked] = useState(false);
   const [convertBtnDisabled, setConvertBtnDisabled] = useState(false);
 
+  console.log(image);
+
   useEffect(() => {
+    if (loggedUser.hasOwnProperty("image")) {
+      setIsChecked(true);
+      setImage(loggedUser.image);
+    } else {
+      setIsChecked(false);
+    }
+
     const fetchData = async () => {
       try {
         const response = await fetch(
@@ -56,13 +65,6 @@ const Profile = () => {
         const user = Object.values(responseData).find(
           (user) => user.email === loggedUser.email
         );
-
-        if (loggedUser.hasOwnProperty("image")) {
-          setIsChecked(true);
-          setImage(user.image);
-        } else {
-          setIsChecked(false);
-        }
 
         if (user) {
           const userKey = Object.keys(responseData).find(
@@ -149,6 +151,8 @@ const Profile = () => {
 
         const loggedUserJSON = JSON.stringify(updatedUserData);
         localStorage.setItem("foundUser", loggedUserJSON);
+
+        setImage(image);
       } catch {}
     } catch (error) {
       console.error("Erro ao enviar imagem:", error);
@@ -295,8 +299,6 @@ const Profile = () => {
 
     newBalance();
   };
-
-  
 
   const onGetBackHandler = () => {
     navigation("/landingPage");
