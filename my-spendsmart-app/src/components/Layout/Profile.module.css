@@ -29,14 +29,14 @@
   border-radius: 10rem;
 }
 
-.profileSelector {
+.profileInput {
   width: 84.4%;
   border: 1px solid black;
   margin: 0.5rem auto;
   padding: 0.2rem;
   font-size: 0.9rem;
   font-family: "Times New Roman", Times, serif;
-  border-right: none; /* Removendo a borda direita */
+  border-right: none;
   border-radius: 0.5rem 0 0 0.5rem;
 }
 
@@ -44,19 +44,53 @@
   margin: 10rem 0 0 0.5rem;
 }
 
-.profileInput {
-  width: 97.4%;
+.input {
+  width: 95%;
+  height: 56.8%;
+  font-size: 1.1rem;
   margin: auto;
 }
 
-.profileInfo {
-  color: #666;
-  font-size: 1em;
-  margin-top: 2rem;
-  padding-left: 0.3em;
+.disabled {
+  color: #fff;
+  cursor: pointer;
+  margin: auto;
+  padding: 0.7rem;
+  font-size: 0.86em;
+  border-radius: 0 0.9rem 0.9rem 0;
+  background-color: rgb(134, 125, 43);
 }
 
-.container {
+.inputError {
+  width: 96%;
+  height: 56.8%;
+  margin: auto;
+  border: 1px solid #aa0b20;
+  padding: 0.4rem;
+  font-size: 1.1rem;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  border-radius: 0.2rem;
+  background-color: #ffeff1;
+}
+
+.errorMessage {
+  margin: 0.2rem 0 0 0.2rem;
+  color: #ca3e51;
+}
+
+.error {
+  color: #fff;
+  width: 97%;
+  cursor: pointer;
+  border: none;
+  margin: 0.5rem auto;
+  padding: 0.2rem;
+  font-size: 0.9em;
+  border-radius: 0.5rem;
+  background-color: rgb(134, 125, 43);
+}
+
+.div {
   display: grid;
   grid-template-columns: 94% 6%;
 }
@@ -80,15 +114,14 @@
 .convertButton {
   color: #fff;
   cursor: pointer;
-  border: none;
   margin: auto;
-  padding: 0.62rem 0.5rem;
-  font-size: 0.9em;
-  border-radius: 0 1rem 1rem 0;
+  padding: 0.7rem;
+  font-size: 0.86em;
+  border-radius: 0 0.9rem 0.9rem 0;
   background-color: #ab9c15;
-  font-weight: bold;
 }
-.okButton {
+
+.confirmBtn {
   float: right;
   color: #fff;
   width: 10%;

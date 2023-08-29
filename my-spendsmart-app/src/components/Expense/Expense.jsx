@@ -1,19 +1,17 @@
 import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 import { format, addMinutes } from "date-fns";
 import { Fragment, useEffect, useState } from "react";
 
+import Card from "../Layout/Card";
 import classes from "./Expense.module.css";
 
 import health from "../../Icons/checklist.png";
 import college from "../../Icons/college.png";
 import leisure from "../../Icons/rocket.png";
 import homeIcon from "../../Icons/home.png";
+import location from "../../Icons/location.png";
 import nutrition from "../../Icons/clock.png";
-import transportation from "../../Icons/location.png";
-
-import Card from "../Layout/Card";
-
-import { v4 as uuidv4 } from "uuid";
 
 const formatMoney = (value) => {
   const formatter = new Intl.NumberFormat("pt-BR", {
@@ -37,13 +35,12 @@ const Expense = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   const [input, setInput] = useState(false);
-  const [message, setMessage] = useState(true);
+  const [error, setError] = useState(false);
+  const [message, setMessage] = useState(false);
   const [warning, setWarning] = useState(false);
   const [isDateFilled, setIsDateFilled] = useState(false);
   const [callerEffect, setCallerEffect] = useState(false);
   const [isExpenseFilled, setIsExpenseFilled] = useState(false);
-
-  const [newExpense, setNewExpense] = useState(storedUser.balance);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,24 +52,23 @@ const Expense = () => {
         if (!response.ok) {
           throw new Error("Algo deu errado!");
         }
-
         const responseData = await response.json();
 
         const loggedUser = Object.values(responseData).find(
           (user) => user.email === storedUser.email
         );
 
-        const updatedUserBalance = {
-          email: loggedUser.email,
+        const updatedUser = {
           id: loggedUser.id,
-          lastName: loggedUser.lastName,
           name: loggedUser.name,
-          password: loggedUser.password,
-          image: loggedUser.image,
-          balance: newExpense,
-          expenseItems: storedUser.expenseItems,
-          incomeItems: loggedUser.incomeItems,
+          email: loggedUser.email,
           goals: loggedUser.goals,
+          image: loggedUser.image,
+          balance: storedUser.balance,
+          lastName: loggedUser.lastName,
+          password: loggedUser.password,
+          incomeItems: loggedUser.incomeItems,
+          expenseItems: storedUser.expenseItems,
         };
 
         const userKey = Object.keys(responseData).find(
@@ -84,7 +80,7 @@ const Expense = () => {
             `https://react-http-f8211-default-rtdb.firebaseio.com/logins/${userKey}.json`,
             {
               method: "PUT",
-              body: JSON.stringify(updatedUserBalance),
+              body: JSON.stringify(updatedUser),
             }
           );
         } catch {}
@@ -93,9 +89,9 @@ const Expense = () => {
       }
     };
     fetchData();
-  }, [newExpense, callerEffect]);
+  }, [callerEffect]);
 
-  const dateChange = (event) => {
+  const dateChangeHandler = (event) => {
     const selectedDate = new Date(event.target.value);
 
     if (isNaN(selectedDate)) {
@@ -119,10 +115,12 @@ const Expense = () => {
     const numericValue = value.replace(/\D/g, "");
 
     if (numericValue.length > 14) {
+      setError(true);
       setWarning(true);
       setIsExpenseFilled(false);
       setExpense(formatMoney(numericValue));
     } else {
+      setError(false);
       setWarning(false);
       setIsExpenseFilled(true);
       setExpense(formatMoney(numericValue));
@@ -146,19 +144,16 @@ const Expense = () => {
     const convertedExpense = expense.replace(/\D/g, "");
 
     if (userBalance[0] === "-") {
-      const negativeExpense = convertedExpense * -1;
-      const negativeBalance = negativeExpense - convertedUserBalance;
+      const expenseValue = convertedExpense * -1;
+      const calc = expenseValue - convertedUserBalance;
+      const newBalance = formatMoney(calc);
 
-      const formattedUserBalance = formatMoney(negativeBalance);
-
-      const storedItems = storedUser.expenseItems;
-
-      if (storedItems[0] === "") {
-        storedItems.shift();
+      const storedExpenseItems = storedUser.expenseItems;
+      if (storedExpenseItems[0] === "") {
+        storedExpenseItems.shift();
       }
 
       const id = uuidv4();
-
       const expenseItem = [
         {
           id: id,
@@ -168,29 +163,33 @@ const Expense = () => {
         },
       ];
 
-      storedItems.push(expenseItem[0]);
-      const storedNewItem = storedItems;
+      storedExpenseItems.push(expenseItem[0]);
+      const newExpenseItems = storedExpenseItems;
 
       const userUpdated = {
-        email: storedUser.email,
         id: storedUser.id,
-        lastName: storedUser.lastName,
         name: storedUser.name,
-        password: storedUser.password,
         image: storedUser.image,
-        balance: formattedUserBalance,
-        expenseItems: storedNewItem,
-        incomeItems: storedUser.incomeItems,
+        email: storedUser.email,
         goals: storedUser.goals,
+        balance: newBalance,
+        lastName: storedUser.lastName,
+        password: storedUser.password,
+        incomeItems: storedUser.incomeItems,
+        expenseItems: newExpenseItems,
       };
-
       const userUpdatedJSON = JSON.stringify(userUpdated);
-
       localStorage.setItem("foundUser", userUpdatedJSON);
-      setNewExpense(formatMoney(negativeBalance));
+
       setCallerEffect(!callerEffect);
     } else {
-      const newBalance = convertedUserBalance - convertedExpense;
+      const calc = convertedUserBalance - convertedExpense;
+      const newBalance = formatMoney(calc);
+      
+      const storedExpenseItems = storedUser.expenseItems;
+      if (storedExpenseItems[0] === "") {
+        storedExpenseItems.shift();
+      }
 
       const id = uuidv4();
       const expenseItem = [
@@ -202,33 +201,24 @@ const Expense = () => {
         },
       ];
 
-      const formattedUserBalance = formatMoney(newBalance);
-      const storedItems = storedUser.expenseItems;
-
-      if (storedItems[0] === "") {
-        storedItems.shift();
-      }
-
-      storedItems.push(expenseItem[0]);
-      const storedNewItem = storedItems;
+      storedExpenseItems.push(expenseItem[0]);
+      const newExpenseItems = storedExpenseItems;
 
       const userUpdated = {
-        email: storedUser.email,
         id: storedUser.id,
-        lastName: storedUser.lastName,
         name: storedUser.name,
-        password: storedUser.password,
         image: storedUser.image,
-        balance: formattedUserBalance,
-        expenseItems: storedNewItem,
-        incomeItems: storedUser.incomeItems,
+        email: storedUser.email,
         goals: storedUser.goals,
+        balance: newBalance,
+        lastName: storedUser.lastName,
+        password: storedUser.password,
+        expenseItems: newExpenseItems,
+        incomeItems: storedUser.incomeItems,
       };
-
       const userUpdatedJSON = JSON.stringify(userUpdated);
-
       localStorage.setItem("foundUser", userUpdatedJSON);
-      setNewExpense(formatMoney(newBalance));
+
       setCallerEffect(!callerEffect);
     }
 
@@ -238,21 +228,21 @@ const Expense = () => {
     }, 3000);
 
     setExpense("");
-    setMessage(true);
+    setMessage(false);
     setIsDateFilled(false);
     setIsExpenseFilled(false);
   };
 
-  const onGetBackHandler = () => {
-    navigation("/landingPage");
+  const onHistoryHandler = () => {
+    navigation("/expenseHistoryPage");
   };
 
   const onIncomeHandler = () => {
     navigation("/incomePage");
   };
 
-  const onHistoryHandler = () => {
-    navigation("/expenseHistoryPage");
+  const onGetBackHandler = () => {
+    navigation("/landingPage");
   };
 
   return (
@@ -270,17 +260,16 @@ const Expense = () => {
             Renda
           </button>
         </div>
-        <h2 className={classes.date}>
+        <h2>
           Data:
           <input
             type="date"
             id="date"
-            onChange={dateChange}
-            onClick={dateChange}
+            onChange={dateChangeHandler}
             className={classes.inputDate}
           />
         </h2>
-        {message && (
+        {!message && (
           <p className={classes.paragraph}>
             Click no calendário para iniciar um registro
           </p>
@@ -288,14 +277,14 @@ const Expense = () => {
         {isDateFilled && (
           <Fragment>
             <div>
-              <h2 className={classes.expense}>
+              <h2>
                 Despesa:
                 <input
                   type="text"
                   id="text"
                   value={expense}
                   onChange={expenseChange}
-                  className={classes.inputExpense}
+                  className={error ? classes.inputError : classes.inputExpense}
                 />
               </h2>
             </div>
@@ -305,14 +294,14 @@ const Expense = () => {
               </p>
             )}
             <div>
-              <h2 className={classes.category}>Categoria:</h2>
+              <h2>Categoria:</h2>
               <Card>
                 <ul className={classes.categories}>
                   <li
                     className={`${classes.list} ${
-                      selectedCategory === "casa" ? classes.selected : ""
+                      selectedCategory === "moradia" ? classes.selected : ""
                     }`}
-                    onClick={() => categoryClickHandler("casa")}
+                    onClick={() => categoryClickHandler("moradia")}
                   >
                     <div>
                       <img
@@ -370,9 +359,9 @@ const Expense = () => {
                   </li>
                   <li
                     className={`${classes.list} ${
-                      selectedCategory === "comida" ? classes.selected : ""
+                      selectedCategory === "alimentação" ? classes.selected : ""
                     }`}
-                    onClick={() => categoryClickHandler("comida")}
+                    onClick={() => categoryClickHandler("alimentação")}
                   >
                     <div>
                       <img
@@ -391,7 +380,7 @@ const Expense = () => {
                   >
                     <div>
                       <img
-                        src={transportation}
+                        src={location}
                         alt="Icone de um relógio"
                         className={classes.icon}
                       />

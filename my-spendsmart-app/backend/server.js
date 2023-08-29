@@ -29,7 +29,7 @@ const upload = multer({ storage: storage });
 // Rota para lidar com uploads de imagem
 app.post("/uploadImage", upload.single("image"), (req, res) => {
   const imagePath = req.file.filename;
-  const imageUrl = `${imagePath}`; // Cria a URL relativa
+  const imageUrl = `${imagePath}`; 
 
   res.json({
     message: {
