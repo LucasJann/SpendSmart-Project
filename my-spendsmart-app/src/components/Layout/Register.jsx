@@ -197,42 +197,34 @@ const Register = () => {
   };
 
   const nameStyle = () => {
-    if (isNameValid === null) {
-      return classes.input;
-    } else if (isNameValid === false) {
-      return classes.inputError;
+    if (isNameValid !== false) {
+      return;
     } else {
-      return classes.input;
+      return classes.inputError;
     }
   };
 
   const lastNameStyle = () => {
-    if (isLastNameValid === null) {
-      return classes.input;
-    } else if (isLastNameValid === false) {
-      return classes.inputError;
+    if (isLastNameValid !== false) {
+      return;
     } else {
-      return classes.input;
+      return classes.inputError;
     }
   };
 
   const emailStyle = () => {
-    if (isEmailValid === null) {
-      return classes.input;
-    } else if (isEmailValid === false) {
-      return classes.inputError;
+    if (isEmailValid !== false) {
+      return;
     } else {
-      return classes.input;
+      return classes.inputError;
     }
   };
 
   const passwordStyle = () => {
-    if (isPasswordValid === null) {
-      return classes.input;
-    } else if (isPasswordValid === false) {
-      return classes.inputError;
+    if (isPasswordValid !== false) {
+      return;
     } else {
-      return classes.input;
+      return classes.inputError;
     }
   };
 

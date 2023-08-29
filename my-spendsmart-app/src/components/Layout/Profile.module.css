@@ -1,25 +1,15 @@
 .section {
-  position: relative;
-  width: 100%;
-  height: 90vh;
-  max-width: 20rem;
-  max-height: 20rem;
   margin: 0 auto;
+  max-width: 20rem;
   text-align: center;
-  border-radius: 6px;
-  background-color: #e9e7d2;
 }
 
 .getBackButton {
-  color: #fff;
   width: 20%;
-  cursor: pointer;
   border: none;
   margin: 0.1rem 0 0 16rem;
   padding: 0.2rem;
   font-size: 0.9em;
-  border-radius: 0.5rem;
-  background-color: #ab9c15;
 }
 
 .profileImg {
@@ -46,15 +36,16 @@
 
 .input {
   width: 95%;
-  height: 56.8%;
-  font-size: 1.1rem;
   margin: auto;
 }
 
+.convertButton {
+  padding: 0.7rem;
+  font-size: 0.86em;
+  border-radius: 0 0.9rem 0.9rem 0;
+}
+
 .disabled {
-  color: #fff;
-  cursor: pointer;
-  margin: auto;
   padding: 0.7rem;
   font-size: 0.86em;
   border-radius: 0 0.9rem 0.9rem 0;
@@ -63,13 +54,8 @@
 
 .inputError {
   width: 96%;
-  height: 56.8%;
   margin: auto;
   border: 1px solid #aa0b20;
-  padding: 0.4rem;
-  font-size: 1.1rem;
-  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
-  border-radius: 0.2rem;
   background-color: #ffeff1;
 }
 
@@ -78,15 +64,12 @@
   color: #ca3e51;
 }
 
-.error {
-  color: #fff;
+.disabledBtn{
   width: 97%;
-  cursor: pointer;
   border: none;
   margin: 0.5rem auto;
   padding: 0.2rem;
   font-size: 0.9em;
-  border-radius: 0.5rem;
   background-color: rgb(134, 125, 43);
 }
 
@@ -95,30 +78,11 @@
   grid-template-columns: 94% 6%;
 }
 
-.editButton {
-  color: #fff;
+.editBtn {
   width: 97%;
-  cursor: pointer;
-  border: none;
   margin: 0.5rem auto;
   padding: 0.2rem;
   font-size: 0.9em;
-  border-radius: 0.5rem;
-  background-color: #ab9c15;
-}
-
-.editButton:hover {
-  background-color: #8a7a0f;
-}
-
-.convertButton {
-  color: #fff;
-  cursor: pointer;
-  margin: auto;
-  padding: 0.7rem;
-  font-size: 0.86em;
-  border-radius: 0 0.9rem 0.9rem 0;
-  background-color: #ab9c15;
 }
 
 .confirmBtn {
@@ -133,22 +97,3 @@
   border-radius: 0 0.5rem 0.5rem 0;
   background-color: #ab9c15;
 }
-
-/* Estilos responsivos */
-/* @media screen and (max-width: 768px) {
-  .section {
-    max-width: 90vw;
-    max-height: none;
-  }
-
-  .getBackButton,
-  .profileImg,
-  .profileUserName,
-  .profileInput,
-  .profileInfo,
-  .editButton {
-    width: 100%;
-    margin: 0.5rem auto;
-    float: none;
-  }
-} */

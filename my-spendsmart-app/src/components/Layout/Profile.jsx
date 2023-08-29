@@ -371,14 +371,14 @@ const Profile = () => {
       {isEditClicked && (
         <button
           onClick={onConfirmButton}
-          className={!isDisabled ? classes.error : classes.editButton}
+          className={!isDisabled ? classes.disabledBtn : classes.editBtn}
           disabled={btnDisabled}
         >
           Confirmar
         </button>
       )}
       {!isEditClicked && (
-        <button onClick={onEditButton} className={classes.editButton}>
+        <button onClick={onEditButton} className={classes.editBtn}>
           Editar Saldo
         </button>
       )}

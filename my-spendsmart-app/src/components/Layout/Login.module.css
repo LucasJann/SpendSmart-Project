@@ -10,19 +10,6 @@
 
 h2 {
   text-align: start;
-  margin-left: 0.6rem;
-}
-
-.loginBtn {
-  color: #fff;
-  width: 95%;
-  cursor: pointer;
-  border: none;
-  margin: 4rem 0 0 0rem;
-  padding: 0.4em;
-  font-size: 1em;
-  border-radius: 5px;
-  background-color: #ab9c15;
 }
 
 input {
@@ -31,16 +18,23 @@ input {
   padding: 0.4rem;
   font-size: large;
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
-  border-radius: 0.2rem;
+  border-radius: 0.3rem;
   margin-bottom: 0.5rem;
 }
 
 .paragraph {
   color: rgb(153, 159, 165);
-  margin: auto;
+  margin: -0.4rem 0 0 0;
   cursor: pointer;
 }
 
 .paragraph:hover {
   color: rgb(78, 82, 87);
+}
+
+.loginBtn {
+  width: 95%;
+  border: none;
+  margin: 4rem 0 0 0rem;
+  padding: 0.4em;
 }

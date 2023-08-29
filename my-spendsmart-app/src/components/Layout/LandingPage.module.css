@@ -28,3 +28,8 @@ button {
   border-radius: 0.5rem;
   background-color: #ab9c15;
 }
+
+button:hover {
+  background-color: #8a7a0f;
+}
+

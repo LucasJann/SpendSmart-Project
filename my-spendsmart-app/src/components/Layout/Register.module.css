@@ -8,15 +8,10 @@ form {
 }
 
 .loginBtn {
-  color: #fff;
   width: 20%;
-  cursor: pointer;
-  border: none;
   margin: 0.2rem 0 0 15.3rem;
   padding: 0.2rem;
   font-size: 0.9em;
-  border-radius: 0.5rem;
-  background-color: #ab9c15;
 }
 
 .image {
@@ -29,23 +24,8 @@ h2 {
   margin: 0 0 0 0.5rem;
 }
 
-.input {
-  width: 91%;
-  border: 2px solid #ccc9c9;
-  padding: 0.4rem;
-  font-size: large;
-  border-radius: 0.2rem;
-  margin-bottom: 0.5rem;
-}
-
 .inputError {
-  width: 91%;
   border: 1px solid #aa0b20;
-  padding: 0.4rem;
-  font-size: large;
-  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
-  border-radius: 0.2rem;
-  margin-bottom: 0.5rem;
   background-color: #eccbcf;
 }
 
@@ -55,13 +35,10 @@ h2 {
 }
 
 .registerBtn {
-  color: #fff;
   width: 96%;
-  cursor: pointer;
   border: none;
   padding: 0.4em;
   font-size: 1em;
   margin-top: 0.3rem;
   border-radius: 5px;
-  background-color: #ab9c15;
 }
