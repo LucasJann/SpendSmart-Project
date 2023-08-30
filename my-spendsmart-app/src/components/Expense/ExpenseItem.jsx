@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -9,7 +8,7 @@ import college from "../../Icons/college.png";
 import leisure from "../../Icons/rocket.png";
 import homeIcon from "../../Icons/home.png";
 import nutrition from "../../Icons/clock.png";
-import transportation from "../../Icons/location.png";
+import location from "../../Icons/location.png";
 
 import { callerActions } from "../../store/caller-slice";
 
@@ -25,12 +24,12 @@ const formatMoney = (value) => {
 
 const ExpenseItem = ({ item }) => {
   const dispatch = useDispatch();
+  const [image, setImage] = useState(null);
+
+  const { id, value, date, category } = item;
 
   const storedUserJSON = localStorage.getItem("foundUser");
   const storedUser = JSON.parse(storedUserJSON);
-
-  const { id, value, date, category } = item;
-  const [image, setImage] = useState(null);
 
   useEffect(() => {
     switch (category) {
@@ -50,7 +49,7 @@ const ExpenseItem = ({ item }) => {
         setImage(college);
         break;
       case "transporte":
-        setImage(transportation);
+        setImage(location);
         break;
       default:
         setImage(null);
@@ -58,54 +57,58 @@ const ExpenseItem = ({ item }) => {
     }
   }, [category]);
 
-  const deleteHandler = () => {
+  const onDeleteHandler = () => {
     const userConfirmed = window.confirm(
       "Clique em OK para confirmar a exclusão"
     );
-  
+
     if (userConfirmed) {
       const fetchData = async () => {
         try {
           const response = await fetch(
             "https://react-http-f8211-default-rtdb.firebaseio.com/logins.json"
           );
-  
+
           if (!response.ok) {
             console.log("Algo deu errado");
           }
-  
+
           const responseData = await response.json();
           const loggedUser = Object.values(responseData).find(
             (user) => user.email === storedUser.email
           );
-  
-          const newItems = loggedUser.expenseItems.filter((item) => item.id !== id);
-  
+
+          const newItems = loggedUser.expenseItems.filter(
+            (item) => item.id !== id
+          );
+
           const convertedValue = value.replace(/\D/g, "");
           const convertedBalance = storedUser.balance.replace(/\D/g, "");
-  
-          const cashBack =
-            parseInt(convertedBalance) + parseInt(convertedValue);
-  
+
+          const newBalance = storedUser.balance[0] === "-"
+            ? convertedBalance * -1
+            : convertedBalance
+
+          const cashBack = newBalance + parseInt(convertedValue);
           const formattedCashBack = formatMoney(cashBack);
-  
+
           const updatedUserItems = {
-            email: loggedUser.email,
             id: loggedUser.id,
-            lastName: loggedUser.lastName,
             name: loggedUser.name,
-            password: loggedUser.password,
             image: loggedUser.image,
-            balance: formattedCashBack,
-            expenseItems: newItems.length > 0 ? newItems : [""],
-            incomeItems: loggedUser.incomeItems,
+            email: loggedUser.email,
             goals: loggedUser.goals,
+            balance: formattedCashBack,
+            lastName: loggedUser.lastName,
+            password: loggedUser.password,
+            incomeItems: loggedUser.incomeItems,
+            expenseItems: newItems.length > 0 ? newItems : [""],
           };
-  
+
           const userKey = Object.keys(responseData).find(
             (key) => responseData[key].email === storedUser.email
           );
-  
+
           await fetch(
             `https://react-http-f8211-default-rtdb.firebaseio.com/logins/${userKey}.json`,
             {
@@ -113,22 +116,22 @@ const ExpenseItem = ({ item }) => {
               body: JSON.stringify(updatedUserItems),
             }
           );
-  
+
           const newResponse = await fetch(
             "https://react-http-f8211-default-rtdb.firebaseio.com/logins.json"
           );
-  
+
           if (!newResponse.ok) {
             console.log("Algo deu errado");
           }
-  
+
           const responseNewData = await newResponse.json();
-  
+
           const user = Object.values(responseNewData).find(
             (user) => user.email === storedUser.email
           );
           const loggedUserJSON = JSON.stringify(user);
-  
+
           localStorage.setItem("foundUser", loggedUserJSON);
           dispatch(callerActions.update());
         } catch (error) {
@@ -141,7 +144,7 @@ const ExpenseItem = ({ item }) => {
 
   return (
     <section className={classes.container}>
-      <button className={classes.delete} onClick={deleteHandler}>
+      <button className={classes.delete} onClick={onDeleteHandler}>
         X
       </button>
       <section className={classes.section}>
