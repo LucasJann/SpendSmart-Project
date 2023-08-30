@@ -1,11 +1,11 @@
-import classes from "./IncomeHistory.module.css";
-import IncomeItem from "./IncomeItem";
-
 import { addMinutes } from "date-fns";
-
-import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+
+import classes from "./IncomeHistory.module.css";
+
+import IncomeItem from "./IncomeItem";
 
 const IncomeHistory = () => {
   const navigation = useNavigate();
@@ -16,7 +16,7 @@ const IncomeHistory = () => {
   const [selectedEndDate, setSelectedEndDate] = useState(new Date());
   const [selectedStartDate, setSelectedStartDate] = useState(new Date());
 
-  const [message, setMessage] = useState(false);
+  const [message, setMessage] = useState(true);
   const [isSearch, setIsSearch] = useState(false);
   const [isFilteredItems, setIsFilteredItems] = useState(false);
   const [filteredItemsUpdated, setFilteredItemsUpdated] = useState(false);
@@ -27,10 +27,10 @@ const IncomeHistory = () => {
   const itemsUpdated = useSelector((state) => state.call.caller);
 
   useEffect(() => {
-    const localIncomesJSON = localStorage.getItem("foundUser");
-    const localIncomes = JSON.parse(localIncomesJSON);
+    const incomeJSON = localStorage.getItem("foundUser");
+    const incomeStorage = JSON.parse(incomeJSON);
 
-    const newFilteredItems = localIncomes.incomeItems;
+    const newFilteredItems = incomeStorage.incomeItems;
 
     const formattedStartDate = selectedStartDate.toISOString().split("T")[0];
     const formattedEndDate = selectedEndDate.toISOString().split("T")[0];
@@ -62,35 +62,34 @@ const IncomeHistory = () => {
   }, [itemsUpdated]);
 
   const startDateChange = (event) => {
-    const selectedStartDate = new Date(event.target.value);
+    const selectedStartDateValue = new Date(event.target.value);
 
-    if (isNaN(selectedStartDate)) {
+    if (isNaN(selectedStartDateValue)) {
       return;
     }
 
     const adjustedDate = addMinutes(
-      selectedStartDate,
-      selectedStartDate.getTimezoneOffset()
+      selectedStartDateValue,
+      selectedStartDateValue.getTimezoneOffset()
     );
     setSelectedStartDate(adjustedDate);
   };
 
   const endDateChange = (event) => {
-    const selectedEndDate = new Date(event.target.value);
+    const selectedEndDateValue = new Date(event.target.value);
 
-    if (isNaN(selectedEndDate)) {
+    if (isNaN(selectedEndDateValue)) {
       return;
     }
 
     const adjustedDate = addMinutes(
-      selectedEndDate,
-      selectedEndDate.getTimezoneOffset()
+      selectedEndDateValue,
+      selectedEndDateValue.getTimezoneOffset()
     );
-
     setSelectedEndDate(adjustedDate);
   };
 
-  const searchHandler = () => {
+  const onSearchHandler = () => {
     const formattedStartDate = selectedStartDate.toISOString().split("T")[0];
     const formattedEndDate = selectedEndDate.toISOString().split("T")[0];
 
@@ -143,27 +142,30 @@ const IncomeHistory = () => {
           className={classes.inputDate}
         />
       </h2>
-      <button className={classes.searchBtn} onClick={searchHandler}>
+      <button className={classes.searchBtn} onClick={onSearchHandler}>
         Procurar
       </button>
       {isSearch && (
-        <h3 className={classes.releases}> Histórico de Lançamentos por Data</h3>
+        <h3 className={classes.filteredReleases}>
+          Histórico de Lançamentos por Data
+        </h3>
       )}
-      {message && (
+      {!isSearch && <h3 className={classes.allReleases}>Todos Lançamentos</h3>}
+      {isFilteredItems && message && (
         <p className={classes.message}>
           Não há registros inseridos na data específicada
         </p>
       )}
-      {!isSearch && (
-        <h3 className={classes.allReleasesText}>Todos Lançamentos</h3>
-      )}
+
       {isFilteredItems
         ? filteredItems.map((item, index) => (
             <IncomeItem key={index} item={item} />
           ))
         : items.map((item, index) => <IncomeItem key={index} item={item} />)}
-      {items.length === 0 && !message && (
-        <p className={classes.releaseMessage}>Não há lançamentos registrados</p>
+      {items.length === 0 && message && (
+        <p className={classes.releasesHistory}>
+          Não há lançamentos registrados
+        </p>
       )}
     </section>
   );

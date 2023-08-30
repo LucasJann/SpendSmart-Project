@@ -1,10 +1,14 @@
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import classes from "./IncomeItem.module.css";
 
-import money from "../../Icons/moneyBag.png";
-import finance from "../../Icons/finance.png";
-import identifier from "../../Icons/id.png";
+import health from "../../Icons/checklist.png";
+import college from "../../Icons/college.png";
+import leisure from "../../Icons/rocket.png";
+import homeIcon from "../../Icons/home.png";
+import nutrition from "../../Icons/clock.png";
+import location from "../../Icons/location.png";
 
 import { callerActions } from "../../store/caller-slice";
 
@@ -20,28 +24,56 @@ const formatMoney = (value) => {
 
 const IncomeItem = ({ item }) => {
   const dispatch = useDispatch();
+  const [image, setImage] = useState(null);
+
+  const { id, value, date, category } = item;
 
   const storedUserJSON = localStorage.getItem("foundUser");
   const storedUser = JSON.parse(storedUserJSON);
 
-  const { id, value, date, category } = item;
+  useEffect(() => {
+    switch (category) {
+      case "moradia":
+        setImage(homeIcon);
+        break;
+      case "lazer":
+        setImage(leisure);
+        break;
+      case "saúde":
+        setImage(health);
+        break;
+      case "comida":
+        setImage(nutrition);
+        break;
+      case "educação":
+        setImage(college);
+        break;
+      case "transporte":
+        setImage(location);
+        break;
+      default:
+        setImage(null);
+        break;
+    }
+  }, [category]);
 
-  let image = "";
-  const deleteHandler = () => {
+  const onDeleteHandler = () => {
     const userConfirmed = window.confirm(
       "Clique em OK para confirmar a exclusão"
     );
+
     if (userConfirmed) {
       const fetchData = async () => {
         try {
           const response = await fetch(
             "https://react-http-f8211-default-rtdb.firebaseio.com/logins.json"
           );
+
           if (!response.ok) {
             console.log("Algo deu errado");
           }
-          const responseData = await response.json();
 
+          const responseData = await response.json();
           const loggedUser = Object.values(responseData).find(
             (user) => user.email === storedUser.email
           );
@@ -50,135 +82,41 @@ const IncomeItem = ({ item }) => {
             (item) => item.id !== id
           );
 
-          const storedBalance = storedUser;
+          const convertedValue = value.replace(/\D/g, "");
+          const convertedBalance = storedUser.balance.replace(/\D/g, "");
 
-          if (storedBalance.balance[0] === "-") {
-            const convertedValue = value.replace(/\D/g, "");
-            const convertedBalance = storedBalance.balance.replace(/\D/g, "");
+          const newBalance =
+            storedUser.balance[0] === "-"
+              ? convertedBalance * -1
+              : convertedBalance;
 
-            const negativeBalance = convertedBalance * -1;
+          const cashBack = parseInt(newBalance) - parseInt(convertedValue);
+          const formattedCashBack = formatMoney(cashBack);
 
-            const cashBack =
-              parseInt(negativeBalance) - parseInt(convertedValue);
+          const updatedUserItems = {
+            id: loggedUser.id,
+            name: loggedUser.name,
+            image: loggedUser.image,
+            email: loggedUser.email,
+            goals: loggedUser.goals,
+            balance: formattedCashBack,
+            lastName: loggedUser.lastName,
+            password: loggedUser.password,
+            incomeItems: newItems.length > 0 ? newItems : [""],
+            expenseItems: loggedUser.expenseItems,
+          };
 
-            const formattedCashBack = formatMoney(cashBack);
+          const userKey = Object.keys(responseData).find(
+            (key) => responseData[key].email === storedUser.email
+          );
 
-            if (newItems.length > 0) {
-              const updatedUserItems = {
-                email: loggedUser.email,
-                id: loggedUser.id,
-                lastName: loggedUser.lastName,
-                name: loggedUser.name,
-                password: loggedUser.password,
-                image: loggedUser.image,
-                balance: formattedCashBack,
-                expenseItems: loggedUser.expenseItems,
-                incomeItems: newItems,
-                goals: loggedUser.goals,
-              };
-
-              const userKey = Object.keys(responseData).find(
-                (key) => responseData[key].email === storedUser.email
-              );
-
-              await fetch(
-                `https://react-http-f8211-default-rtdb.firebaseio.com/logins/${userKey}.json`,
-                {
-                  method: "PUT",
-                  body: JSON.stringify(updatedUserItems),
-                }
-              );
-            } else {
-              const newItems = [""];
-
-              const updatedUserItems = {
-                email: loggedUser.email,
-                id: loggedUser.id,
-                lastName: loggedUser.lastName,
-                name: loggedUser.name,
-                password: loggedUser.password,
-                image: loggedUser.image,
-                balance: formattedCashBack,
-                expenseItems: loggedUser.expenseItems,
-                incomeItems: newItems,
-                goals: loggedUser.goals,
-              };
-
-              const userKey = Object.keys(responseData).find(
-                (key) => responseData[key].email === storedUser.email
-              );
-
-              await fetch(
-                `https://react-http-f8211-default-rtdb.firebaseio.com/logins/${userKey}.json`,
-                {
-                  method: "PUT",
-                  body: JSON.stringify(updatedUserItems),
-                }
-              );
+          await fetch(
+            `https://react-http-f8211-default-rtdb.firebaseio.com/logins/${userKey}.json`,
+            {
+              method: "PUT",
+              body: JSON.stringify(updatedUserItems),
             }
-          } else {
-            const convertedValue = value.replace(/\D/g, "");
-            const convertedBalance = storedBalance.balance.replace(/\D/g, "");
-
-            const cashBack =
-              parseInt(convertedBalance) - parseInt(convertedValue);
-
-            const formattedCashBack = formatMoney(cashBack);
-
-            if (newItems.length > 0) {
-              const updatedUserItems = {
-                email: loggedUser.email,
-                id: loggedUser.id,
-                lastName: loggedUser.lastName,
-                name: loggedUser.name,
-                password: loggedUser.password,
-                image: loggedUser.image,
-                balance: formattedCashBack,
-                expenseItems: loggedUser.expenseItems,
-                incomeItems: newItems,
-                goals: loggedUser.goals,
-              };
-
-              const userKey = Object.keys(responseData).find(
-                (key) => responseData[key].email === storedUser.email
-              );
-
-              await fetch(
-                `https://react-http-f8211-default-rtdb.firebaseio.com/logins/${userKey}.json`,
-                {
-                  method: "PUT",
-                  body: JSON.stringify(updatedUserItems),
-                }
-              );
-            } else {
-              const newItems = [""];
-
-              const updatedUserItems = {
-                email: loggedUser.email,
-                id: loggedUser.id,
-                lastName: loggedUser.lastName,
-                name: loggedUser.name,
-                password: loggedUser.password,
-                image: loggedUser.image,
-                balance: formattedCashBack,
-                expenseItems: loggedUser.expenseItems,
-                incomeItems: newItems,
-                goals: loggedUser.goals,
-              };
-
-              const userKey = Object.keys(responseData).find(
-                (key) => responseData[key].email === storedUser.email
-              );
-
-              await fetch(
-                `https://react-http-f8211-default-rtdb.firebaseio.com/logins/${userKey}.json`,
-                {
-                  method: "PUT",
-                  body: JSON.stringify(updatedUserItems),
-                }
-              );
-            }
-          }
+          );
 
           const newResponse = await fetch(
             "https://react-http-f8211-default-rtdb.firebaseio.com/logins.json"
@@ -189,11 +127,12 @@ const IncomeItem = ({ item }) => {
           }
 
           const responseNewData = await newResponse.json();
+
           const user = Object.values(responseNewData).find(
             (user) => user.email === storedUser.email
           );
-
           const loggedUserJSON = JSON.stringify(user);
+
           localStorage.setItem("foundUser", loggedUserJSON);
           dispatch(callerActions.update());
         } catch (error) {
@@ -204,54 +143,20 @@ const IncomeItem = ({ item }) => {
     }
   };
 
-  switch (category) {
-    case "finance":
-      image = (
-        <>
-          <img
-            src={finance}
-            alt="Icone de um laptop com uma projeção positiva de um gráfico de linha"
-            className={classes.img}
-          />
-        </>
-      );
-      break;
-    case "money":
-      image = (
-        <>
-          <img
-            src={money}
-            alt="Icone de um saco de dinheiro"
-            className={classes.img}
-          />
-        </>
-      );
-      break;
-    case "id":
-      image = (
-        <>
-          <img
-            src={identifier}
-            alt="Icone de um cracha"
-            className={classes.img}
-          />
-        </>
-      );
-      break;
-
-    default:
-      image = <p>Não foi possível encontrar esta categoria</p>;
-      break;
-  }
-
   return (
     <section className={classes.container}>
-      <button className={classes.delete} onClick={deleteHandler}>
+      <button className={classes.delete} onClick={onDeleteHandler}>
         X
       </button>
       <section className={classes.section}>
-        <div className={classes.image}>
-          <p>{image}</p>
+        <div>
+          {image && (
+            <img
+              src={image}
+              alt={`Icone de ${category}`}
+              className={classes.img}
+            />
+          )}
         </div>
         <div className={classes.text}>
           <p>Data:</p>

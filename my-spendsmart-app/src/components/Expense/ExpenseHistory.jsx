@@ -147,7 +147,6 @@ const ExpenseHistory = () => {
       </button>
       {isSearch && (
         <h3 className={classes.filteredReleases}>
-          {" "}
           Histórico de Lançamentos por Data
         </h3>
       )}

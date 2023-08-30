@@ -1,17 +1,17 @@
-import React, { useState, useEffect, Fragment } from "react";
-import classes from "./Income.module.css";
+import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
+import { format, addMinutes } from "date-fns";
+import { Fragment, useEffect, useState } from "react";
 
 import Card from "../Layout/Card";
+import classes from "./Income.module.css";
 
-import money from "../../Icons/moneyBag.png";
-import finance from "../../Icons/finance.png";
-import identifier from "../../Icons/id.png";
-
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { format, addMinutes } from "date-fns";
-
-import { v4 as uuidv4 } from "uuid";
+import health from "../../Icons/checklist.png";
+import college from "../../Icons/college.png";
+import leisure from "../../Icons/rocket.png";
+import homeIcon from "../../Icons/home.png";
+import location from "../../Icons/location.png";
+import nutrition from "../../Icons/clock.png";
 
 const formatMoney = (value) => {
   const formatter = new Intl.NumberFormat("pt-BR", {
@@ -23,26 +23,24 @@ const formatMoney = (value) => {
 };
 
 const Income = () => {
-  const dispatch = useDispatch();
   const navigation = useNavigate();
 
   const storedUserJSON = localStorage.getItem("foundUser");
   const storedUser = JSON.parse(storedUserJSON);
 
-  const [date, setDate] = useState("");
-  const [input, setInput] = useState(false);
-  const [message, setMessage] = useState(true);
-  const [callerEffect, setCallerEffect] = useState(false);
-  const [isDateFilled, setIsDateFilled] = useState(false);
-
+  const [date, setDate] = useState();
   const [income, setIncome] = useState("");
-  const [newIncome, setNewIncome] = useState(storedUser.balance);
-  const [warning, setWarning] = useState(false);
-  const [isIncomeFilled, setIsIncomeFilled] = useState(false);
-
   const [category, setCategory] = useState();
+  const [isCategoryFilled, setIsCategoryFilled] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [isCategoryFilled, setIsCategoryFilled] = useState(false);
+
+  const [input, setInput] = useState(false);
+  const [error, setError] = useState(false);
+  const [message, setMessage] = useState(true);
+  const [warning, setWarning] = useState(false);
+  const [isDateFilled, setIsDateFilled] = useState(false);
+  const [callerEffect, setCallerEffect] = useState(false);
+  const [isIncomeFilled, setIsIncomeFilled] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,24 +52,23 @@ const Income = () => {
         if (!response.ok) {
           throw new Error("Algo deu errado!");
         }
-
         const responseData = await response.json();
 
         const loggedUser = Object.values(responseData).find(
           (user) => user.email === storedUser.email
         );
 
-        const updatedUserBalance = {
-          email: loggedUser.email,
+        const updatedUser = {
           id: loggedUser.id,
-          lastName: loggedUser.lastName,
           name: loggedUser.name,
-          password: loggedUser.password,
-          image: loggedUser.image,
-          balance: newIncome,
-          expenseItems: loggedUser.expenseItems,
-          incomeItems: storedUser.incomeItems,
+          email: loggedUser.email,
           goals: loggedUser.goals,
+          image: loggedUser.image,
+          balance: storedUser.balance,
+          lastName: loggedUser.lastName,
+          password: loggedUser.password,
+          incomeItems: storedUser.incomeItems,
+          expenseItems: loggedUser.expenseItems,
         };
 
         const userKey = Object.keys(responseData).find(
@@ -83,7 +80,7 @@ const Income = () => {
             `https://react-http-f8211-default-rtdb.firebaseio.com/logins/${userKey}.json`,
             {
               method: "PUT",
-              body: JSON.stringify(updatedUserBalance),
+              body: JSON.stringify(updatedUser),
             }
           );
         } catch {}
@@ -92,9 +89,9 @@ const Income = () => {
       }
     };
     fetchData();
-  }, [newIncome, callerEffect]);
+  }, [callerEffect]);
 
-  const dateChange = (event) => {
+  const dateChangeHandler = (event) => {
     const selectedDate = new Date(event.target.value);
 
     if (isNaN(selectedDate)) {
@@ -116,25 +113,21 @@ const Income = () => {
   const incomeChange = (event) => {
     const value = event.target.value;
     const numericValue = value.replace(/\D/g, "");
-    /* 
-    / - A barra inicial indica o início da expressão regular.
-    \D é um atalho para qualquer caractere que não seja um dígito numérico. Em outras palavras, ele corresponde a qualquer caractere que não seja de 0 a 9.
-    / - A barra final indica o fim da expressão regular.
-    g - A flag g após a barra final indica uma correspondência global. Ela permite que a expressão regular procure por todas as ocorrências em uma string, em vez de parar na primeira correspondência encontrada.
-*/
 
     if (numericValue.length > 14) {
+      setError(true);
       setWarning(true);
       setIsIncomeFilled(false);
       setIncome(formatMoney(numericValue));
     } else {
+      setError(false);
       setWarning(false);
       setIsIncomeFilled(true);
       setIncome(formatMoney(numericValue));
     }
   };
 
-  const onCategoryHandler = (category) => {
+  const categoryClickHandler = (category) => {
     if (selectedCategory === category) {
       setSelectedCategory(null);
       setIsCategoryFilled(false);
@@ -147,59 +140,20 @@ const Income = () => {
 
   const onInputHandler = () => {
     const userBalance = storedUser.balance;
-
-    const convertedIncome = income.replace(/\D/g, "");
     const convertedUserBalance = userBalance.replace(/\D/g, "");
+    const convertedIncome = income.replace(/\D/g, "");
 
     if (userBalance[0] === "-") {
-      const negativeUserBalance = convertedUserBalance * -1;
-      const sum = parseInt(negativeUserBalance) + parseInt(convertedIncome);
+      const negativeBalance = convertedUserBalance * -1;
+      const calc = parseInt(convertedIncome) + negativeBalance;
+      console.log(calc)
+      const newBalance = formatMoney(calc);
+      console.log(newBalance)
 
-      const newBalance = JSON.stringify(sum);
-      const formattedUserBalance = formatMoney(newBalance);
-
-      const storedItems = storedUser.incomeItems;
-
-      if (storedItems[0] === "") {
-        storedItems.shift();
+      const storedIncomeItems = storedUser.incomeItems;
+      if (storedIncomeItems[0] === "") {
+        storedIncomeItems.shift();
       }
-
-      const id = uuidv4();
-
-      const newIncomeItem = [
-        {
-          id: id,
-          value: income,
-          date: date,
-          category: category,
-        },
-      ];
-
-      storedItems.push(newIncomeItem[0]);
-      const storedNewItem = storedItems;
-
-      const userUpdated = {
-        email: storedUser.email,
-        id: storedUser.id,
-        lastName: storedUser.lastName,
-        name: storedUser.name,
-        password: storedUser.password,
-        image: storedUser.image,
-        balance: formattedUserBalance,
-        expenseItems: storedUser.expenseItems,
-        incomeItems: storedNewItem,
-        goals: storedUser.goals,
-      };
-
-      const userUpdatedJSON = JSON.stringify(userUpdated);
-      localStorage.setItem("foundUser", userUpdatedJSON);
-
-      setNewIncome(formatMoney(newBalance));
-      setCallerEffect(!callerEffect);
-    } else {
-      const sum = parseInt(convertedUserBalance) + parseInt(convertedIncome);
-      const newBalance = JSON.stringify(sum);
-      const formattedUserBalance = formatMoney(newBalance);
 
       const id = uuidv4();
       const incomeItem = [
@@ -211,32 +165,62 @@ const Income = () => {
         },
       ];
 
-      const storedItems = storedUser.incomeItems;
-
-      if (storedItems[0] === "") {
-        storedItems.shift();
-      }
-
-      storedItems.push(incomeItem[0]);
-      const storedNewItem = storedItems;
+      storedIncomeItems.push(incomeItem[0]);
+      const newIncomeItems = storedIncomeItems;
 
       const userUpdated = {
-        email: storedUser.email,
         id: storedUser.id,
-        lastName: storedUser.lastName,
         name: storedUser.name,
-        password: storedUser.password,
         image: storedUser.image,
-        balance: formattedUserBalance,
-        expenseItems: storedUser.expenseItems,
-        incomeItems: storedNewItem,
+        email: storedUser.email,
         goals: storedUser.goals,
+        balance: newBalance,
+        lastName: storedUser.lastName,
+        password: storedUser.password,
+        incomeItems: newIncomeItems,
+        expenseItems: storedUser.expenseItems,
       };
-
       const userUpdatedJSON = JSON.stringify(userUpdated);
-
       localStorage.setItem("foundUser", userUpdatedJSON);
-      setNewIncome(formatMoney(newBalance));
+
+      setCallerEffect(!callerEffect);
+    } else {
+      const calc = convertedUserBalance + convertedIncome;
+      const newBalance = formatMoney(calc);
+
+      const storedIncomeItems = storedUser.incomeItems;
+      if (storedIncomeItems[0] === "") {
+        storedIncomeItems.shift();
+      }
+
+      const id = uuidv4();
+      const incomeItem = [
+        {
+          id: id,
+          value: income,
+          date: date,
+          category: category,
+        },
+      ];
+
+      storedIncomeItems.push(incomeItem[0]);
+      const newIncomeItems = storedIncomeItems;
+
+      const userUpdated = {
+        id: storedUser.id,
+        name: storedUser.name,
+        image: storedUser.image,
+        email: storedUser.email,
+        goals: storedUser.goals,
+        balance: newBalance,
+        lastName: storedUser.lastName,
+        password: storedUser.password,
+        incomeItems: newIncomeItems,
+        expenseItems: storedUser.expenseItems,
+      };
+      const userUpdatedJSON = JSON.stringify(userUpdated);
+      localStorage.setItem("foundUser", userUpdatedJSON);
+
       setCallerEffect(!callerEffect);
     }
 
@@ -251,40 +235,39 @@ const Income = () => {
     setIsIncomeFilled(false);
   };
 
-  const onGetBackHandler = () => {
-    navigation("/landingPage");
+  const onHistoryHandler = () => {
+    navigation("/incomeHistoryPage");
   };
 
   const onExpenseHandler = () => {
     navigation("/expensePage");
   };
 
-  const onHistoryHandler = () => {
-    navigation("/incomeHistoryPage");
+  const onGetBackHandler = () => {
+    navigation("/landingPage");
   };
 
   return (
     <>
       {input && (
-        <div className={classes.success}>Renda inserida com sucesso</div>
+        <div className={classes.success}>Despesa inserida com sucesso</div>
       )}
-      <div className={classes.section}>
+      <section className={classes.section}>
         <button className={classes.getBack} onClick={onGetBackHandler}>
           Voltar
         </button>
         <div className={classes.alternativeBtnsDiv}>
-          <button className={classes.expenseBtn} onClick={onExpenseHandler}>
-            Despesa
+          <button className={classes.expenseBtn} onClick={onExpenseHandler}>Despesa</button>
+          <button className={classes.incomeBtn} >
+            Renda
           </button>
-          <button className={classes.incomeBtn}>Renda</button>
         </div>
-        <h2 className={classes.date}>
+        <h2>
           Data:
           <input
             type="date"
             id="date"
-            onChange={dateChange}
-            onClick={dateChange}
+            onChange={dateChangeHandler}
             className={classes.inputDate}
           />
         </h2>
@@ -296,14 +279,14 @@ const Income = () => {
         {isDateFilled && (
           <Fragment>
             <div>
-              <h2 className={classes.income}>
-                Renda:
+              <h2>
+                Despesa:
                 <input
                   type="text"
                   id="text"
                   value={income}
                   onChange={incomeChange}
-                  className={classes.inputIncome}
+                  className={error ? classes.inputError : classes.inputIncome}
                 />
               </h2>
             </div>
@@ -313,53 +296,97 @@ const Income = () => {
               </p>
             )}
             <div>
-              <h2 className={classes.category}>Categoria:</h2>
-
+              <h2>Categoria:</h2>
               <Card>
                 <ul className={classes.categories}>
                   <li
                     className={`${classes.list} ${
-                      selectedCategory === "money" ? classes.selected : ""
+                      selectedCategory === "moradia" ? classes.selected : ""
                     }`}
-                    onClick={() => onCategoryHandler("money")}
+                    onClick={() => categoryClickHandler("moradia")}
                   >
                     <div>
                       <img
-                        src={money}
-                        alt="Icone de um saco de dinheiro"
+                        src={homeIcon}
+                        alt="Icone de uma casa"
                         className={classes.icon}
                       />
-                      <p className={classes.text}>Renda Extra</p>
+                      <p className={classes.text}>Casa</p>
                     </div>
                   </li>
                   <li
                     className={`${classes.list} ${
-                      selectedCategory === "id" ? classes.selected : ""
+                      selectedCategory === "lazer" ? classes.selected : ""
                     }`}
-                    onClick={() => onCategoryHandler("id")}
+                    onClick={() => categoryClickHandler("lazer")}
                   >
                     <div>
                       <img
-                        src={identifier}
-                        alt="Icone de um cracha"
+                        src={leisure}
+                        alt="Icone de um Foguete"
                         className={classes.icon}
                       />
-                      <p className={classes.text}>Salário</p>
+                      <p className={classes.text}>Lazer</p>
                     </div>
                   </li>
                   <li
                     className={`${classes.list} ${
-                      selectedCategory === "finance" ? classes.selected : ""
+                      selectedCategory === "saúde" ? classes.selected : ""
                     }`}
-                    onClick={() => onCategoryHandler("finance")}
+                    onClick={() => categoryClickHandler("saúde")}
                   >
                     <div>
                       <img
-                        src={finance}
-                        alt="Icone de um laptop com uma projeção positiva de um gráfico de linha"
+                        src={health}
+                        alt="Icone de uma planilha"
                         className={classes.icon}
                       />
-                      <p className={classes.text}>Aplicações</p>
+                      <p className={classes.text}>Saúde</p>
+                    </div>
+                  </li>
+                  <li
+                    className={`${classes.list} ${
+                      selectedCategory === "educação" ? classes.selected : ""
+                    }`}
+                    onClick={() => categoryClickHandler("educação")}
+                  >
+                    <div>
+                      <img
+                        src={college}
+                        alt="Icone de formatura"
+                        className={classes.icon}
+                      />
+                      <p className={classes.text}>Educação</p>
+                    </div>
+                  </li>
+                  <li
+                    className={`${classes.list} ${
+                      selectedCategory === "alimentação" ? classes.selected : ""
+                    }`}
+                    onClick={() => categoryClickHandler("alimentação")}
+                  >
+                    <div>
+                      <img
+                        src={nutrition}
+                        alt="Icone de um relógio"
+                        className={classes.icon}
+                      />
+                      <p className={classes.text}>Alimentação</p>
+                    </div>
+                  </li>
+                  <li
+                    className={`${classes.list} ${
+                      selectedCategory === "transporte" ? classes.selected : ""
+                    }`}
+                    onClick={() => categoryClickHandler("transporte")}
+                  >
+                    <div>
+                      <img
+                        src={location}
+                        alt="Icone de um relógio"
+                        className={classes.icon}
+                      />
+                      <p className={classes.text}>Transporte</p>
                     </div>
                   </li>
                 </ul>
@@ -367,9 +394,9 @@ const Income = () => {
             </div>
           </Fragment>
         )}
-        {isCategoryFilled && isIncomeFilled && (
+        {isIncomeFilled && isCategoryFilled && (
           <button className={classes.btn} onClick={onInputHandler}>
-            Inserir Renda
+            Inserir Despesa
           </button>
         )}
         <div>
@@ -377,7 +404,7 @@ const Income = () => {
             Visualizar Despesa
           </button>
         </div>
-      </div>
+      </section>
     </>
   );
 };

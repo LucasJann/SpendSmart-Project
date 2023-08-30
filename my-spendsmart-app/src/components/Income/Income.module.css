@@ -1,34 +1,33 @@
 .success {
   top: 0;
   left: 0;
-  width: 100.5%;
   color: #155724;
-  height: 1.5rem; /* Ajuste a altura conforme necessário */
+  width: 100.5%;
+  height: 1.5rem;
   position: absolute;
-  animation: slideInOut 4s forwards; /* 6s para uma animação de 6 segundos (3s para aparecer + 3s para desaparecer) */
+  animation: slideInOut 4s forwards;
   text-align: center;
-  visibility: hidden; /* Inicialmente oculta */
+  visibility: hidden;
   padding-top: 0.5%;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   border-color: #c3e6cb;
   background-color: #d4edda;
 }
 
-/* Definindo a animação "slideInOut" */
 @keyframes slideInOut {
   0%,
   100% {
-    opacity: 0; /* Opacidade 0 no início e final da animação */
+    opacity: 0;
     transform: translateY(-100%);
     visibility: visible; /* Torna a div visível no início e final da animação */
   }
   50% {
-    opacity: 1; /* Opacidade 1 no meio da animação (aparecendo) */
+    opacity: 1;
     transform: translateY(0);
   }
 }
 
-/* Atraso de 3 segundos antes de começar o processo inverso */
+/* Atraso de 2 segundos antes de começar o processo inverso */
 .success.delayed {
   animation-delay: 2s;
 }
@@ -39,14 +38,9 @@
 }
 
 .getBack {
-  color: #fff;
   width: 20%;
-  cursor: pointer;
-  border: none;
   margin: 1.3rem 0 0 15rem;
   padding: 0.2rem;
-  border-radius: 0.5rem;
-  background-color: #ab9c15;
 }
 
 .alternativeBtnsDiv {
@@ -54,35 +48,24 @@
   text-align: center;
 }
 
-.expenseBtn {
-  color: #a8a8a8;
-  width: 25%;
-  cursor: pointer;
-  border: none;
-  padding: 0.3rem;
-  font-size: 0.9em;
-  border-radius: 35% 0 0 3%;
-  background-color: #756b0e;
-}
-
 .incomeBtn {
-  color: #fff;
   width: 25%;
-  cursor: pointer;
-  border: none;
   padding: 0.3rem;
   font-size: 0.9em;
   border-radius: 0 3% 35% 0;
-  background-color: #ab9c15;
 }
 
 .incomeBtn:hover {
   background-color: #ab9c15;
 }
 
-
-.date {
-  margin: 1rem 0 0 0.5rem;
+.expenseBtn {
+  width: 25%;
+  color: #a8a8a8;
+  padding: 0.3rem;
+  font-size: 0.9em;
+  border-radius: 35% 0 0 3%;
+  background-color: #756b0e;
 }
 
 .inputDate {
@@ -93,12 +76,8 @@
 
 .paragraph {
   color: #888;
-  width: 98%;
-  margin: 0 0 0 1rem;
-}
-
-.income {
-  margin: 1rem 0 0 0.5rem;
+  margin: 0.1rem 0 0.2rem 0;
+  text-align: center;
 }
 
 .inputIncome {
@@ -106,15 +85,18 @@
   font-size: 0.9em;
 }
 
-.warning {
-  margin: 0 0 0 0;
-  color: #ce2121;
-  font-weight: bold;
-  text-align: center;
+.inputError {
+  width: 92%;
+  border: 1px solid #aa0b20;
+  font-size: 0.9em;
+  background-color: #eccbcf;
 }
 
-.category {
-  margin: 0 0 0.3rem 0.5rem;
+.warning {
+  color: #ce2121;
+  margin: auto;
+  text-align: center;
+  font-weight: bold;
 }
 
 .categories {
@@ -122,42 +104,32 @@
   padding: 0;
   display: flex;
   flex-wrap: wrap;
-  list-style: none;
-  justify-content: space-between;
 }
 
 .list {
-  width: calc(30% - -0.5rem);
+  width: calc(35% - 0.5rem);
+  margin: auto;
   text-align: center;
 }
-
 .selected {
-  display: flex; /* Adiciona flexbox */
-  align-items: center; /* Alinha verticalmente o conteúdo */
   color: #fff;
-  text-align: center;
   background-color: #ccc7c7;
 }
 
 .icon {
   width: 50%;
-  margin: 1rem auto -0.2rem auto; /* Centraliza verticalmente e centraliza horizontalmente com "auto" */
+  margin: 1.5rem auto -0.2rem auto;
 }
 
 .text {
   margin: auto;
-  text-align: center;
+  font-size: medium;
   margin-bottom: 1rem;
 }
 
 .btn {
-  color: #fff;
-  width: 70%;
-  cursor: pointer;
   border: none;
   margin: 0.5rem 0 0 3rem;
   padding: 0.3rem;
   font-size: 0.9em;
-  border-radius: 0.5rem;
-  background-color: #ab9c15;
 }

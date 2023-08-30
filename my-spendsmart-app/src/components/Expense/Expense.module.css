@@ -55,6 +55,10 @@
   border-radius: 35% 0 0 3%;
 }
 
+.expenseBtn:hover {
+  background-color: #ab9c15;
+}
+
 .incomeBtn {
   width: 25%;
   color: #a8a8a8;

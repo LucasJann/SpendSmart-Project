@@ -1,24 +1,25 @@
 .container {
   display: flex;
-  align-items: normal;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.delete {
+  color: rgb(122, 0, 0);
+  width: 7%;
+  box-shadow: 0 2px 1px rgba(0, 0, 0, 0.1);
+  font-weight: bold;
+  border-radius: 8px 0 0 8px;
+  background-color: #f2f2f2;
 }
 
 .section {
+  height: 6rem;
   display: grid;
-  padding: 0rem 0.4rem 0rem 0.2rem;
+  padding: 0.5rem;
   box-shadow: 0 2px 1px rgba(0, 0, 0, 0.1);
   border-radius: 0 8px 8px 0;
   background-color: #f2f2f2;
   grid-template-columns: 1fr 1fr 2fr;
-}
-
-.delete {
-  border: none;
-  box-shadow: 0 2px 1px rgba(0, 0, 0, 0.1);
-  border-radius: 8px 0 0 8px;
-  background-color: #f2f2f2;
-  font-weight: bold;
 }
 
 .delete:hover {
@@ -29,16 +30,15 @@
 .img {
   width: 46%;
   padding: 1rem;
-  border-radius: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  border-radius: 1rem;
+  margin-bottom: -4rem;
 }
 
 .text {
-  width: 90%;
-  margin: auto;
   color: rgb(33, 201, 33);
-  display: grid;
-  justify-items: start;
+
+  margin: auto;
   font-weight: bold;
 }
 
@@ -47,15 +47,15 @@
 }
 
 .values {
-  width: 95%;
-  margin: auto;
+  width: 100%;
   color: rgb(33, 201, 33);
+
+  margin: auto;
   display: grid;
-  justify-items: end;
   font-weight: bold;
+  justify-items: end;
 }
 
 .values p {
   margin: 0.1rem 0 0.3rem 0;
-  overflow: hidden;
 }
