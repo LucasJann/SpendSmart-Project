@@ -4,26 +4,15 @@
 }
 
 .getBack {
-  color: #fff;
   width: 20%;
-  cursor: pointer;
-  border: none;
   margin: 1rem 0 0 15.5rem;
   padding: 0.2rem;
-  border-radius: 0.5rem;
-  background-color: #ab9c15;
 }
 
 .inputDate {
   width: 92%;
   margin: auto;
   font-size: 0.9em;
-}
-
-.message {
-  color: #888;
-  font-style: bold;
-  margin-top: 20px;
 }
 
 .searchBtn {
@@ -37,26 +26,21 @@
   background-color: #ab9c15;
 }
 
-.allReleasesText {
+.allReleases {
   margin: 0 0 0.4rem 4.7rem;
 }
 
-.releases {
-  margin: 0 0 0.4rem 0.8rem;
+.releasesHistory {
+  margin: 0 0 0.4rem 3.3rem;
+  color: #888;
 }
 
-.historic {
-  margin: 0 0 0 0.5rem;
+.filteredReleases {
+  margin: 0 0 0.4rem 1rem;
 }
 
 .message {
   color: #888;
   width: 110%;
-  margin: 0 0 0 0.3rem;
-}
-
-.releaseMessage {
-  color: #888;
-  width: 110%;
-  margin: 0rem 0 0.8rem 3.5rem;
+  margin: -0.3rem 0 0 0.4rem;
 }

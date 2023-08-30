@@ -36,7 +36,7 @@ const Expense = () => {
 
   const [input, setInput] = useState(false);
   const [error, setError] = useState(false);
-  const [message, setMessage] = useState(false);
+  const [message, setMessage] = useState(true);
   const [warning, setWarning] = useState(false);
   const [isDateFilled, setIsDateFilled] = useState(false);
   const [callerEffect, setCallerEffect] = useState(false);
@@ -185,7 +185,7 @@ const Expense = () => {
     } else {
       const calc = convertedUserBalance - convertedExpense;
       const newBalance = formatMoney(calc);
-      
+
       const storedExpenseItems = storedUser.expenseItems;
       if (storedExpenseItems[0] === "") {
         storedExpenseItems.shift();
@@ -228,7 +228,7 @@ const Expense = () => {
     }, 3000);
 
     setExpense("");
-    setMessage(false);
+    setMessage(true);
     setIsDateFilled(false);
     setIsExpenseFilled(false);
   };
@@ -269,7 +269,7 @@ const Expense = () => {
             className={classes.inputDate}
           />
         </h2>
-        {!message && (
+        {message && (
           <p className={classes.paragraph}>
             Click no calendário para iniciar um registro
           </p>

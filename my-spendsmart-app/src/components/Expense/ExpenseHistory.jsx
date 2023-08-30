@@ -16,11 +16,10 @@ const ExpenseHistory = () => {
   const [selectedEndDate, setSelectedEndDate] = useState(new Date());
   const [selectedStartDate, setSelectedStartDate] = useState(new Date());
 
-  const [message, setMessage] = useState(false);
+  const [message, setMessage] = useState(true);
   const [isSearch, setIsSearch] = useState(false);
   const [isFilteredItems, setIsFilteredItems] = useState(false);
   const [filteredItemsUpdated, setFilteredItemsUpdated] = useState(false);
-
 
   const storedUser = localStorage.getItem("foundUser");
   const storedUserJSON = JSON.parse(storedUser);
@@ -28,10 +27,10 @@ const ExpenseHistory = () => {
   const itemsUpdated = useSelector((state) => state.call.caller);
 
   useEffect(() => {
-    const localIncomesJSON = localStorage.getItem("foundUser");
-    const localIncomes = JSON.parse(localIncomesJSON);
+    const expenseJSON = localStorage.getItem("foundUser");
+    const expenseStorage = JSON.parse(expenseJSON);
 
-    const newFilteredItems = localIncomes.expenseItems;
+    const newFilteredItems = expenseStorage.expenseItems;
 
     const formattedStartDate = selectedStartDate.toISOString().split("T")[0];
     const formattedEndDate = selectedEndDate.toISOString().split("T")[0];
@@ -46,10 +45,9 @@ const ExpenseHistory = () => {
       }
     });
 
-    filteredItems.length === 0 ? setMessage(true) : setMessage(false)
+    filteredItems.length === 0 ? setMessage(true) : setMessage(false);
 
     setFilteredItems(filteredItems);
-
   }, [filteredItemsUpdated]);
 
   useEffect(() => {
@@ -64,35 +62,34 @@ const ExpenseHistory = () => {
   }, [itemsUpdated]);
 
   const startDateChange = (event) => {
-    const selectedStartDate = new Date(event.target.value);
+    const selectedStartDateValue = new Date(event.target.value);
 
-    if (isNaN(selectedStartDate)) {
+    if (isNaN(selectedStartDateValue)) {
       return;
     }
 
     const adjustedDate = addMinutes(
-      selectedStartDate,
-      selectedStartDate.getTimezoneOffset()
+      selectedStartDateValue,
+      selectedStartDateValue.getTimezoneOffset()
     );
     setSelectedStartDate(adjustedDate);
   };
 
   const endDateChange = (event) => {
-    const selectedEndDate = new Date(event.target.value);
+    const selectedEndDateValue = new Date(event.target.value);
 
-    if (isNaN(selectedEndDate)) {
+    if (isNaN(selectedEndDateValue)) {
       return;
     }
 
     const adjustedDate = addMinutes(
-      selectedEndDate,
-      selectedEndDate.getTimezoneOffset()
+      selectedEndDateValue,
+      selectedEndDateValue.getTimezoneOffset()
     );
-
     setSelectedEndDate(adjustedDate);
   };
 
-  const searchHandler = () => {
+  const onSearchHandler = () => {
     const formattedStartDate = selectedStartDate.toISOString().split("T")[0];
     const formattedEndDate = selectedEndDate.toISOString().split("T")[0];
 
@@ -145,27 +142,31 @@ const ExpenseHistory = () => {
           className={classes.inputDate}
         />
       </h2>
-      <button className={classes.searchBtn} onClick={searchHandler}>
+      <button className={classes.searchBtn} onClick={onSearchHandler}>
         Procurar
       </button>
       {isSearch && (
-        <h3 className={classes.releases}> Histórico de Lançamentos por Data</h3>
+        <h3 className={classes.filteredReleases}>
+          {" "}
+          Histórico de Lançamentos por Data
+        </h3>
       )}
-      {message && (
+      {!isSearch && <h3 className={classes.allReleases}>Todos Lançamentos</h3>}
+      {isFilteredItems && message && (
         <p className={classes.message}>
           Não há registros inseridos na data específicada
         </p>
       )}
-      {!isSearch && (
-        <h3 className={classes.allReleasesText}>Todos Lançamentos</h3>
-      )}
+
       {isFilteredItems
         ? filteredItems.map((item, index) => (
             <ExpenseItem key={index} item={item} />
           ))
         : items.map((item, index) => <ExpenseItem key={index} item={item} />)}
-      {items.length === 0 && !message && (
-        <p className={classes.releaseMessage}>Não há lançamentos registrados</p>
+      {items.length === 0 && message && (
+        <p className={classes.releasesHistory}>
+          Não há lançamentos registrados
+        </p>
       )}
     </section>
   );
