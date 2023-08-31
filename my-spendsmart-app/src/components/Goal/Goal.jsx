@@ -23,9 +23,10 @@ const Goal = () => {
   const loggedUser = JSON.parse(loggedUserJSON);
 
   const storedGoals = loggedUser.goals;
+  const storedBalance = loggedUser.balance;
 
-  const [items, setItems] = useState([]);
   const [goal, setGoal] = useState("");
+  const [items, setItems] = useState([]);
   const [render, setRender] = useState(false);
   const [message, setMessage] = useState(false);
   const [goalText, setGoalText] = useState("");
@@ -100,9 +101,9 @@ const Goal = () => {
     fetchData();
   }, [callerEffect]);
 
-  const goalValueChange = (event) => {
-    let value = event.target.value.replace(/\D/g, "");
-    const formattedBalance = formatMoney(value);
+  const goalChange = (event) => {
+    let goalValue = event.target.value.replace(/\D/g, "");
+    const formattedBalance = formatMoney(goalValue);
 
     setGoal(formattedBalance);
 
@@ -117,17 +118,18 @@ const Goal = () => {
     }
   };
 
-  const textInputChange = (event) => {
-    const validateText = event.target.value;
-    if (validateText.length >= 0) {
-      setGoalText(validateText);
+  const textChange = (event) => {
+    const textValue = event.target.value;
+
+    if (textValue.length >= 0) {
+      setGoalText(textValue);
       setIsTextFilled(true);
     } else {
       setIsTextFilled(false);
     }
   };
 
-  const inputGoalHandler = async () => {
+  const onInputGoalHandler = async () => {
     if (storedGoals[0] === "") {
       storedGoals.shift();
     }
@@ -136,71 +138,56 @@ const Goal = () => {
     const item = [
       {
         id: id,
-        goalText: goalText,
         goal: goal,
+        goalText: goalText,
       },
     ];
 
     storedGoals.push(item[0]);
-
     const newItem = storedGoals;
 
     const updatedUser = {
-      email: loggedUser.email,
       id: loggedUser.id,
-      lastName: loggedUser.lastName,
       name: loggedUser.name,
-      password: loggedUser.password,
+      email: loggedUser.email,
       image: loggedUser.image,
+      goals: newItem,
       balance: loggedUser.balance,
+      lastName: loggedUser.lastName,
+      password: loggedUser.password,
       expenseItems: loggedUser.expenseItems,
       incomeItems: loggedUser.incomeItems,
-      goals: newItem,
     };
-
     const updatedUserJSON = JSON.stringify(updatedUser);
-
     localStorage.setItem("foundUser", updatedUserJSON);
-    setCallerEffect(!callerEffect);
-
+    
     setGoal("");
     setGoalText("");
     setIsGoalFilled(false);
     setIsTextFilled(false);
+    setCallerEffect(!callerEffect);
   };
 
-  const getBackButtonHandler = () => {
+  const onGetBackHandler = () => {
     navigation("/landingPage");
   };
 
   return (
-    <div className={classes.goalsDiv}>
-      <button className={classes.getBackButton} onClick={getBackButtonHandler}>
+    <section className={classes.section}>
+      <button className={classes.getBackButton} onClick={onGetBackHandler}>
         Voltar
       </button>
-      <h3 className={classes.h3}>Seu Saldo Atual:</h3>
+      <h3>Seu Saldo Atual:</h3>
+      <input id="balance" type="text" value={storedBalance} disabled={true} />
+      <h3>Escreva abaixo o seu objetivo</h3>
+      <input id="goal" type="text" value={goalText} onChange={textChange} />
+      <h3>Insira o valor do seu objetivo</h3>
       <input
+        id="goalValue"
         type="text"
-        id="input1"
-        value={loggedUser.balance}
-        disabled={true}
-        className={classes.input}
-      />
-      <h3 className={classes.h3}>Escreva abaixo o seu objetivo</h3>
-      <input
-        type="text"
-        id="input3"
-        value={goalText}
-        className={classes.input}
-        onChange={textInputChange}
-      />
-      <h3 className={classes.h3}>Insira o valor do seu objetivo</h3>
-      <input
-        type="text"
-        id="input2"
         value={goal}
-        className={classes.goal}
-        onChange={goalValueChange}
+        onChange={goalChange}
+        className={message ? classes.inputError : ""}
       />
       {message && (
         <p className={classes.warning}>
@@ -209,13 +196,13 @@ const Goal = () => {
       )}
 
       {isGoalFilled && isTextFilled && (
-        <button className={classes.inputButton} onClick={inputGoalHandler}>
+        <button className={classes.inputButton} onClick={onInputGoalHandler}>
           Inserir
         </button>
       )}
       {render &&
         items.map((item, index) => <GoalItem key={index} item={item} />)}
-    </div>
+    </section>
   );
 };
 

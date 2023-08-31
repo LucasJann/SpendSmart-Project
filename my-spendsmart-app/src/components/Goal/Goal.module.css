@@ -1,37 +1,38 @@
-.goalsDiv {
-    margin: auto;
-    max-width: 20rem;
-  }
+section {
+  margin: auto;
+  max-width: 25rem;
+  text-align: center;
+}
 
 .getBackButton {
-  color: #fff;
   width: 20%;
-  cursor: pointer;
-  border: none;
-  margin: 1rem 0 0 15.2rem;
+  margin: 1rem 0 0 17.8rem;
   padding: 0.2rem;
-  border-radius: 0.5rem;
-  background-color: #ab9c15;
 }
 
-.h3 {
-  margin: 0 0 0 0.1rem
+h3 {
+  text-align: start;
+  margin: 0 0 0 1.5rem;
 }
 
-.input {
+input {
+  max-width: 85%;
   margin: 0 0 1rem 0;
 }
 
-.goal {
-  margin: 0 0 1rem 0;
-
+.inputError {
+  width: 92%;
+  border: 1px solid #aa0b20;
+  font-size: large;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  background-color: #eccbcf;
 }
 
 .warning {
-  margin: auto;
   color: #ce2121;
-  font-weight: bold;
+  margin: -0.5rem 0 0 0;
   text-align: center;
+  font-weight: bold;
 }
 
 .inputButton {

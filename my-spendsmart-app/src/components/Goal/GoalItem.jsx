@@ -59,7 +59,7 @@ const GoalItem = ({ item }) => {
     return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
   };
 
-  const deleteHandler = async () => {
+  const onDeleteHandler = async () => {
     const userConfirmed = window.confirm(
       "Clique em OK para confirmar a exclusão"
     );
@@ -122,40 +122,47 @@ const GoalItem = ({ item }) => {
     <Fragment>
       {!congrats && (
         <>
-          <div className={classes.item}>
-            <button className={classes.itemDelete} onClick={deleteHandler}>
-              X
-            </button>
-            <div className={classes.itemContainer}>
-              <h2>Objetivo:</h2>
-              <p className={classes.itemText}>{goalText}</p>
-              <h2>Valor:</h2>
-              <p className={classes.itemValue}>{goal}</p>
-              <h2>Progresso:</h2>
-            </div>
-            <div className={classes.itemPercentage} style={itemPercentageStyle}>
-              <div>{percentage}</div>
-            </div>
+          <div className={classes.div}>
+            <section className={classes.item}>
+              <button className={classes.delete} onClick={onDeleteHandler}>
+                X
+              </button>
+              <div className={classes.itemContainer}>
+                <h2>Objetivo:</h2>
+                <p className={classes.itemText}>{goalText}</p>
+                <h2>Valor:</h2>
+                <p className={classes.itemValue}>{goal}</p>
+                <h2 className={classes.itemProgress}>Progresso:</h2>
+              </div>
+              <div
+                className={classes.itemPercentage}
+                style={itemPercentageStyle}
+              >
+                <div>{percentage}</div>
+              </div>
+            </section>
           </div>
         </>
       )}
       {congrats && (
         <>
-          <div className={classes.item}>
-            <button className={classes.goalDelete} onClick={deleteHandler}>
-              X
-            </button>
-            <div className={classes.goalContainer}>
-              <h2>Objetivo:</h2>
-              <p className={classes.goalText}>{goalText}</p>
-              <h2>Valor:</h2>
-              <p className={classes.goalValue}>{goal}</p>
-              <h2>Progresso:</h2>
-              <h3 className={classes.congrats}>Parabéns!</h3>
-            </div>
-            <div className={classes.goalPercentage}>
-              <div>{percentage}</div>
-            </div>
+          <div className={classes.div}>
+            <section className={classes.item}>
+              <button className={classes.delete} onClick={onDeleteHandler}>
+                X
+              </button>
+              <div className={classes.successContainer}>
+                <h2>Objetivo:</h2>
+                <p className={classes.successText}>{goalText}</p>
+                <h2>Valor:</h2>
+                <p className={classes.successValue}>{goal}</p>
+                <h2 className={classes.sucess}>Progresso:</h2>
+                <h3 className={classes.congrats}>Parabéns!</h3>
+              </div>
+              <div className={classes.successPercentage}>
+                <div>{percentage}</div>
+              </div>
+            </section>
           </div>
         </>
       )}
