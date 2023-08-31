@@ -85,9 +85,10 @@ const ExpenseItem = ({ item }) => {
           const convertedValue = value.replace(/\D/g, "");
           const convertedBalance = storedUser.balance.replace(/\D/g, "");
 
-          const newBalance = storedUser.balance[0] === "-"
-            ? convertedBalance * -1
-            : convertedBalance
+          const newBalance =
+            storedUser.balance[0] === "-"
+              ? convertedBalance * -1
+              : convertedBalance;
 
           const cashBack = newBalance + parseInt(convertedValue);
           const formattedCashBack = formatMoney(cashBack);
@@ -158,12 +159,12 @@ const ExpenseItem = ({ item }) => {
           )}
         </div>
         <div className={classes.text}>
-          <p>Data:</p>
-          <p>Valor:</p>
+          <p className={classes.paragraph}>Data:</p>
+          <p className={classes.paragraph}>Valor:</p>
         </div>
         <div className={classes.values}>
-          <p>{date}</p>
-          <p>{value}</p>
+          <p className={classes.paragraph}>{date}</p>
+          <p className={classes.paragraph}>{value}</p>
         </div>
       </section>
     </section>

@@ -19,29 +19,15 @@
   border-radius: 10rem;
 }
 
-.profileInput {
-  width: 84.4%;
-  border: 1px solid black;
-  margin: 0.5rem auto;
-  padding: 0.2rem;
-  font-size: 0.9rem;
-  font-family: "Times New Roman", Times, serif;
-  border-right: none;
-  border-radius: 0.5rem 0 0 0.5rem;
-}
 
 .profileUserName {
   margin: 10rem 0 0 0.5rem;
 }
 
-.input {
-  width: 97%;
-  margin: auto;
-}
-
 .convertButton {
   padding: 0.7rem;
   font-size: 0.86em;
+  margin-bottom: 0.5rem;
   border-radius: 0 0.9rem 0.9rem 0;
 }
 
@@ -64,7 +50,7 @@
   color: #ca3e51;
 }
 
-.disabledBtn{
+.disabledBtn {
   width: 97%;
   border: none;
   margin: 0.5rem auto;

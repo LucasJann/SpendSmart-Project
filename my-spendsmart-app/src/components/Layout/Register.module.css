@@ -20,8 +20,14 @@ form {
   border-radius: 0.5rem;
 }
 
-h2 {
-  margin: 0 0 0 0.5rem;
+input {
+  width: 95%;
+  border: 2px solid #ccc9c9;
+  padding: 0.4rem;
+  font-size: large;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  border-radius: 0.3rem;
+  margin-bottom: 0.5rem;
 }
 
 .inputError {

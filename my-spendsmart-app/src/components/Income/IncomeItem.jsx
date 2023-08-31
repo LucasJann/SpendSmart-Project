@@ -158,13 +158,13 @@ const IncomeItem = ({ item }) => {
             />
           )}
         </div>
-        <div className={classes.text}>
-          <p>Data:</p>
-          <p>Valor:</p>
+        <div className={classes.texts}>
+          <p className={classes.paragraph}>Data:</p>
+          <p className={classes.paragraph}>Valor:</p>
         </div>
         <div className={classes.values}>
-          <p>{date}</p>
-          <p>{value}</p>
+          <p className={classes.paragraph}>{date}</p>
+          <p className={classes.paragraph}>{value}</p>
         </div>
       </section>
     </section>

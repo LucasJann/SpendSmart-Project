@@ -16,7 +16,8 @@ const IncomeHistory = () => {
   const [selectedEndDate, setSelectedEndDate] = useState(new Date());
   const [selectedStartDate, setSelectedStartDate] = useState(new Date());
 
-  const [message, setMessage] = useState(true);
+  const [noItems, setNoItems] = useState(false);
+  const [resetStates, setResetStates] = useState(true);
   const [isSearch, setIsSearch] = useState(false);
   const [isFilteredItems, setIsFilteredItems] = useState(false);
   const [filteredItemsUpdated, setFilteredItemsUpdated] = useState(false);
@@ -45,16 +46,35 @@ const IncomeHistory = () => {
       }
     });
 
-    filteredItems.length === 0 ? setMessage(true) : setMessage(false);
-
-    setFilteredItems(filteredItems);
+    if (isSearch) {
+      if (filteredItems.length === 0) {
+        setIsSearch(true);
+        setNoItems(true);
+        setFilteredItems(filteredItems);
+      } else {
+        setIsSearch(true);
+        setNoItems(false);
+        setFilteredItems(filteredItems);
+      }
+    }
   }, [filteredItemsUpdated]);
+
+  useEffect(() => {
+    if (items.length === 0) {
+      setIsSearch(false);
+      setItems(items);
+    } else {
+      setIsSearch(true);
+      setItems(items);
+    }
+  }, [resetStates]);
 
   useEffect(() => {
     if (storedUserJSON.incomeItems[0] === "") {
       setItems([]);
       setFilteredItems([]);
       setIsFilteredItems(false);
+      setResetStates(!resetStates);
     } else {
       setItems(storedUserJSON.incomeItems);
       setFilteredItemsUpdated(!filteredItemsUpdated);
@@ -104,11 +124,13 @@ const IncomeHistory = () => {
     });
 
     if (filteredItems.length >= 0) {
-      filteredItems.length === 0 ? setMessage(true) : setMessage(false);
+      if (filteredItems.length === 0) {
+        setNoItems(true);
+      } else {
+        setNoItems(false);
+      }
       setFilteredItems(filteredItems);
       setIsFilteredItems(true);
-    } else {
-      setIsFilteredItems(false);
     }
     setIsSearch(true);
   };
@@ -151,7 +173,7 @@ const IncomeHistory = () => {
         </h3>
       )}
       {!isSearch && <h3 className={classes.allReleases}>Todos Lançamentos</h3>}
-      {isFilteredItems && message && (
+      {isSearch && noItems && (
         <p className={classes.message}>
           Não há registros inseridos na data específicada
         </p>
@@ -162,7 +184,7 @@ const IncomeHistory = () => {
             <IncomeItem key={index} item={item} />
           ))
         : items.map((item, index) => <IncomeItem key={index} item={item} />)}
-      {items.length === 0 && message && (
+      {items.length === 0 && !isSearch && (
         <p className={classes.releasesHistory}>
           Não há lançamentos registrados
         </p>

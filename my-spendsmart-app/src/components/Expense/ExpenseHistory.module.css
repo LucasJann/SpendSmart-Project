@@ -31,16 +31,16 @@
 }
 
 .releasesHistory {
-  margin: 0 0 0.4rem 3.3rem;
+  margin: auto;
   color: #888;
 }
 
 .filteredReleases {
-  margin: 0 0 0.4rem 1rem;
+  margin: 0 0 0.4rem 1.5rem;
 }
 
 .message {
   color: #888;
   width: 110%;
-  margin: -0.3rem 0 0 0.4rem;
+  margin: 0 0 0 -0.5rem;
 }

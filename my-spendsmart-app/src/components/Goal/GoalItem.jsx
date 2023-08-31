@@ -156,7 +156,7 @@ const GoalItem = ({ item }) => {
                 <p className={classes.successText}>{goalText}</p>
                 <h2>Valor:</h2>
                 <p className={classes.successValue}>{goal}</p>
-                <h2 className={classes.sucess}>Progresso:</h2>
+                <h2 className={classes.success}>Progresso:</h2>
                 <h3 className={classes.congrats}>Parabéns!</h3>
               </div>
               <div className={classes.successPercentage}>

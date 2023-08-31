@@ -32,7 +32,7 @@
   padding: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   border-radius: 1rem;
-  margin-bottom:-4rem;
+  margin-bottom: -4rem;
 }
 
 .text {
@@ -41,7 +41,7 @@
   font-weight: bold;
 }
 
-.text p {
+.paragraph {
   margin: 0.1rem 0rem 0.4rem 0rem;
 }
 
@@ -52,8 +52,4 @@
   display: grid;
   font-weight: bold;
   justify-items: end;
-}
-
-.values p {
-  margin: 0.1rem 0 0.3rem 0;
 }

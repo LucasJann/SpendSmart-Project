@@ -160,7 +160,7 @@ const Goal = () => {
     };
     const updatedUserJSON = JSON.stringify(updatedUser);
     localStorage.setItem("foundUser", updatedUserJSON);
-    
+
     setGoal("");
     setGoalText("");
     setIsGoalFilled(false);
@@ -178,16 +178,28 @@ const Goal = () => {
         Voltar
       </button>
       <h3>Seu Saldo Atual:</h3>
-      <input id="balance" type="text" value={storedBalance} disabled={true} />
+      <input
+        className={classes.input}
+        id="balance"
+        type="text"
+        value={storedBalance}
+        disabled={true}
+      />
       <h3>Escreva abaixo o seu objetivo</h3>
-      <input id="goal" type="text" value={goalText} onChange={textChange} />
+      <input
+        className={classes.input}
+        id="goal"
+        type="text"
+        value={goalText}
+        onChange={textChange}
+      />
       <h3>Insira o valor do seu objetivo</h3>
       <input
         id="goalValue"
         type="text"
         value={goal}
         onChange={goalChange}
-        className={message ? classes.inputError : ""}
+        className={message ? classes.inputError : classes.input}
       />
       {message && (
         <p className={classes.warning}>

@@ -35,27 +35,21 @@
   margin-bottom: -4rem;
 }
 
-.text {
+.texts {
   color: rgb(33, 201, 33);
-
   margin: auto;
   font-weight: bold;
 }
 
-.text p {
+.paragraph {
   margin: 0.1rem 0rem 0.4rem 0rem;
 }
 
 .values {
   width: 100%;
   color: rgb(33, 201, 33);
-
   margin: auto;
   display: grid;
   font-weight: bold;
   justify-items: end;
-}
-
-.values p {
-  margin: 0.1rem 0 0.3rem 0;
 }
