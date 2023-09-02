@@ -5,7 +5,7 @@ import axios from "axios";
 import undefinedImage from "../../Imgs/profile_undefined.jpg";
 
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const formatMoney = (value) => {
   const formatter = new Intl.NumberFormat("pt-BR", {
@@ -21,7 +21,9 @@ const Profile = () => {
   const dispatch = useDispatch();
   const navigation = useNavigate();
 
-  const storedUserJSON = localStorage.getItem("foundUser");
+  const user = useSelector((state) => state.key.code)
+
+  const storedUserJSON = localStorage.getItem(user);
   const loggedUser = JSON.parse(storedUserJSON);
 
   const [balance, setBalance] = useState("");
@@ -41,8 +43,6 @@ const Profile = () => {
   const [balanceChanged, setBalanceChanged] = useState(false);
   const [isSwitchClicked, setIsSwitchClicked] = useState(false);
   const [convertBtnDisabled, setConvertBtnDisabled] = useState(false);
-
-  console.log(image);
 
   useEffect(() => {
     if (loggedUser.hasOwnProperty("image")) {
@@ -98,7 +98,7 @@ const Profile = () => {
 
       setBalance(user.balance);
       const loggedUserJSON = JSON.stringify(user);
-      localStorage.setItem("foundUser", loggedUserJSON);
+      localStorage.setItem(user, loggedUserJSON);
     };
     fetchNewData();
   }, [balanceChanged, dispatch]);
@@ -150,7 +150,7 @@ const Profile = () => {
         );
 
         const loggedUserJSON = JSON.stringify(updatedUserData);
-        localStorage.setItem("foundUser", loggedUserJSON);
+        localStorage.setItem(user, loggedUserJSON);
 
         setImage(image);
       } catch {}
@@ -216,7 +216,7 @@ const Profile = () => {
       }
 
       const updatedUserDataJSON = JSON.stringify(updatedUserData);
-      localStorage.setItem("foundUser", updatedUserDataJSON);
+      localStorage.setItem(user, updatedUserDataJSON);
     } else {
       const convertedBalance = balance.replace(/\D/g, "");
       const positiveBalance = convertedBalance * 1;
@@ -250,7 +250,7 @@ const Profile = () => {
       }
 
       const updatedUserDataJSON = JSON.stringify(updatedUserData);
-      localStorage.setItem("foundUser", updatedUserDataJSON);
+      localStorage.setItem(user, updatedUserDataJSON);
     }
 
     setIsSwitchClicked(!isSwitchClicked);
@@ -341,7 +341,7 @@ const Profile = () => {
           <button className={classes.confirmBtn}>Ok</button>
         </form>
       )}
-      <div>
+      <div className={classes.container}>
         <div>
           <h2 className={classes.profileUserName}>
             {loggedUser.name} {loggedUser.lastName}

@@ -1,12 +1,10 @@
-import { useState, useEffect } from "react";
 import classes from "./Goal.module.css";
-
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-
 import GoalItem from "./GoalItem";
 
 import { v4 as uuidv4 } from "uuid";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
 
 const formatMoney = (value) => {
   const formatter = new Intl.NumberFormat("pt-BR", {
@@ -19,7 +17,9 @@ const formatMoney = (value) => {
 };
 
 const Goal = () => {
-  const loggedUserJSON = localStorage.getItem("foundUser");
+  const user = useSelector((state) => state.key.code);
+
+  const loggedUserJSON = localStorage.getItem(user);
   const loggedUser = JSON.parse(loggedUserJSON);
 
   const storedGoals = loggedUser.goals;
@@ -159,7 +159,7 @@ const Goal = () => {
       incomeItems: loggedUser.incomeItems,
     };
     const updatedUserJSON = JSON.stringify(updatedUser);
-    localStorage.setItem("foundUser", updatedUserJSON);
+    localStorage.setItem(user, updatedUserJSON);
 
     setGoal("");
     setGoalText("");

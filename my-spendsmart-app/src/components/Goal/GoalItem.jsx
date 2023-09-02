@@ -1,14 +1,17 @@
-import React, { Fragment, useEffect, useState } from "react";
 import classes from "./GoalItem.module.css";
+
 import { callerActions } from "../../store/caller-slice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Fragment, useEffect, useState } from "react";
 
 const GoalItem = ({ item }) => {
   const { id, goalText, goal } = item;
 
   const dispatch = useDispatch();
 
-  const loggedUserJSON = localStorage.getItem("foundUser");
+  const user = useSelector((state) => state.key.code);
+
+  const loggedUserJSON = localStorage.getItem(user);
   const loggedUser = JSON.parse(loggedUserJSON);
 
   const [congrats, setCongrats] = useState(false);
@@ -110,7 +113,7 @@ const GoalItem = ({ item }) => {
         );
 
         const updatedGoalItemsJSON = JSON.stringify(updatedGoalItems);
-        localStorage.setItem("foundUser", updatedGoalItemsJSON);
+        localStorage.setItem(user, updatedGoalItemsJSON);
         dispatch(callerActions.update());
       } catch (error) {
         console.error(error);
@@ -128,9 +131,9 @@ const GoalItem = ({ item }) => {
                 X
               </button>
               <div className={classes.itemContainer}>
-                <h2>Objetivo:</h2>
+                <h2 className={classes.header}>Objetivo:</h2>
                 <p className={classes.itemText}>{goalText}</p>
-                <h2>Valor:</h2>
+                <h2 className={classes.header}>Valor:</h2>
                 <p className={classes.itemValue}>{goal}</p>
                 <h2 className={classes.itemProgress}>Progresso:</h2>
               </div>

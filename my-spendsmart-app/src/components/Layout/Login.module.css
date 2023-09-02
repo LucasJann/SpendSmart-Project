@@ -10,7 +10,7 @@
 
 .paragraph {
   color: rgb(153, 159, 165);
-  margin: -0.4rem 0 0 0;
+  margin: -0.4rem 0 0 0.2rem;
   cursor: pointer;
 }
 
@@ -21,6 +21,6 @@
 .loginBtn {
   width: 95%;
   border: none;
-  margin: 4rem 0 0 0rem;
+  margin: 4rem 0 0 0.4rem;
   padding: 0.4em;
 }

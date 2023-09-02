@@ -10,6 +10,12 @@ import ExpenseItem from "./ExpenseItem";
 const ExpenseHistory = () => {
   const navigation = useNavigate();
 
+  const user = useSelector((state) => state.key.code);
+  const itemsUpdated = useSelector((state) => state.call.caller);
+
+  const storedUser = localStorage.getItem(user);
+  const storedUserJSON = JSON.parse(storedUser);
+
   const [items, setItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
 
@@ -22,13 +28,8 @@ const ExpenseHistory = () => {
   const [isFilteredItems, setIsFilteredItems] = useState(false);
   const [filteredItemsUpdated, setFilteredItemsUpdated] = useState(false);
 
-  const storedUser = localStorage.getItem("foundUser");
-  const storedUserJSON = JSON.parse(storedUser);
-
-  const itemsUpdated = useSelector((state) => state.call.caller);
-
   useEffect(() => {
-    const expenseJSON = localStorage.getItem("foundUser");
+    const expenseJSON = localStorage.getItem(user);
     const expenseStorage = JSON.parse(expenseJSON);
 
     const newFilteredItems = expenseStorage.expenseItems;

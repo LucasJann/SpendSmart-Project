@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import image from "../../Imgs/logo.png";
 import classes from "./Login.module.css";
 
-import image from "../../Imgs/logo.png";
-
 import { Form } from "react-router-dom";
+import { useState } from "react";
+import { keyActions } from "../../store/key-slice";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 const Login = () => {
   const navigation = useNavigate();
-  const [email, setEmail] = useState("");
+  const dispatch = useDispatch();
+
+  const [email, setEmail] = useState();
+  const user = useSelector((state) => state.key.code);
 
   const onButton = async () => {
     const response = await fetch(
@@ -17,11 +21,18 @@ const Login = () => {
 
     const responseData = await response.json();
 
+    console.log(email);
+
     const foundUser = Object.values(responseData).find(
       (data) => data.email === email
     );
 
+    const localStorageData = localStorage.key(foundUser.id);
+    dispatch(keyActions.storeKey(localStorageData));
+
     if (foundUser) {
+      const foundUserJSON = JSON.stringify(foundUser);
+      localStorage.setItem(localStorageData, foundUserJSON);
       navigation("/landingPage");
     } else {
       console.log("O usuário não foi encontrado");
@@ -37,7 +48,6 @@ const Login = () => {
     navigation("/registerPage");
   };
 
-  
   return (
     <Form className={classes.form} onSubmit={onButton}>
       <img

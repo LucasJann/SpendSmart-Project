@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import classes from "./ExpenseItem.module.css";
 
@@ -24,12 +24,14 @@ const formatMoney = (value) => {
 
 const ExpenseItem = ({ item }) => {
   const dispatch = useDispatch();
-  const [image, setImage] = useState(null);
 
-  const { id, value, date, category } = item;
+  const user = useSelector((state) => state.key.code);
 
-  const storedUserJSON = localStorage.getItem("foundUser");
+  const storedUserJSON = localStorage.getItem(user);
   const storedUser = JSON.parse(storedUserJSON);
+
+  const [image, setImage] = useState(null);
+  const { id, value, date, category } = item;
 
   useEffect(() => {
     switch (category) {
@@ -133,7 +135,7 @@ const ExpenseItem = ({ item }) => {
           );
           const loggedUserJSON = JSON.stringify(user);
 
-          localStorage.setItem("foundUser", loggedUserJSON);
+          localStorage.setItem(user, loggedUserJSON);
           dispatch(callerActions.update());
         } catch (error) {
           console.error(error);

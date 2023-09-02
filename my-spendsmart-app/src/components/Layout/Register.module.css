@@ -48,3 +48,12 @@ input {
   margin-top: 0.3rem;
   border-radius: 5px;
 }
+
+@media (min-width: 279px) and (max-width: 333px) {
+  .loginBtn {
+    width: 20%;
+    margin: 0.2rem 0 0 13.3rem;
+    padding: 0.2rem;
+    font-size: 0.9em;
+  }
+}

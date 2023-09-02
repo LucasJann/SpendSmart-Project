@@ -131,5 +131,13 @@
   border: none;
   padding: 0.3rem;
   font-size: 0.9em;
-  margin-top: 0.5rem;
+  margin: 0.5rem 0 0 2.7rem;
+}
+
+@media (min-width: 280px) and (max-width: 300px) {
+  .getBack {
+    width: 20%;
+    margin: 1.3rem 0 0 13rem;
+    padding: 0.2rem;
+  }
 }

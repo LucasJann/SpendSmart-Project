@@ -6,7 +6,7 @@
 .item {
   width: 80%;
   padding: 0.5rem;
-  margin-top: 1rem;
+  margin: 0 0 1rem  0.2rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   overflow-wrap: break-word;
   border-radius: 8px;
@@ -35,7 +35,7 @@
 }
 
 h2 {
-  margin: 0 0 1rem 0.5rem;
+  margin: 0 0 0 0.5rem;
   text-align: start;
 }
 
@@ -93,21 +93,115 @@ h2 {
 
 .success {
   margin-bottom: 0.2rem;
-
 }
 
 .congrats {
   margin: 0.2rem 0 0 3.4rem;
 }
+@media (min-width: 350px) and (max-width: 450px) {
+  .item {
+    width: 80%;
+    padding: 0.5rem;
+    margin: 0 0 1rem 0.2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow-wrap: break-word;
+    border-radius: 8px;
+    background-color: #f2f2f2;
+  }
 
-@media (max-width: 768px) {
   .delete {
     color: black;
     width: 6%;
     font-size: 0.8rem;
     font-weight: bold;
-    margin-left: 16.5rem;
+    margin-left: 18.5rem;
     border-radius: 10rem;
     background-color: #f2f2f2;
+  }
+
+  .itemContainer {
+    display: grid;
+    grid-template-columns: 50% 50%;
+  }
+}
+
+@media (min-width: 360px) and (max-width: 400px) {
+  .item {
+    width: 80%;
+    padding: 0.5rem;
+    margin: 0 0 1rem 0.2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow-wrap: break-word;
+    border-radius: 8px;
+    background-color: #f2f2f2;
+  }
+
+  .delete {
+    color: black;
+    width: 6%;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-left: 16.2rem;
+    border-radius: 10rem;
+    background-color: #f2f2f2;
+  }
+
+  .itemContainer {
+    display: grid;
+    grid-template-columns: 50% 50%;
+  }
+}
+
+@media (min-width: 330px) and (max-width: 360px) {
+  .item {
+    width: 80%;
+    padding: 0.5rem;
+    margin: 0 0 1rem 0.2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow-wrap: break-word;
+    border-radius: 8px;
+    background-color: #f2f2f2;
+  }
+
+  .delete {
+    color: black;
+    width: 6%;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-left: 14.6rem;
+    border-radius: 10rem;
+    background-color: #f2f2f2;
+  }
+
+  .itemContainer {
+    display: grid;
+    grid-template-columns: 50% 50%;
+  }
+}
+
+@media (min-width: 280px) and (max-width: 330px) {
+  .item {
+    width: 80%;
+    padding: 0.5rem;
+    margin: 0 0 1rem 0.2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow-wrap: break-word;
+    border-radius: 8px;
+    background-color: #f2f2f2;
+  }
+
+  .delete {
+    color: black;
+    width: 6%;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-left: 12rem;
+    border-radius: 10rem;
+    background-color: #f2f2f2;
+  }
+
+  .itemContainer {
+    display: grid;
+    grid-template-columns: 56% 44%;
   }
 }

@@ -1,6 +1,3 @@
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-
 import classes from "./IncomeItem.module.css";
 
 import health from "../../Icons/checklist.png";
@@ -11,6 +8,8 @@ import nutrition from "../../Icons/clock.png";
 import location from "../../Icons/location.png";
 
 import { callerActions } from "../../store/caller-slice";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const formatMoney = (value) => {
   const formatter = new Intl.NumberFormat("pt-BR", {
@@ -24,12 +23,15 @@ const formatMoney = (value) => {
 
 const IncomeItem = ({ item }) => {
   const dispatch = useDispatch();
-  const [image, setImage] = useState(null);
 
+  const user = useSelector((state) => state.key.code)
+
+  const storedUserJSON = localStorage.getItem(user);
+  const storedUser = JSON.parse(storedUserJSON);
+  
+  const [image, setImage] = useState(null);
   const { id, value, date, category } = item;
 
-  const storedUserJSON = localStorage.getItem("foundUser");
-  const storedUser = JSON.parse(storedUserJSON);
 
   useEffect(() => {
     switch (category) {
@@ -133,7 +135,7 @@ const IncomeItem = ({ item }) => {
           );
           const loggedUserJSON = JSON.stringify(user);
 
-          localStorage.setItem("foundUser", loggedUserJSON);
+          localStorage.setItem(user, loggedUserJSON);
           dispatch(callerActions.update());
         } catch (error) {
           console.error(error);

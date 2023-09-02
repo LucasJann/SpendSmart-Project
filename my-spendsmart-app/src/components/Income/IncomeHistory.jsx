@@ -22,13 +22,16 @@ const IncomeHistory = () => {
   const [isFilteredItems, setIsFilteredItems] = useState(false);
   const [filteredItemsUpdated, setFilteredItemsUpdated] = useState(false);
 
-  const storedUser = localStorage.getItem("foundUser");
+  const user = useSelector((state) => state.key.code)
+
+
+  const storedUser = localStorage.getItem(user);
   const storedUserJSON = JSON.parse(storedUser);
 
   const itemsUpdated = useSelector((state) => state.call.caller);
 
   useEffect(() => {
-    const incomeJSON = localStorage.getItem("foundUser");
+    const incomeJSON = localStorage.getItem(user);
     const incomeStorage = JSON.parse(incomeJSON);
 
     const newFilteredItems = incomeStorage.incomeItems;

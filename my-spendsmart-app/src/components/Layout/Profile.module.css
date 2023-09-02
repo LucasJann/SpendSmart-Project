@@ -16,22 +16,44 @@
   width: 18.75rem;
   height: 18.75rem;
   margin: 1rem 0 0 0;
+  text-align: center;
   border-radius: 10rem;
 }
-
 
 .profileUserName {
   margin: 10rem 0 0 0.5rem;
 }
 
+.profileInput {
+  width: 79%;
+  margin: auto;
+  border: 0 1px 0 0;
+  font-size: smaller;
+  border-radius: 0.9rem 0 0 0.9rem;
+}
+
+.confirmBtn {
+  float: right;
+  color: #fff;
+  width: 10%;
+  cursor: pointer;
+  border: none;
+  margin: 0rem 0.66rem 0 -0.6rem;
+  padding: 0.7rem 0.1rem 0.7rem 0.1rem;
+  font-size: 0.9em;
+  border-radius: 0 0.5rem 0.5rem 0;
+  background-color: #ab9c15;
+}
+
 .convertButton {
+  height: 83%;
   padding: 0.7rem;
   font-size: 0.86em;
-  margin-bottom: 0.5rem;
   border-radius: 0 0.9rem 0.9rem 0;
 }
 
 .disabled {
+  height: 83%;
   padding: 0.7rem;
   font-size: 0.86em;
   border-radius: 0 0.9rem 0.9rem 0;
@@ -57,6 +79,9 @@
   padding: 0.2rem;
   font-size: 0.9em;
   background-color: rgb(134, 125, 43);
+  font-size: 0.86em;
+  margin-bottom: 0.5rem;
+  border-radius: 0 0.9rem 0.9rem 0;
 }
 
 .div {
@@ -66,20 +91,66 @@
 
 .editBtn {
   width: 97%;
-  margin: 0.5rem auto;
+  margin: auto;
   padding: 0.2rem;
   font-size: 0.9em;
 }
 
-.confirmBtn {
-  float: right;
-  color: #fff;
-  width: 10%;
-  cursor: pointer;
-  border: 1px solid black;
-  margin: 0.5rem 0.66rem 0 0;
-  padding: 0.34rem 0.1rem 0.4rem 0.1rem;
-  font-size: 0.9em;
-  border-radius: 0 0.5rem 0.5rem 0;
-  background-color: #ab9c15;
+@media (min-width: 310px) and (max-width: 361px) {
+  .getBackButton {
+    width: 20%;
+    border: none;
+    margin: 0.1rem 0 0 15rem;
+    padding: 0.2rem;
+    font-size: 0.9em;
+  }
+}
+
+@media (min-width: 280px) and (max-width: 309px) {
+  .profileImg {
+    width: 16.75rem;
+    height: 16.75rem;
+    margin: 0 0 0 -0.1rem;
+    text-align: center;
+    border-radius: 10rem;
+  }
+
+  .profileInput {
+    width: 77%;
+    margin: 0 0 0.2rem 0;
+    border: 0 1px 0 0;
+    font-size: smaller;
+    border-radius: 0.9rem 0 0 0.9rem;
+  }
+
+  .confirmBtn {
+    width: 10%;
+    float: right;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    padding: 0.7rem 0.1rem 0.7rem 0.1rem;
+    font-size: 0.9em;
+    border-radius: 0 0.5rem 0.5rem 0;
+    background-color: #ab9c15;
+  }
+
+  .getBackButton {
+    width: 20%;
+    border: none;
+    margin: 0.1rem 0 0 12rem;
+    padding: 0.2rem;
+    font-size: 0.9em;
+  }
+
+  .container {
+    margin: 0 0 0 -0.4rem
+  }
+
+  .editBtn {
+    width: 100%;
+    margin: 0 0 0 -0.4rem;
+    padding: 0.2rem;
+    font-size: 0.9em;
+  }
 }

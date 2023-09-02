@@ -1,5 +1,7 @@
-import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { format, addMinutes } from "date-fns";
 import { Fragment, useEffect, useState } from "react";
 
@@ -25,7 +27,9 @@ const formatMoney = (value) => {
 const Income = () => {
   const navigation = useNavigate();
 
-  const storedUserJSON = localStorage.getItem("foundUser");
+  const user = useSelector((state) => state.key.code);
+
+  const storedUserJSON = localStorage.getItem(user);
   const storedUser = JSON.parse(storedUserJSON);
 
   const [date, setDate] = useState();
@@ -146,9 +150,9 @@ const Income = () => {
     if (userBalance[0] === "-") {
       const negativeBalance = convertedUserBalance * -1;
       const calc = parseInt(convertedIncome) + negativeBalance;
-      console.log(calc)
+      console.log(calc);
       const newBalance = formatMoney(calc);
-      console.log(newBalance)
+      console.log(newBalance);
 
       const storedIncomeItems = storedUser.incomeItems;
       if (storedIncomeItems[0] === "") {
@@ -181,7 +185,7 @@ const Income = () => {
         expenseItems: storedUser.expenseItems,
       };
       const userUpdatedJSON = JSON.stringify(userUpdated);
-      localStorage.setItem("foundUser", userUpdatedJSON);
+      localStorage.setItem(user, userUpdatedJSON);
 
       setCallerEffect(!callerEffect);
     } else {
@@ -219,7 +223,7 @@ const Income = () => {
         expenseItems: storedUser.expenseItems,
       };
       const userUpdatedJSON = JSON.stringify(userUpdated);
-      localStorage.setItem("foundUser", userUpdatedJSON);
+      localStorage.setItem(user, userUpdatedJSON);
 
       setCallerEffect(!callerEffect);
     }
@@ -257,10 +261,10 @@ const Income = () => {
           Voltar
         </button>
         <div className={classes.alternativeBtnsDiv}>
-          <button className={classes.expenseBtn} onClick={onExpenseHandler}>Despesa</button>
-          <button className={classes.incomeBtn} >
-            Renda
+          <button className={classes.expenseBtn} onClick={onExpenseHandler}>
+            Despesa
           </button>
+          <button className={classes.incomeBtn}>Renda</button>
         </div>
         <h2>
           Data:
@@ -296,7 +300,7 @@ const Income = () => {
               </p>
             )}
             <div>
-              <h2>Categoria:</h2>
+              <h2 className={classes.caterogyHeader}>Categoria:</h2>
               <Card>
                 <ul className={classes.categories}>
                   <li
