@@ -142,7 +142,7 @@ const Goal = () => {
       },
     ];
 
-    storedGoals.push(item[0]);
+    storedGoals.unshift(item[0]);
     const newItem = storedGoals;
 
     const updatedUser = {

@@ -163,7 +163,7 @@ const Expense = () => {
         },
       ];
 
-      storedExpenseItems.push(expenseItem[0]);
+      storedExpenseItems.unshift(expenseItem[0]);
       const newExpenseItems = storedExpenseItems;
 
       const userUpdated = {
@@ -201,7 +201,7 @@ const Expense = () => {
         },
       ];
 
-      storedExpenseItems.push(expenseItem[0]);
+      storedExpenseItems.unshift(expenseItem[0]);
       const newExpenseItems = storedExpenseItems;
 
       const userUpdated = {

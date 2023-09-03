@@ -166,7 +166,7 @@ const Income = () => {
         },
       ];
 
-      storedIncomeItems.push(incomeItem[0]);
+      storedIncomeItems.unshift(incomeItem[0]);
       const newIncomeItems = storedIncomeItems;
 
       const userUpdated = {
@@ -204,7 +204,7 @@ const Income = () => {
         },
       ];
 
-      storedIncomeItems.push(incomeItem[0]);
+      storedIncomeItems.unshift(incomeItem[0]);
       const newIncomeItems = storedIncomeItems;
 
       const userUpdated = {

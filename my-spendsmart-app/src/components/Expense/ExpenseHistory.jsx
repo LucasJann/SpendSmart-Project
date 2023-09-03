@@ -22,8 +22,8 @@ const ExpenseHistory = () => {
   const [selectedStartDate, setSelectedStartDate] = useState(new Date());
 
   const [noItems, setNoItems] = useState(false);
-  const [resetStates, setResetStates] = useState(true);
   const [isSearch, setIsSearch] = useState(false);
+  const [resetStates, setResetStates] = useState(true);
   const [isFilteredItems, setIsFilteredItems] = useState(false);
   const [filteredItemsUpdated, setFilteredItemsUpdated] = useState(false);
 
