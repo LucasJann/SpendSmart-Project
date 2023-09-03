@@ -1,6 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
 
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { format, addMinutes } from "date-fns";
 import { Fragment, useEffect, useState } from "react";
@@ -27,9 +26,7 @@ const formatMoney = (value) => {
 const Income = () => {
   const navigation = useNavigate();
 
-  const user = useSelector((state) => state.key.code);
-
-  const storedUserJSON = localStorage.getItem(user);
+  const storedUserJSON = localStorage.getItem('foundUser');
   const storedUser = JSON.parse(storedUserJSON);
 
   const [date, setDate] = useState();
@@ -185,7 +182,7 @@ const Income = () => {
         expenseItems: storedUser.expenseItems,
       };
       const userUpdatedJSON = JSON.stringify(userUpdated);
-      localStorage.setItem(user, userUpdatedJSON);
+      localStorage.setItem('foundUser', userUpdatedJSON);
 
       setCallerEffect(!callerEffect);
     } else {
@@ -223,7 +220,7 @@ const Income = () => {
         expenseItems: storedUser.expenseItems,
       };
       const userUpdatedJSON = JSON.stringify(userUpdated);
-      localStorage.setItem(user, userUpdatedJSON);
+      localStorage.setItem('foundUser', userUpdatedJSON);
 
       setCallerEffect(!callerEffect);
     }

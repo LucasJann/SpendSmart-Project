@@ -17,9 +17,8 @@ const formatMoney = (value) => {
 };
 
 const Goal = () => {
-  const user = useSelector((state) => state.key.code);
 
-  const loggedUserJSON = localStorage.getItem(user);
+  const loggedUserJSON = localStorage.getItem('foundUser');
   const loggedUser = JSON.parse(loggedUserJSON);
 
   const storedGoals = loggedUser.goals;
@@ -159,7 +158,7 @@ const Goal = () => {
       incomeItems: loggedUser.incomeItems,
     };
     const updatedUserJSON = JSON.stringify(updatedUser);
-    localStorage.setItem(user, updatedUserJSON);
+    localStorage.setItem('foundUser', updatedUserJSON);
 
     setGoal("");
     setGoalText("");

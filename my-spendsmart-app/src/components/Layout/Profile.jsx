@@ -5,7 +5,7 @@ import axios from "axios";
 import undefinedImage from "../../Imgs/profile_undefined.jpg";
 
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const formatMoney = (value) => {
   const formatter = new Intl.NumberFormat("pt-BR", {
@@ -21,9 +21,7 @@ const Profile = () => {
   const dispatch = useDispatch();
   const navigation = useNavigate();
 
-  const user = useSelector((state) => state.key.code)
-
-  const storedUserJSON = localStorage.getItem(user);
+  const storedUserJSON = localStorage.getItem('foundUser');
   const loggedUser = JSON.parse(storedUserJSON);
 
   const [balance, setBalance] = useState("");
@@ -41,8 +39,17 @@ const Profile = () => {
   const [imageChanged, setImageChanged] = useState(false);
   const [isEditClicked, setIsEditClicked] = useState(false);
   const [balanceChanged, setBalanceChanged] = useState(false);
+  const [isBalanceChanged, setIsBalanceChanged] = useState(false);
   const [isSwitchClicked, setIsSwitchClicked] = useState(false);
   const [convertBtnDisabled, setConvertBtnDisabled] = useState(false);
+
+  useEffect(() => {
+    if (loggedUser.balance[0] === "-") {
+      setIsSwitchClicked(true);
+    } else {
+      setIsSwitchClicked(false);
+    }
+  }, [isBalanceChanged]);
 
   useEffect(() => {
     if (loggedUser.hasOwnProperty("image")) {
@@ -79,7 +86,7 @@ const Profile = () => {
       }
     };
     fetchData();
-  }, [loggedUser]);
+  }, [isBalanceChanged]);
 
   useEffect(() => {
     const fetchNewData = async () => {
@@ -92,13 +99,14 @@ const Profile = () => {
       }
 
       const responseData = await response.json();
-      const user = Object.values(responseData).find(
+      const userlogged = Object.values(responseData).find(
         (user) => user.email === loggedUser.email
       );
 
-      setBalance(user.balance);
-      const loggedUserJSON = JSON.stringify(user);
-      localStorage.setItem(user, loggedUserJSON);
+      setBalance(userlogged.balance);
+      const loggedUserJSON = JSON.stringify(userlogged);
+      localStorage.setItem('foundUser', loggedUserJSON);
+      setIsBalanceChanged(!isBalanceChanged);
     };
     fetchNewData();
   }, [balanceChanged, dispatch]);
@@ -150,7 +158,7 @@ const Profile = () => {
         );
 
         const loggedUserJSON = JSON.stringify(updatedUserData);
-        localStorage.setItem(user, loggedUserJSON);
+        localStorage.setItem('foundUser', loggedUserJSON);
 
         setImage(image);
       } catch {}
@@ -216,7 +224,7 @@ const Profile = () => {
       }
 
       const updatedUserDataJSON = JSON.stringify(updatedUserData);
-      localStorage.setItem(user, updatedUserDataJSON);
+      localStorage.setItem('foundUser', updatedUserDataJSON);
     } else {
       const convertedBalance = balance.replace(/\D/g, "");
       const positiveBalance = convertedBalance * 1;
@@ -250,7 +258,7 @@ const Profile = () => {
       }
 
       const updatedUserDataJSON = JSON.stringify(updatedUserData);
-      localStorage.setItem(user, updatedUserDataJSON);
+      localStorage.setItem('foundUser', updatedUserDataJSON);
     }
 
     setIsSwitchClicked(!isSwitchClicked);

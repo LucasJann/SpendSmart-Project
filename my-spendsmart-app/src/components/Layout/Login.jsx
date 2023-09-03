@@ -3,16 +3,15 @@ import classes from "./Login.module.css";
 
 import { Form } from "react-router-dom";
 import { useState } from "react";
-import { keyActions } from "../../store/key-slice";
+// import { keyActions } from "../../store/key-slice";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const navigation = useNavigate();
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState();
-  const user = useSelector((state) => state.key.code);
 
   const onButton = async () => {
     const response = await fetch(
@@ -27,12 +26,12 @@ const Login = () => {
       (data) => data.email === email
     );
 
-    const localStorageData = localStorage.key(foundUser.id);
-    dispatch(keyActions.storeKey(localStorageData));
+    // const localStorageData = localStorage.key(foundUser.id);
+    // dispatch(keyActions.storeKey(localStorageData));
 
     if (foundUser) {
       const foundUserJSON = JSON.stringify(foundUser);
-      localStorage.setItem(localStorageData, foundUserJSON);
+      localStorage.setItem('foundUser', foundUserJSON);
       navigation("/landingPage");
     } else {
       console.log("O usuário não foi encontrado");

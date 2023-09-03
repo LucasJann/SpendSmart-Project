@@ -40,7 +40,6 @@ h3 {
   width: 50%;
   cursor: pointer;
   border: none;
-  margin: 0 0 0 5rem;
   padding: 0.2rem;
   border-radius: 0.5rem;
   background-color: #ab9c15;
@@ -77,11 +76,11 @@ h3 {
     width: 50%;
     cursor: pointer;
     border: none;
-    margin: 0 0 0 5rem;
     padding: 0.2rem;
     border-radius: 0.5rem;
     background-color: #ab9c15;
   }
+  
 
   .getBackButton {
     width: 20%;
@@ -121,12 +120,11 @@ h3 {
     width: 50%;
     cursor: pointer;
     border: none;
-    margin: 0 0 0 5rem;
     padding: 0.2rem;
     border-radius: 0.5rem;
     background-color: #ab9c15;
   }
-
+  
   .getBackButton {
     width: 20%;
     margin: 1rem 0 0 12rem;
@@ -165,12 +163,11 @@ h3 {
     width: 50%;
     cursor: pointer;
     border: none;
-    margin: 0 0 0 5rem;
     padding: 0.2rem;
     border-radius: 0.5rem;
     background-color: #ab9c15;
   }
-
+  
   .getBackButton {
     width: 20%;
     margin: 1rem 0 0 12rem;

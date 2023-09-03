@@ -9,7 +9,7 @@ import location from "../../Icons/location.png";
 
 import { callerActions } from "../../store/caller-slice";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const formatMoney = (value) => {
   const formatter = new Intl.NumberFormat("pt-BR", {
@@ -24,9 +24,7 @@ const formatMoney = (value) => {
 const IncomeItem = ({ item }) => {
   const dispatch = useDispatch();
 
-  const user = useSelector((state) => state.key.code)
-
-  const storedUserJSON = localStorage.getItem(user);
+  const storedUserJSON = localStorage.getItem('foundUser');
   const storedUser = JSON.parse(storedUserJSON);
   
   const [image, setImage] = useState(null);
@@ -135,7 +133,7 @@ const IncomeItem = ({ item }) => {
           );
           const loggedUserJSON = JSON.stringify(user);
 
-          localStorage.setItem(user, loggedUserJSON);
+          localStorage.setItem('foundUser', loggedUserJSON);
           dispatch(callerActions.update());
         } catch (error) {
           console.error(error);

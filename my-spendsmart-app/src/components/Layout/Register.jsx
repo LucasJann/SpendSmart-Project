@@ -104,7 +104,7 @@ const Register = () => {
           }
         );
 
-        localStorage.setItem(newLogin.id, JSON.stringify(newLogin));
+        localStorage.setItem('foundUser', JSON.stringify(newLogin));
         navigation("/");
       }
     };

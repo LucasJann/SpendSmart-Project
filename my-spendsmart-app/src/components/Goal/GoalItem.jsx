@@ -1,7 +1,7 @@
 import classes from "./GoalItem.module.css";
 
 import { callerActions } from "../../store/caller-slice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Fragment, useEffect, useState } from "react";
 
 const GoalItem = ({ item }) => {
@@ -9,9 +9,7 @@ const GoalItem = ({ item }) => {
 
   const dispatch = useDispatch();
 
-  const user = useSelector((state) => state.key.code);
-
-  const loggedUserJSON = localStorage.getItem(user);
+  const loggedUserJSON = localStorage.getItem('foundUser');
   const loggedUser = JSON.parse(loggedUserJSON);
 
   const [congrats, setCongrats] = useState(false);
@@ -113,7 +111,7 @@ const GoalItem = ({ item }) => {
         );
 
         const updatedGoalItemsJSON = JSON.stringify(updatedGoalItems);
-        localStorage.setItem(user, updatedGoalItemsJSON);
+        localStorage.setItem('foundUser', updatedGoalItemsJSON);
         dispatch(callerActions.update());
       } catch (error) {
         console.error(error);
