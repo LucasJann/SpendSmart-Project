@@ -1,9 +1,9 @@
+import classes from "./ExpenseHistory.module.css";
+
 import { useSelector } from 'react-redux'
 import { addMinutes } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-
-import classes from "./ExpenseHistory.module.css";
 
 import ExpenseItem from "./ExpenseItem";
 
