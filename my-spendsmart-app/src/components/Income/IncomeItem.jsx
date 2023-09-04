@@ -1,11 +1,8 @@
 import classes from "./IncomeItem.module.css";
 
-import health from "../../Icons/checklist.png";
-import college from "../../Icons/college.png";
-import leisure from "../../Icons/rocket.png";
-import homeIcon from "../../Icons/home.png";
-import nutrition from "../../Icons/clock.png";
-import location from "../../Icons/location.png";
+import money from "../../Icons/moneyBag.png";
+import finance from "../../Icons/finance.png";
+import identifier from "../../Icons/id.png";
 
 import { callerActions } from "../../store/caller-slice";
 import { useEffect, useState } from "react";
@@ -24,32 +21,22 @@ const formatMoney = (value) => {
 const IncomeItem = ({ item }) => {
   const dispatch = useDispatch();
 
-  const storedUserJSON = localStorage.getItem('foundUser');
+  const storedUserJSON = localStorage.getItem("foundUser");
   const storedUser = JSON.parse(storedUserJSON);
-  
+
   const [image, setImage] = useState(null);
   const { id, value, date, category } = item;
-
 
   useEffect(() => {
     switch (category) {
       case "moradia":
-        setImage(homeIcon);
+        setImage(money);
         break;
       case "lazer":
-        setImage(leisure);
+        setImage(finance);
         break;
       case "saúde":
-        setImage(health);
-        break;
-      case "comida":
-        setImage(nutrition);
-        break;
-      case "educação":
-        setImage(college);
-        break;
-      case "transporte":
-        setImage(location);
+        setImage(identifier);
         break;
       default:
         setImage(null);
@@ -133,7 +120,7 @@ const IncomeItem = ({ item }) => {
           );
           const loggedUserJSON = JSON.stringify(user);
 
-          localStorage.setItem('foundUser', loggedUserJSON);
+          localStorage.setItem("foundUser", loggedUserJSON);
           dispatch(callerActions.update());
         } catch (error) {
           console.error(error);

@@ -7,12 +7,9 @@ import { Fragment, useEffect, useState } from "react";
 import Card from "../Layout/Card";
 import classes from "./Income.module.css";
 
-import health from "../../Icons/checklist.png";
-import college from "../../Icons/college.png";
-import leisure from "../../Icons/rocket.png";
-import homeIcon from "../../Icons/home.png";
-import location from "../../Icons/location.png";
-import nutrition from "../../Icons/clock.png";
+import money from "../../Icons/moneyBag.png";
+import finance from "../../Icons/finance.png";
+import identifier from "../../Icons/id.png";
 
 const formatMoney = (value) => {
   const formatter = new Intl.NumberFormat("pt-BR", {
@@ -26,7 +23,7 @@ const formatMoney = (value) => {
 const Income = () => {
   const navigation = useNavigate();
 
-  const storedUserJSON = localStorage.getItem('foundUser');
+  const storedUserJSON = localStorage.getItem("foundUser");
   const storedUser = JSON.parse(storedUserJSON);
 
   const [date, setDate] = useState();
@@ -182,7 +179,7 @@ const Income = () => {
         expenseItems: storedUser.expenseItems,
       };
       const userUpdatedJSON = JSON.stringify(userUpdated);
-      localStorage.setItem('foundUser', userUpdatedJSON);
+      localStorage.setItem("foundUser", userUpdatedJSON);
 
       setCallerEffect(!callerEffect);
     } else {
@@ -220,7 +217,7 @@ const Income = () => {
         expenseItems: storedUser.expenseItems,
       };
       const userUpdatedJSON = JSON.stringify(userUpdated);
-      localStorage.setItem('foundUser', userUpdatedJSON);
+      localStorage.setItem("foundUser", userUpdatedJSON);
 
       setCallerEffect(!callerEffect);
     }
@@ -308,11 +305,11 @@ const Income = () => {
                   >
                     <div>
                       <img
-                        src={homeIcon}
-                        alt="Icone de uma casa"
+                        src={money}
+                        alt="Icone de um saco de dinheiro"
                         className={classes.icon}
                       />
-                      <p className={classes.text}>Casa</p>
+                      <p className={classes.text}>Renda Extra</p>
                     </div>
                   </li>
                   <li
@@ -323,11 +320,11 @@ const Income = () => {
                   >
                     <div>
                       <img
-                        src={leisure}
-                        alt="Icone de um Foguete"
+                        src={identifier}
+                        alt="Icone de um cracha"
                         className={classes.icon}
                       />
-                      <p className={classes.text}>Lazer</p>
+                      <p className={classes.text}>Salário</p>
                     </div>
                   </li>
                   <li
@@ -338,58 +335,13 @@ const Income = () => {
                   >
                     <div>
                       <img
-                        src={health}
-                        alt="Icone de uma planilha"
+                        src={finance}
+                        alt="Icone de um laptop com uma projeção positiva de um gráfico de linha"
                         className={classes.icon}
                       />
-                      <p className={classes.text}>Saúde</p>
+                      <p className={classes.text}>Aplicações</p>
                     </div>
-                  </li>
-                  <li
-                    className={`${classes.list} ${
-                      selectedCategory === "educação" ? classes.selected : ""
-                    }`}
-                    onClick={() => categoryClickHandler("educação")}
-                  >
-                    <div>
-                      <img
-                        src={college}
-                        alt="Icone de formatura"
-                        className={classes.icon}
-                      />
-                      <p className={classes.text}>Educação</p>
-                    </div>
-                  </li>
-                  <li
-                    className={`${classes.list} ${
-                      selectedCategory === "alimentação" ? classes.selected : ""
-                    }`}
-                    onClick={() => categoryClickHandler("alimentação")}
-                  >
-                    <div>
-                      <img
-                        src={nutrition}
-                        alt="Icone de um relógio"
-                        className={classes.icon}
-                      />
-                      <p className={classes.text}>Alimentação</p>
-                    </div>
-                  </li>
-                  <li
-                    className={`${classes.list} ${
-                      selectedCategory === "transporte" ? classes.selected : ""
-                    }`}
-                    onClick={() => categoryClickHandler("transporte")}
-                  >
-                    <div>
-                      <img
-                        src={location}
-                        alt="Icone de um relógio"
-                        className={classes.icon}
-                      />
-                      <p className={classes.text}>Transporte</p>
-                    </div>
-                  </li>
+                  </li>         
                 </ul>
               </Card>
             </div>

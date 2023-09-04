@@ -158,7 +158,7 @@ const ExpenseItem = ({ item }) => {
             />
           )}
         </div>
-        <div className={classes.text}>
+        <div className={classes.texts}>
           <p className={classes.paragraph}>Data:</p>
           <p className={classes.paragraph}>Valor:</p>
         </div>
