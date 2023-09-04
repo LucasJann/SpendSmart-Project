@@ -46,7 +46,7 @@
 }
 
 .convertButton {
-  height: 83%;
+  height: 85%;
   padding: 0.7rem;
   font-size: 0.86em;
   border-radius: 0 0.9rem 0.9rem 0;
@@ -62,14 +62,13 @@
 
 .inputError {
   width: 96%;
-  margin: auto;
   border: 0.15rem solid #aa0b20;
   background-color: #ffeff1;
 }
 
 .errorMessage {
-  margin: 0.2rem 0 0 0.2rem;
   color: #ca3e51;
+  margin: 0.2rem 0 0 0.2rem;
 }
 
 .disabledBtn {
@@ -123,6 +122,13 @@
     border-radius: 0.9rem 0 0 0.9rem;
   }
 
+  .convertButton {
+    height: 100%;
+    padding: 0.7rem;
+    font-size: 0.86em;
+    border-radius: 0 0.9rem 0.9rem 0;
+  }
+
   .confirmBtn {
     width: 10%;
     float: right;
@@ -144,7 +150,7 @@
   }
 
   .container {
-    margin: 0 0 0 -0.4rem
+    margin: 0 0 0 -0.4rem;
   }
 
   .editBtn {

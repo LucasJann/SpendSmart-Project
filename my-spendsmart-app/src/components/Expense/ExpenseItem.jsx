@@ -90,7 +90,7 @@ const ExpenseItem = ({ item }) => {
               ? convertedBalance * -1
               : convertedBalance;
 
-          const cashBack = newBalance + parseInt(convertedValue);
+          const cashBack = parseInt(newBalance) + parseInt(convertedValue);
           const formattedCashBack = formatMoney(cashBack);
 
           const updatedUserItems = {

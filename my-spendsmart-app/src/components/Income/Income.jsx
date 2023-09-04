@@ -144,9 +144,7 @@ const Income = () => {
     if (userBalance[0] === "-") {
       const negativeBalance = convertedUserBalance * -1;
       const calc = parseInt(convertedIncome) + negativeBalance;
-      console.log(calc);
       const newBalance = formatMoney(calc);
-      console.log(newBalance);
 
       const storedIncomeItems = storedUser.incomeItems;
       if (storedIncomeItems[0] === "") {
@@ -183,7 +181,7 @@ const Income = () => {
 
       setCallerEffect(!callerEffect);
     } else {
-      const calc = convertedUserBalance + convertedIncome;
+      const calc = parseInt(convertedUserBalance )+ parseInt(convertedIncome);
       const newBalance = formatMoney(calc);
 
       const storedIncomeItems = storedUser.incomeItems;
