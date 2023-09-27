@@ -29,7 +29,7 @@ const LandingPage = () => {
           <button onClick={expensePageHandler}>Minhas Finanças</button>
         </li>
         <li>
-          <button onClick={goalPageHandler}>Objetivo</button>
+          <button onClick={goalPageHandler}>Objetivos</button>
         </li>
       </ul>
     </div>

@@ -39,8 +39,8 @@ const Profile = () => {
   const [imageChanged, setImageChanged] = useState(false);
   const [isEditClicked, setIsEditClicked] = useState(false);
   const [balanceChanged, setBalanceChanged] = useState(false);
-  const [isBalanceChanged, setIsBalanceChanged] = useState(false);
   const [isSwitchClicked, setIsSwitchClicked] = useState(false);
+  const [isBalanceChanged, setIsBalanceChanged] = useState(false);
   const [convertBtnDisabled, setConvertBtnDisabled] = useState(false);
 
   useEffect(() => {

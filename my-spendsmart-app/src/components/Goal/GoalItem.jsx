@@ -153,7 +153,7 @@ const GoalItem = ({ item }) => {
                 X
               </button>
               <div className={classes.successContainer}>
-                <h2>Objetivo:</h2>
+                <h2>Objetivos:</h2>
                 <p className={classes.successText}>{goalText}</p>
                 <h2>Valor:</h2>
                 <p className={classes.successValue}>{goal}</p>
